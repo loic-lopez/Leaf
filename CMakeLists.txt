@@ -8,31 +8,31 @@ add_definitions(-DUSE32bit=false)
 if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
     if (NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-    endif()
-endif()
+    endif ()
+endif ()
 
-if(WIN32)
+if (WIN32)
     macro(get_WIN32_WINNT version)
-        if(CMAKE_SYSTEM_VERSION)
+        if (CMAKE_SYSTEM_VERSION)
             set(ver ${CMAKE_SYSTEM_VERSION})
             string(REGEX MATCH "^([0-9]+).([0-9])" ver ${ver})
             string(REGEX MATCH "^([0-9]+)" verMajor ${ver})
             # Check for Windows 10, b/c we'll need to convert to hex 'A'.
-            if("${verMajor}" MATCHES "10")
+            if ("${verMajor}" MATCHES "10")
                 set(verMajor "A")
                 string(REGEX REPLACE "^([0-9]+)" ${verMajor} ver ${ver})
-            endif()
+            endif ()
             # Remove all remaining '.' characters.
             string(REPLACE "." "" ver ${ver})
             # Prepend each digit with a zero.
             string(REGEX REPLACE "([0-9A-Z])" "0\\1" ver ${ver})
             set(${version} "0x${ver}")
-        endif()
+        endif ()
     endmacro()
 
     get_WIN32_WINNT(ver)
     add_definitions(-D_WIN32_WINNT=${ver})
-endif()
+endif ()
 
 if (MSVC)
     add_compile_options(/W4 /WX)
@@ -41,10 +41,10 @@ else ()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif ()
 
-if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8 AND NOT MSVC)
+if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8 AND NOT MSVC)
     message(SEND_ERROR "Please switch to x64 build.")
     return()
-endif()
+endif ()
 
 # Download automatically, you can also just copy the conan.cmake file
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
@@ -61,7 +61,6 @@ conan_cmake_run(
         BASIC_SETUP
         CMAKE_TARGETS
         BUILD missing
-        SETTINGS compiler.cppstd=${CMAKE_CXX_STANDARD}
 )
 
 

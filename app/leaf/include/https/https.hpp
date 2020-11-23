@@ -6,9 +6,11 @@
 #define LEAF_HTTPS_HPP
 
 
-class Https {
+namespace Leaf {
+    class Https {
 
-};
+    };
+}
 
 
 #endif //LEAF_HTTPS_H

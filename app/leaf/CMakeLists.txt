@@ -1,9 +1,3 @@
-# Find boost library
-find_package(Boost REQUIRED)
-link_directories(${Boost_LIB_DIRS})
-
-set(LEAF_ENABLED_BOOST_LIBRARIES Boost::Boost)
-
 add_subdirectory(include)
 add_subdirectory(src)
 
