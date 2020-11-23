@@ -1,10 +1,10 @@
 #include <iostream>
-#include "server/Server.hpp"
+#include "server/server.hpp"
 
 int main(const int argc, const char **argv) {
     Leaf::Server greeter;
     greeter.greeting();
-    (void)argv;
+    (void) argv;
 
 
     // Check command line arguments.
