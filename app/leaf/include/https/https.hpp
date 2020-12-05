@@ -5,9 +5,10 @@
 #ifndef LEAF_HTTPS_HPP
 #define LEAF_HTTPS_HPP
 
+#include "interfaces/iprotocol.hpp"
 
-namespace Leaf {
-    class Https {
+namespace Leaf::Protocol {
+    class https : public Interfaces::IProtocol {
 
     };
 }
