@@ -1,12 +1,13 @@
 #ifndef LEAF_HTTP_HPP
 #define LEAF_HTTP_HPP
 
-namespace Leaf {
-    class Http {
+#include "interfaces/iprotocol.hpp"
+
+namespace Leaf::Protocol {
+    class Http : public Interfaces::IProtocol {
 
     };
 }
-
 
 
 #endif //LEAF_HTTP_HPP
