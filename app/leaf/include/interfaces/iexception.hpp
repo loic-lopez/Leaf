@@ -11,6 +11,7 @@
 
 namespace Leaf::Interfaces {
     class IException : public boost::exception, public std::exception {
+    public:
         const char *what() const noexcept override = 0;
     };
 }

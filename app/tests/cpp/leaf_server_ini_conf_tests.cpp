@@ -8,18 +8,11 @@
 TEST(TestLeafConf, when_initialize_leaf_server_config_file_should_be_loaded) {
     Leaf::LeafServer::LeafConf &leafConf = Leaf::Singleton<Leaf::LeafServer::LeafConf>::Instance();
 
-    leafConf.initialize("E:/Projects/Leaf/cmake-build-debug/conf/leaf.ini");
+    leafConf.initialize("conf/leaf.ini");
 }
 
 TEST(TestLeafConf, when_initialize_leaf_conf_file_not_found_exception_must_be_thrown_when_ini) {
     Leaf::LeafServer::LeafConf &leafConf = Leaf::Singleton<Leaf::LeafServer::LeafConf>::Instance();
 
     EXPECT_THROW(leafConf.initialize("leaf.ini"), Leaf::Exceptions::LeafServerConfigFileNotFound);
-    try {
-        leafConf.initialize("leaf.ini");
-    } catch (Leaf::Interfaces::IException &e) {
-        std::cerr <<
-                  "Unexpected exception, diagnostic information follows:\n" <<
-                  boost::diagnostic_information(e);
-    }
 }
