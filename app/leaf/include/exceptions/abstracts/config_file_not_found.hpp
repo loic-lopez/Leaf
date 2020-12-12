@@ -9,6 +9,7 @@
 #include <utility>
 #include <boost/exception/errinfo_file_name.hpp>
 #include "exceptions/abstracts/exception.hpp"
+#include "exceptions/error_info.hpp"
 
 namespace Leaf::Exceptions::Abstracts {
 
@@ -29,7 +30,6 @@ namespace Leaf::Exceptions::Abstracts {
                                     int atLine,
                                     int _errno
         ) : Exception(atFunction, atLine, _errno), _configFilePath(std::move(configFilePath)) {
-            *this << boost::errinfo_file_name(configFilePath);
         }
     };
 }

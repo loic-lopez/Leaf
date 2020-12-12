@@ -10,8 +10,6 @@
 #include <typeinfo>
 #include "exceptions/abstracts/config_file_not_found.hpp"
 
-#define quote(x) #x
-
 namespace Leaf::Exceptions {
     class LeafServerConfigFileNotFound : public Exceptions::Abstracts::ConfigFileNotFound {
 
@@ -23,7 +21,7 @@ namespace Leaf::Exceptions {
                 int _errno
         ) : ConfigFileNotFound(configFilePath, atFunction, atLine, _errno) {
             ConfigFileNotFound::buildStdExceptionMessage("LeafServerConfigFileNotFound", "leaf.ini");
-
+            *this << Exceptions::ErrorInfo::errinfo_server_config_file_path(_configFilePath);
         }
     };
 }

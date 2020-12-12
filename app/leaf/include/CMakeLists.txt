@@ -11,7 +11,7 @@ set(LEAF_INCLUDES
         # Exceptions
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/mime_types_config_file_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/leaf_server_config_file_not_found.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/type_defines.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/error_info.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/abstracts/config_file_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/abstracts/exception.hpp
 
