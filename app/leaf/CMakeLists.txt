@@ -5,6 +5,7 @@ add_subdirectory(src)
 set(LEAF_CONFIG_ROOT_PATH ${CMAKE_BINARY_DIR}/conf)
 set(LEAF_SERVERS_ROOT_PATH ${LEAF_CONFIG_ROOT_PATH}/servers)
 set(LEAF_GENERATED_INCLUDE_ROOT_PATH ${CMAKE_BINARY_DIR}/include)
+set(LEAF_LOG_DIR_ROOT_PATH ${CMAKE_BINARY_DIR}/log)
 
 ## Dirs in projects
 set(PROJECT_CONFIG_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/conf)
@@ -15,12 +16,13 @@ set(PROJECT_INCLUDE_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
 file(MAKE_DIRECTORY ${LEAF_CONFIG_ROOT_PATH})
 file(MAKE_DIRECTORY ${LEAF_SERVERS_ROOT_PATH})
 file(MAKE_DIRECTORY ${LEAF_GENERATED_INCLUDE_ROOT_PATH})
+file(MAKE_DIRECTORY ${LEAF_LOG_DIR_ROOT_PATH})
 
 ## Generate dir for versioning
 file(MAKE_DIRECTORY ${LEAF_GENERATED_INCLUDE_ROOT_PATH}/server)
 
 ## Generated Headers
-configure_file(${PROJECT_INCLUDE_ROOT_PATH}/server/leaf_build.hpp.in ${LEAF_GENERATED_INCLUDE_ROOT_PATH}/server/leaf_build.hpp)
+configure_file(${PROJECT_INCLUDE_ROOT_PATH}/server/utils/leaf_build.hpp.in ${LEAF_GENERATED_INCLUDE_ROOT_PATH}/server/utils/leaf_build.hpp)
 
 ## Server Config
 configure_file(${PROJECT_CONFIG_ROOT_PATH}/mime_types.ini ${LEAF_CONFIG_ROOT_PATH}/mime_types.ini COPYONLY)
