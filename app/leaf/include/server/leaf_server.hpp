@@ -2,17 +2,23 @@
 // Created by LoicL on 23/11/2020.
 //
 
-#ifndef LEAF_LEAF_SERVER_HPP
-#define LEAF_LEAF_SERVER_HPP
+#ifndef LEAF_SERVER_HPP
+#define LEAF_SERVER_HPP
 
 #include <iostream>
+#include "server/models/leaf_server_options.hpp"
 
 namespace Leaf::LeafServer {
-    class Server {
+    class LeafServer {
+    private:
+
+
     public:
-        void greeting() const;
+        void onStart() const;
+
+        void initialize(const Models::ServerOptions &leafServerOptions);
     };
 }
 
 
-#endif //LEAF_LEAF_SERVER_HPP
+#endif //LEAF_SERVER_HPP

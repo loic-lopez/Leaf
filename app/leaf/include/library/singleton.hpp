@@ -5,12 +5,12 @@
 #ifndef LEAF_SINGLETON_HPP
 #define LEAF_SINGLETON_HPP
 
-namespace Leaf {
+namespace Leaf::Library {
     template<typename T>
     class Singleton {
     public:
         static T &Instance() {
-            static T instance; // initialize the first time // C++11
+            static T instance; // load the first time // C++11
             return instance; // destruction = end of the program
         }
 

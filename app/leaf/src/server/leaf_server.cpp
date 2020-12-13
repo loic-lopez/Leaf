@@ -5,8 +5,12 @@
 #include "server/leaf_build.hpp"
 #include "server/leaf_server.hpp"
 
-void Leaf::LeafServer::Server::greeting() const {
+void Leaf::LeafServer::LeafServer::onStart() const {
     std::cout << "Starting Leaf: " << LeafVersion
               << ", build type: " << LeafBuildType
               << ", build date: " << LeafBuildDate << std::endl;
+}
+
+void Leaf::LeafServer::LeafServer::initialize(const Leaf::LeafServer::Models::ServerOptions &leafServerOptions) {
+    (void) leafServerOptions;
 }
