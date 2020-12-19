@@ -12,14 +12,14 @@
 
 namespace Leaf::Abstracts {
 
+    template<class Model>
     class INIConfigurationLoader {
     protected:
         template<Leaf::Concepts::LeafExceptionClass LeafException>
         boost::property_tree::ptree initializeBoostPtree(const std::string &configFilePath);
 
-
     public:
-        virtual void load(const std::string &configFilePath) = 0;
+        virtual Model load(const std::string &configFilePath) = 0;
     };
 }
 

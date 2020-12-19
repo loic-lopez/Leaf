@@ -1,14 +1,14 @@
 #include <iostream>
-#include "server/leaf_server.hpp"
-#include "server/configuration_loaders/leaf_server_configuration_loader.hpp"
-#include "server/leaf_server_options_parser.hpp"
+#include "server/leaf_process_manager.hpp"
 
 int main(const int argc, const char **argv) {
 
     (void) argc, (void) argv;
 
+    Leaf::LeafServer::LeafProcessManager leafProcessManager(argc, argv);
 
-    Leaf::LeafServer::ServerOptionsParser serverOptionsParser;
+
+    // Leaf::LeafServer::LeafServerOptionsParser serverOptionsParser;
 
     /* // Check command line arguments.
      if (argc != 3) {

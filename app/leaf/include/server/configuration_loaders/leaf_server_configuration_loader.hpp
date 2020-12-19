@@ -5,20 +5,14 @@
 #ifndef LEAF_SERVER_CONFIGURATION_LOADER_HPP
 #define LEAF_SERVER_CONFIGURATION_LOADER_HPP
 
+#include "server/models/leaf_server_config.hpp"
 #include "abstracts/ini_configuration_loader.hpp"
 
 namespace Leaf::LeafServer::ConfigurationLoaders {
-    class ServerConfiguration : public Abstracts::INIConfigurationLoader {
-    private:
-        std::string _serversRootPath;
-        std::string _mimeTypesFilePath;
+    class ServerConfiguration
+            : public Abstracts::INIConfigurationLoader<Leaf::LeafServer::Models::LeafServerConfiguration> {
     public:
-/*        [[nodiscard]] const std::string &getMimeTypesFilePath() const;
-
-        [[nodiscard]] const std::string &getServersRootPath() const;*/
-
-    public:
-        void load(const std::string &configFilePath) override;
+        Leaf::LeafServer::Models::LeafServerConfiguration load(const std::string &configFilePath) override;
     };
 }
 

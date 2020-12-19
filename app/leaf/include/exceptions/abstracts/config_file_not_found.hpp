@@ -17,20 +17,15 @@ namespace Leaf::Exceptions::Abstracts {
     protected:
         std::string _configFilePath;
 
-        void buildStdExceptionMessage(const char *exceptionClassName, const char *fileName) {
-            _msg = exceptionClassName;
-            _msg += "exception raised: this means the ";
-            _msg += fileName;
-            _msg += " config file located at " + _configFilePath + " doesn't exists.";
-        }
+        void buildStdExceptionMessage(const char *exceptionClassName, const char *fileName);
 
     public:
-        explicit ConfigFileNotFound(std::string configFilePath,
-                                    char const *atFunction,
-                                    int atLine,
-                                    int _errno
-        ) : Exception(atFunction, atLine, _errno), _configFilePath(std::move(configFilePath)) {
-        }
+        explicit ConfigFileNotFound(
+                std::string configFilePath,
+                char const *atFunction,
+                int atLine,
+                int _errno
+        );
     };
 }
 

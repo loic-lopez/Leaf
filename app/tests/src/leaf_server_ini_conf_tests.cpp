@@ -8,7 +8,7 @@ using namespace Leaf::LeafServer::ConfigurationLoaders;
 TEST(TestLeafConf, when_initialize_leaf_server_config_file_should_be_loaded) {
     ServerConfiguration leafConf;
 
-    leafConf.load("conf/leaf.ini");
+    EXPECT_NO_THROW(leafConf.load("../conf/leaf.ini"));
 }
 
 TEST(TestLeafConf, when_initialize_leaf_conf_file_not_found_exception_must_be_thrown_when_ini) {

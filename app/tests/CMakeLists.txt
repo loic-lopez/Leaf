@@ -3,10 +3,14 @@
 enable_testing()
 include(${CMAKE_BINARY_DIR}/GTestConfig.cmake)
 
+include_directories(include)
+
 add_executable(${LEAF_PROJECT_TESTS}
-        cpp/leaf_server_mime_types_tests.cpp
-        cpp/leaf_server_ini_conf_tests.cpp
-        cpp/leaf_server_options_parser_tests.cpp
+        src/leaf_server_mime_types_tests.cpp
+        src/leaf_server_ini_conf_tests.cpp
+        src/leaf_server_options_parser_tests.cpp
+
+        include/tests/leaf_server_options_parser_test.hpp
         )
 
 set(GTEST_LIBS GTest::gmock_main GTest::gmock GTest::gtest)

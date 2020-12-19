@@ -36,12 +36,12 @@ endif ()
 
 if (MSVC)
     add_compile_options(/W4 /WX)
-else ()
+elseif (CMAKE_COMPILER_IS_GNUCXX)
     # lots of warnings and all warnings as errors
     add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif ()
 
-if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8 AND NOT MSVC)
+if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
     message(SEND_ERROR "Please switch to x64 build.")
     return()
 endif ()

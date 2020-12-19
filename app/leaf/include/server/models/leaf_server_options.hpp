@@ -9,9 +9,11 @@
 
 namespace Leaf::LeafServer::Models {
 
-    class ServerOptions {
+    class LeafServerOptions {
     private:
         std::string _serverConfigFilePath;
+
+
     public:
         [[nodiscard]] const std::string &getServerConfigFilePath() const;
 

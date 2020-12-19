@@ -11,11 +11,24 @@
 namespace Leaf::LeafServer {
     class LeafProcessManager {
     private:
-        LeafServer leafServer;
-        ServerOptionsParser serverOptionsParser;
+        int _ac;
+        const char **_av;
+        Models::LeafServerOptions *_leafServerOptions;
+        std::vector<LeafServer> _leafServers;
+
+    private:
+        void onStart();
+
+        void loadConfiguration();
+
+        void waitForServers();
 
     public:
         void start();
+
+        LeafProcessManager(int ac, const char **av);
+
+        virtual ~LeafProcessManager();
     };
 }
 

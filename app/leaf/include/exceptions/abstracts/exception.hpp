@@ -24,16 +24,9 @@ namespace Leaf::Exceptions::Abstracts {
         int _errno;
 
     public:
-        explicit Exception(char const *atFunction, int atLine, int _errno) :
-                _atFunction(atFunction), _atLine(atLine), _errno(_errno) {
-            *this << boost::errinfo_api_function(atFunction)
-                  << boost::errinfo_at_line(atLine)
-                  << boost::errinfo_errno(_errno);
-        }
+        explicit Exception(char const *atFunction, int atLine, int _errno);
 
-        const char *what() const noexcept override {
-            return _msg.c_str();
-        }
+        const char *what() const noexcept override;
     };
 }
 

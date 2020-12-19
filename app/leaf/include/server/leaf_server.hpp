@@ -6,17 +6,30 @@
 #define LEAF_SERVER_HPP
 
 #include <iostream>
-#include "server/models/leaf_server_options.hpp"
+#include <thread>
+#include "models/server_config.hpp"
 
 namespace Leaf::LeafServer {
     class LeafServer {
     private:
+        std::thread _thread;
+        bool _threadMustBeKilled;
 
+    protected:
+        void serve();
 
     public:
+        explicit LeafServer();
+
+        virtual ~LeafServer();
+
         void onStart() const;
 
-        void initialize(const Models::ServerOptions &leafServerOptions);
+        LeafServer &initialize(const Leaf::Models::ServerConfiguration &serverConfiguration);
+
+        void join();
+
+        void start();
     };
 }
 

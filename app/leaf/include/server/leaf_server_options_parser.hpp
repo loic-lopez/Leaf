@@ -21,20 +21,55 @@ namespace Leaf::LeafServer {
         inline static const char ENV_PREFIX[] = "LEAF_";
     }
 
-    class ServerOptionsParser {
+    using CallbackThatTriggersHelp =
+    bool(const std::string &option, const boost::program_options::variables_map &commandLineArgs);
+
+    class LeafServerOptionsParser {
+    public:
+        enum class Status : unsigned int {
+            SUCCESS,
+            NEED_DISPLAY_HELP,
+            REQUIRED_OPTIONS_NOT_PRESENT
+        };
+
     private:
-        boost::program_options::options_description _serverCliOptionsDescription;
+        class CallbackReceiver {
+        public:
+            std::function<CallbackThatTriggersHelp> optionVerifier;
+            Status statusWhenOptionVerifierMatched;
+        };
+
+        class Notifier {
+        private:
+            LeafServerOptionsParser * const _leafServerOptionsParser;
+
+        public:
+            explicit Notifier(LeafServerOptionsParser *leafServerOptionsParser);
+
+            std::function<void(const std::string &)> makeServerConfigFileNotifier();
+        };
+
+        Notifier _notifier;
+
+        boost::program_options::options_description _serverCliRequiredOptionsDescription;
+        boost::program_options::options_description _serverCliOptionalOptionsDescription;
         boost::program_options::options_description _serverEnvOptionsDescription;
-        Models::ServerOptions *_serverOptions;
+        Models::LeafServerOptions *const _leafServerOptions;
+
+        std::map<std::string, CallbackReceiver> _callbacksThatTriggersHelp;
+        boost::program_options::typed_value<std::string> *_serverConfigFileValue;
+
+    protected:
+        std::string matchEnvironmentVariable(const std::string &envVar);
 
     public:
-        explicit ServerOptionsParser(Models::ServerOptions *serverOptions);
+        explicit LeafServerOptionsParser(Models::LeafServerOptions *serverOptions);
 
-/*        const std::string &getServerConfigFilePath();*/
-
-        void parseCommandLineArgs(int ac, const char **av);
+        Status parseCommandLineArgs(int ac, const char **av);
 
         void parseEnvironment();
+
+        void displayHelp();
     };
 }
 

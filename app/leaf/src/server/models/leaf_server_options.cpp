@@ -4,10 +4,10 @@
 
 #include "server/models/leaf_server_options.hpp"
 
-const std::string &Leaf::LeafServer::Models::ServerOptions::getServerConfigFilePath() const {
+const std::string &Leaf::LeafServer::Models::LeafServerOptions::getServerConfigFilePath() const {
     return _serverConfigFilePath;
 }
 
-void Leaf::LeafServer::Models::ServerOptions::setServerConfigFilePath(const std::string &serverConfigFilePath) {
+void Leaf::LeafServer::Models::LeafServerOptions::setServerConfigFilePath(const std::string &serverConfigFilePath) {
     _serverConfigFilePath = serverConfigFilePath;
 }

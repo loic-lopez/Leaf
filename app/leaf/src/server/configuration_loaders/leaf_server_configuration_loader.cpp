@@ -6,13 +6,17 @@
 #include "server/configuration_loaders/leaf_server_configuration_loader.hpp"
 
 using namespace Leaf::Exceptions;
+using namespace Leaf::LeafServer;
 
-void Leaf::LeafServer::ConfigurationLoaders::ServerConfiguration::load(const std::string &configFilePath) {
+Leaf::LeafServer::Models::LeafServerConfiguration
+ConfigurationLoaders::ServerConfiguration::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<LeafServerConfigFileNotFound>(configFilePath);
 
     for (const auto &c : pTree) {
         (void) c;
     }
+
+    return Leaf::LeafServer::Models::LeafServerConfiguration();
 }
 
 /*

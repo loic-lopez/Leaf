@@ -8,17 +8,19 @@
 
 namespace Leaf::LeafServer::ConfigurationLoaders {
 
-    class MimeTypes : public Abstracts::INIConfigurationLoader {
-    private:
-        std::vector<Models::MimeType> mappings;
+    class MimeTypes : public Abstracts::INIConfigurationLoader<std::vector<Models::MimeType>> {
+    protected:
+        static void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree);
 
     public:
-        // methods
-        void load(const std::string &configFilePath) override;
+        MimeTypes() = default;
 
-        //std::string extensionToType(const std::string &extension);
+        std::vector<Models::MimeType> load(const std::string &configFilePath) override;
+
+        inline static const char MIME_TYPE_SECTION[] = "MimesTypes";
     };
 
 
 }
+
 #endif //LEAF_LEAF_MIME_TYPES_LOADER_HPP
