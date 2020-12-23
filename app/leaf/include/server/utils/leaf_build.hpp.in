@@ -1,0 +1,18 @@
+//
+// Created by LoicL on 12/12/2020.
+//
+
+#ifndef LEAF_VERSIONING_HPP
+#define LEAF_VERSIONING_HPP
+
+#include <string>
+
+namespace Leaf::Build {
+    const std::string LeafBuildDate = "@BUILD_DATE@";
+    const std::string LeafVersion = "v@PROJECT_VERSION@";
+    const std::string LeafBuildType = "@CMAKE_BUILD_TYPE@";
+    const std::string Arch = (std::to_string(sizeof(void *) * 8) + "-bit");
+}
+
+
+#endif //LEAF_VERSIONING_HPP

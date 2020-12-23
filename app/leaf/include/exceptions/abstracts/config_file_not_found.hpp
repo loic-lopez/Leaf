@@ -8,16 +8,16 @@
 #include <string>
 #include <utility>
 #include <boost/exception/errinfo_file_name.hpp>
-#include "exceptions/abstracts/exception.hpp"
+#include "exceptions/abstracts/exception_with_errno.hpp"
 #include "exceptions/error_info.hpp"
 
 namespace Leaf::Exceptions::Abstracts {
 
-    class ConfigFileNotFound : public Exception {
+    class ConfigFileNotFound : public ExceptionWithErrno {
     protected:
         std::string _configFilePath;
 
-        void buildStdExceptionMessage(const char *exceptionClassName, const char *fileName);
+        void buildStdExceptionMessage(const char *exceptionClassName) override;
 
     public:
         explicit ConfigFileNotFound(

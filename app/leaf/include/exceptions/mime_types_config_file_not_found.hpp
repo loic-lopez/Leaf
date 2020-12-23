@@ -17,10 +17,7 @@ namespace Leaf::Exceptions {
                 char const *atFunction,
                 int atLine,
                 int _errno
-        ) : ConfigFileNotFound(configFilePath, atFunction, atLine, _errno) {
-            ConfigFileNotFound::buildStdExceptionMessage("MimeTypesConfigFileNotFound", "mime_types.ini");
-            *this << Exceptions::ErrorInfo::errinfo_mime_types_config_file_path(_configFilePath);
-        }
+        );
     };
 }
 

@@ -6,6 +6,7 @@
 #define LEAF_PROCESS_MANAGER_HPP
 
 #include "server/leaf_server.hpp"
+#include "server/models/leaf_server_configuration.hpp"
 #include "leaf_server_options_parser.hpp"
 
 namespace Leaf::LeafServer {
@@ -14,14 +15,19 @@ namespace Leaf::LeafServer {
         int _ac;
         const char **_av;
         Models::LeafServerOptions *_leafServerOptions;
+        Models::LeafServerConfiguration *_leafServerConfiguration;
         std::vector<LeafServer> _leafServers;
 
     private:
         void onStart();
 
-        void loadConfiguration();
+        void startServers();
+
+        void loadLeafConfiguration();
 
         void waitForServers();
+
+        void parseCommandLineArgs();
 
     public:
         void start();

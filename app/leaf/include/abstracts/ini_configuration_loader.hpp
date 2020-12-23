@@ -15,11 +15,18 @@ namespace Leaf::Abstracts {
     template<class Model>
     class INIConfigurationLoader {
     protected:
+        const std::vector<std::string> _sections;
+
         template<Leaf::Concepts::LeafExceptionClass LeafException>
         boost::property_tree::ptree initializeBoostPtree(const std::string &configFilePath);
 
+        virtual void
+        checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string &configFilePath);
+
     public:
-        virtual Model load(const std::string &configFilePath) = 0;
+        virtual Model *load(const std::string &configFilePath) = 0;
+
+        explicit INIConfigurationLoader(std::vector<std::string> sections);
     };
 }
 

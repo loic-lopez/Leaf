@@ -8,23 +8,35 @@
 using namespace Leaf::Exceptions;
 using namespace Leaf::LeafServer;
 
-Leaf::LeafServer::Models::LeafServerConfiguration
-ConfigurationLoaders::ServerConfiguration::load(const std::string &configFilePath) {
+Models::LeafServerConfiguration *
+ConfigurationLoaders::LeafServerConfigurationLoader::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<LeafServerConfigFileNotFound>(configFilePath);
+    std::string serversRootPath;
+    std::string leafConfigurationDirectory;
+    std::string leafLogDirectory;
+    std::string mimeTypesConfigFile;
 
-    for (const auto &c : pTree) {
-        (void) c;
-    }
+    serversRootPath = pTree.find(LEAF_SERVERS_SECTION)->second
+            .find("servers_root_path")->second.get_value<std::string>();
+    leafConfigurationDirectory = pTree.find(LEAF_CONFIGURATION_SECTION)->second
+            .find("leaf_configuration_directory")->second.get_value<std::string>();
+    leafLogDirectory = pTree.find(LEAF_CONFIGURATION_SECTION)->second
+            .find("leaf_log_directory")->second.get_value<std::string>();
+    mimeTypesConfigFile = pTree.find(HTTP_CONFIGURATION_SECTION)->second
+            .find("mime_types_config_file")->second.get_value<std::string>();
 
-    return Leaf::LeafServer::Models::LeafServerConfiguration();
+    std::cout << configFilePath << " successfully loaded." << std::endl;
+
+    return new Leaf::LeafServer::Models::LeafServerConfiguration{
+            serversRootPath,
+            leafConfigurationDirectory,
+            leafLogDirectory,
+            mimeTypesConfigFile
+    };
 }
 
-/*
-const std::string &Leaf::LeafServer::ServerConfiguration::getServersRootPath() const {
-    return _serversRootPath;
+ConfigurationLoaders::LeafServerConfigurationLoader::LeafServerConfigurationLoader()
+        : INIConfigurationLoader({LEAF_CONFIGURATION_SECTION, LEAF_SERVERS_SECTION, HTTP_CONFIGURATION_SECTION}) {
+
 }
 
-const std::string &Leaf::LeafServer::ServerConfiguration::getMimeTypesFilePath() const {
-    return _mimeTypesFilePath;
-}
-*/

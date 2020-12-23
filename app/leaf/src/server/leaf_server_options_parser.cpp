@@ -5,15 +5,15 @@
 #include <iostream>
 #include <boost/program_options/parsers.hpp>
 #include <boost/algorithm/string.hpp>
-#include "server/leaf_build.hpp"
+#include "server/utils/utils.hpp"
 #include "server/leaf_server_options_parser.hpp"
 
 using namespace Leaf::LeafServer;
 
 LeafServerOptionsParser::LeafServerOptionsParser(Models::LeafServerOptions *serverOptions) :
-        _notifier(this),
-        _serverCliRequiredOptionsDescription("Required available options"),
-        _serverCliOptionalOptionsDescription("Optional available options"),
+        _notifier(serverOptions),
+        _serverCliRequiredOptionsDescription("Required options"),
+        _serverCliOptionalOptionsDescription("Optional options"),
         _leafServerOptions(serverOptions) {
 
     _serverConfigFileValue = boost::program_options::value<std::string>()
@@ -29,7 +29,7 @@ LeafServerOptionsParser::LeafServerOptionsParser(Models::LeafServerOptions *serv
 
     _serverEnvOptionsDescription.add_options()
             (EnvOptions::SERVER_CONFIG_FILE,
-                    boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier()));
+             boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier()));
 
     _callbacksThatTriggersHelp[CliOptions::HELP] = CallbackReceiver{
             .optionVerifier = [](const std::string &option,
@@ -61,7 +61,6 @@ LeafServerOptionsParser::Status LeafServerOptionsParser::parseCommandLineArgs(co
         _serverConfigFileValue->required();
     }
 
-    // reset
     boost::program_options::variables_map requiredCommandLineArgs;
 
     boost::program_options::basic_parsed_options<char> requiredOptions =
@@ -102,21 +101,17 @@ std::string LeafServerOptionsParser::matchEnvironmentVariable(const std::string 
 }
 
 void LeafServerOptionsParser::displayHelp() {
-    std::cout << "Leaf: " << LeafVersion
-              << ", build type: " << LeafBuildType
-              << ", build date: " << LeafBuildDate << std::endl;
-    std::cout << "Usage:" << std::endl;
-    std::cout << "Required options: [--option=value]" << std::endl;
-    std::cout << "Optional options: [--option]" << std::endl << std::endl;
+    std::cout << "Leaf: " << Utils::BuildInfo() << std::endl;
+    std::cout << "Usage: [--option=value] [--option]" << std::endl << std::endl;
     std::cout << _serverCliRequiredOptionsDescription << std::endl;
     std::cout << _serverCliOptionalOptionsDescription << std::endl;
 }
 
 std::function<void(const std::string &)> LeafServerOptionsParser::Notifier::makeServerConfigFileNotifier() {
     return [this](const std::string &value) -> void {
-        this->_leafServerOptionsParser->_leafServerOptions->setServerConfigFilePath(value);
+        this->_leafServerOptions->setServerConfigFilePath(value);
     };
 }
 
-LeafServerOptionsParser::Notifier::Notifier(LeafServerOptionsParser *const leafServerOptionsParser)
-        : _leafServerOptionsParser(leafServerOptionsParser) {}
+LeafServerOptionsParser::Notifier::Notifier(Models::LeafServerOptions *const leafServerOptions)
+        : _leafServerOptions(leafServerOptions) {}

@@ -7,25 +7,26 @@
 
 #include <iostream>
 #include <thread>
-#include "models/server_config.hpp"
+#include "models/server_configuration.hpp"
 
 namespace Leaf::LeafServer {
     class LeafServer {
     private:
         std::thread _thread;
         bool _threadMustBeKilled;
+        Models::ServerConfiguration *_serverConfiguration;
 
     protected:
+        void onStart() const;
+
+        LeafServer *loadConfiguration(const std::string &serverIniPath);
+
         void serve();
 
     public:
         explicit LeafServer();
 
         virtual ~LeafServer();
-
-        void onStart() const;
-
-        LeafServer &initialize(const Leaf::Models::ServerConfiguration &serverConfiguration);
 
         void join();
 

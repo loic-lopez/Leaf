@@ -10,25 +10,11 @@
 using namespace Leaf::Exceptions;
 using namespace Leaf::LeafServer;
 
-/*std::string MimeTypes::extensionToType(const std::string &extension) {
-    for (const auto &mapping : mappings) {
-        if (mapping.extension == extension) {
-            return mapping.mime_type;
-        }
-    }
-
-    return "text/plain";
-}*/
-
-
-
-std::vector<Leaf::Models::MimeType> ConfigurationLoaders::MimeTypes::load(const std::string &configFilePath) {
+Leaf::Models::MimeTypes *ConfigurationLoaders::MimeTypesLoader::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<MimeTypesConfigFileNotFound>(configFilePath);
     std::vector<Models::MimeType> mimeTypes;
 
-    checkForPtreeIntegrity(pTree);
-
-    for (const auto &mimeTypeLine : pTree.find(MimeTypes::MIME_TYPE_SECTION)->second) {
+    for (const auto &mimeTypeLine : pTree.find(MimeTypesLoader::MIME_TYPE_SECTION)->second) {
         std::string mimeTypeValues = mimeTypeLine.second.get_value<std::string>();
         std::vector<std::string> parsedMimeTypes;
 
@@ -38,11 +24,13 @@ std::vector<Leaf::Models::MimeType> ConfigurationLoaders::MimeTypes::load(const 
         mimeTypes.emplace_back(mimeTypeLine.first, parsedMimeTypes);
     }
 
-    return mimeTypes;
+    std::cout << configFilePath << " successfully loaded." << std::endl;
+
+    return new Models::MimeTypes{
+            .mimeTypes = mimeTypes
+    };
 }
 
-void ConfigurationLoaders::MimeTypes::checkForPtreeIntegrity(const boost::property_tree::ptree &pTree) {
-    if (pTree.find(MimeTypes::MIME_TYPE_SECTION)->second.empty())
-        throw std::runtime_error("SECTION NOT FOUND"); // TODO: CREATE DEDICATED EXCEPTION
-}
+ConfigurationLoaders::MimeTypesLoader::MimeTypesLoader() : INIConfigurationLoader({MIME_TYPE_SECTION}) {
 
+}

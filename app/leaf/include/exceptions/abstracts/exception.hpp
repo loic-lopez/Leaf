@@ -21,10 +21,11 @@ namespace Leaf::Exceptions::Abstracts {
         char const *_atFunction;
         std::string _msg;
         int _atLine;
-        int _errno;
+
+        virtual void buildStdExceptionMessage(const char *exceptionClassName) = 0;
 
     public:
-        explicit Exception(char const *atFunction, int atLine, int _errno);
+        explicit Exception(char const *atFunction, int atLine);
 
         const char *what() const noexcept override;
     };

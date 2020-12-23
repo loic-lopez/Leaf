@@ -2,8 +2,9 @@
 // Created by LoicL on 23/11/2020.
 //
 
-#include "server/leaf_build.hpp"
 #include "server/leaf_server.hpp"
+
+#include <utility>
 
 using namespace Leaf::LeafServer;
 
@@ -16,15 +17,10 @@ LeafServer::~LeafServer() {
 }
 
 void LeafServer::onStart() const {
-    std::cout << "Starting thread: " << LeafVersion
-              << ", build type: " << LeafBuildType
-              << ", build date: " << LeafBuildDate << std::endl;
-}
-
-LeafServer &LeafServer::initialize(const Leaf::Models::ServerConfiguration &serverConfiguration) {
-    (void) serverConfiguration;
-
-    return *this;
+    std::cout << "Starting Leaf thread: listening on "
+              << _serverConfiguration->listenAddr
+              << ":" << _serverConfiguration->port
+              << std::endl;
 }
 
 void LeafServer::join() {
@@ -35,10 +31,14 @@ void LeafServer::join() {
 }
 
 void LeafServer::start() {
-    onStart();
     _thread = std::thread(&LeafServer::serve, this);
 }
 
 void LeafServer::serve() {
+    onStart();
+}
 
+LeafServer *LeafServer::loadConfiguration(const std::string &serverIniPath) {
+    (void) serverIniPath;
+    return this;
 }

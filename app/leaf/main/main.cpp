@@ -3,10 +3,9 @@
 
 int main(const int argc, const char **argv) {
 
-    (void) argc, (void) argv;
-
     Leaf::LeafServer::LeafProcessManager leafProcessManager(argc, argv);
 
+    leafProcessManager.start();
 
     // Leaf::LeafServer::LeafServerOptionsParser serverOptionsParser;
 

@@ -41,10 +41,10 @@ namespace Leaf::LeafServer {
 
         class Notifier {
         private:
-            LeafServerOptionsParser * const _leafServerOptionsParser;
+            Models::LeafServerOptions *const _leafServerOptions;
 
         public:
-            explicit Notifier(LeafServerOptionsParser *leafServerOptionsParser);
+            explicit Notifier(Models::LeafServerOptions *leafServerOptions);
 
             std::function<void(const std::string &)> makeServerConfigFileNotifier();
         };

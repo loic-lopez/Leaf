@@ -4,18 +4,15 @@
 
 #include <vector>
 #include "abstracts/ini_configuration_loader.hpp"
-#include "models/mime_type.hpp"
+#include "models/mime_types.hpp"
 
 namespace Leaf::LeafServer::ConfigurationLoaders {
 
-    class MimeTypes : public Abstracts::INIConfigurationLoader<std::vector<Models::MimeType>> {
-    protected:
-        static void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree);
-
+    class MimeTypesLoader : public Abstracts::INIConfigurationLoader<Models::MimeTypes> {
     public:
-        MimeTypes() = default;
+        explicit MimeTypesLoader();
 
-        std::vector<Models::MimeType> load(const std::string &configFilePath) override;
+        Models::MimeTypes *load(const std::string &configFilePath) override;
 
         inline static const char MIME_TYPE_SECTION[] = "MimesTypes";
     };
