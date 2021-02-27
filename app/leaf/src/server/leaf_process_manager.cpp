@@ -2,6 +2,7 @@
 // Created by LoicL on 13/12/2020.
 //
 
+#include <boost/interprocess/detail/os_thread_functions.hpp>
 #include "server/utils/utils.hpp"
 #include "server/leaf_process_manager.hpp"
 #include "server/configuration_loaders/leaf_server_configuration_loader.hpp"
@@ -18,7 +19,18 @@ LeafProcessManager::~LeafProcessManager() {
 }
 
 void LeafProcessManager::onStart() {
-    std::cout << "Starting Leaf: " << Utils::BuildInfo() << std::endl;
+    std::cout
+            << R"(     .\^/.                                            .\^/.
+   . |`|/| .                                        . |`|/| .
+   |\|\|'|/|       _                       __       |\|\|'|/|
+.--'-\`|/-''--.   | |       ___    __ _   / _|   .--'-\`|/-''--.
+ \`-._\|./.-'/    | |      / _ \  / _` | | |_     \`-._\|./.-'/
+  >`-._|/.-'<     | |___  |  __/ | (_| | |  _|     >`-._|/.-'<
+ '~|/~~|~~\|~'    |_____|  \___|  \__,_| |_|      '~|/~~|~~\|~'
+       |                                                |)" << std::endl;
+    std::cout << "Leaf: " << Utils::BuildInfo() << std::endl;
+    std::cout << "Started Leaf with PID " << boost::interprocess::ipcdetail::get_current_process_id()
+              << " {MOVE TO LOG}" << std::endl;
 }
 
 void LeafProcessManager::waitForServers() {
@@ -29,11 +41,14 @@ void LeafProcessManager::waitForServers() {
 
 void LeafProcessManager::loadLeafConfiguration() {
     ConfigurationLoaders::LeafServerConfigurationLoader serverConfigurationLoader;
+    std::string configFilePath = _leafServerOptions->getServerConfigFilePath();
 
-    _leafServerConfiguration = serverConfigurationLoader.load(_leafServerOptions->getServerConfigFilePath());
+    std::cout << "Loading server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
+    _leafServerConfiguration = serverConfigurationLoader.load(configFilePath);
 }
 
 void LeafProcessManager::startServers() {
+
 }
 
 void LeafProcessManager::parseCommandLineArgs() {
