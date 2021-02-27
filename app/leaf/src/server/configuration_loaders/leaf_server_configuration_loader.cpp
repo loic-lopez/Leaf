@@ -25,7 +25,7 @@ ConfigurationLoaders::LeafServerConfigurationLoader::load(const std::string &con
     mimeTypesConfigFile = pTree.find(HTTP_CONFIGURATION_SECTION)->second
             .find("mime_types_config_file")->second.get_value<std::string>();
 
-    std::cout << configFilePath << " successfully loaded." << std::endl;
+    std::cout << configFilePath << " successfully loaded." << " {MOVE TO LOG}" << std::endl;
 
     return new Leaf::LeafServer::Models::LeafServerConfiguration{
             serversRootPath,
