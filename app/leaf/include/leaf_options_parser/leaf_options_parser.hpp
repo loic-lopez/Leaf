@@ -15,7 +15,7 @@ namespace Leaf {
     using namespace LeafProcessManager;
 
     namespace CliOptions {
-        inline static const char SERVER_CONFIG_FILE[] = "leaf_server-config-file";
+        inline static const char SERVER_CONFIG_FILE[] = "server-config-file";
         inline static const char HELP[] = "help";
     }
 
@@ -54,13 +54,13 @@ namespace Leaf {
 
         Notifier _notifier;
 
-        boost::program_options::options_description _serverCliRequiredOptionsDescription;
-        boost::program_options::options_description _serverCliOptionalOptionsDescription;
-        boost::program_options::options_description _serverEnvOptionsDescription;
+        boost::program_options::options_description _cliRequiredOptionsDescription;
+        boost::program_options::options_description _cliOptionalOptionsDescription;
+        boost::program_options::options_description _envOptionsDescription;
         Models::LeafProcessManagerOptions *const _leafProcessManagerOptions;
 
         std::map<std::string, CallbackReceiver> _callbacksThatTriggersHelp;
-        boost::program_options::typed_value<std::string> *_serverConfigFileValue;
+        boost::program_options::typed_value<std::string> *_configFileValue;
 
     protected:
         std::string matchEnvironmentVariable(const std::string &envVar);

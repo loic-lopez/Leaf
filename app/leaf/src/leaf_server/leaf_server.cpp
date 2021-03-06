@@ -2,6 +2,7 @@
 // Created by LoicL on 23/11/2020.
 //
 
+#include "leaf_server/configuration_loaders/leaf_server_configuration_loader.hpp"
 #include "leaf_server/leaf_server.hpp"
 
 using namespace Leaf::LeafServer;
@@ -44,8 +45,7 @@ void LeafServer::serve() {
 }
 
 void LeafServer::loadConfiguration() {
+    ConfigurationLoaders::LeafServerConfigurationLoader serverConfigurationLoader;
 
-    std::cout << "Loading LeafServer: " + _serverIniPath << std::endl;
-
-
+    _serverConfiguration.reset(serverConfigurationLoader.load(_serverIniPath));
 }

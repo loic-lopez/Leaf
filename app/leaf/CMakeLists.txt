@@ -3,7 +3,7 @@ add_subdirectory(src)
 
 ## Output dirs
 set(LEAF_CONFIG_ROOT_PATH ${CMAKE_BINARY_DIR}/conf)
-set(LEAF_SERVERS_ROOT_PATH ${LEAF_CONFIG_ROOT_PATH}/servers)
+set(LEAF_SERVERS_ROOT_PATH ${LEAF_CONFIG_ROOT_PATH})
 set(LEAF_GENERATED_INCLUDE_ROOT_PATH ${CMAKE_BINARY_DIR}/include)
 set(LEAF_LOG_DIR_ROOT_PATH ${CMAKE_BINARY_DIR}/log)
 
@@ -18,9 +18,6 @@ file(MAKE_DIRECTORY ${LEAF_SERVERS_ROOT_PATH})
 file(MAKE_DIRECTORY ${LEAF_GENERATED_INCLUDE_ROOT_PATH})
 file(MAKE_DIRECTORY ${LEAF_LOG_DIR_ROOT_PATH})
 
-## Generate dir for versioning
-file(MAKE_DIRECTORY ${LEAF_GENERATED_INCLUDE_ROOT_PATH}/server)
-
 ## Generated Headers
 configure_file(${PROJECT_INCLUDE_ROOT_PATH}/utils/leaf_build.hpp.in ${LEAF_GENERATED_INCLUDE_ROOT_PATH}/utils/leaf_build.hpp)
 
@@ -29,7 +26,7 @@ configure_file(${PROJECT_CONFIG_ROOT_PATH}/mime_types.ini ${LEAF_CONFIG_ROOT_PAT
 configure_file(${PROJECT_CONFIG_ROOT_PATH}/leaf.template.ini ${LEAF_CONFIG_ROOT_PATH}/leaf.ini)
 
 ## Leaf Servers
-configure_file(${PROJECT_SERVERS_ROOT_PATH}/http_port_80.ini ${LEAF_SERVERS_ROOT_PATH}/http_port_80.ini COPYONLY)
+file(COPY ${PROJECT_SERVERS_ROOT_PATH} DESTINATION ${LEAF_SERVERS_ROOT_PATH})
 
 # Construct Leaf library
 add_library(${LEAF_PROJECT_LIBRARY} ${LEAF_INCLUDES} ${LEAF_SOURCES})

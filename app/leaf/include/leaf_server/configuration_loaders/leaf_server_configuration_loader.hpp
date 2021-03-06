@@ -6,20 +6,17 @@
 #define LEAF_LEAF_SERVER_CONFIGURATION_LOADER_HPP
 
 #include "abstracts/ini_configuration_loader.hpp"
-#include "server/models/leaf_main_server_configuration.hpp"
+#include "leaf_server/models/leaf_server_configuration.hpp"
 
 namespace Leaf::LeafServer::ConfigurationLoaders {
-    class LeafMainServerConfigurationLoader
-            : public Abstracts::INIConfigurationLoader<Models::LeafMainServerConfiguration> {
+    class LeafServerConfigurationLoader
+            : public Abstracts::INIConfigurationLoader<Models::LeafServerConfiguration> {
     public:
-        inline static const char LEAF_SERVERS_SECTION[] = "LeafServers";
-        inline static const char LEAF_CONFIGURATION_SECTION[] = "LeafConfiguration";
-        inline static const char HTTP_CONFIGURATION_SECTION[] = "HttpConfiguration";
-
+        inline static const char LEAF_SERVER_SECTION[] = "LeafServer";
     public:
-        Models::LeafMainServerConfiguration *load(const std::string &configFilePath) override;
+        Models::LeafServerConfiguration *load(const std::string &configFilePath) override;
 
-        explicit LeafMainServerConfigurationLoader();
+        explicit LeafServerConfigurationLoader();
     };
 }
 

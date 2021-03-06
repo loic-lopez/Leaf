@@ -6,7 +6,7 @@
 #define LEAF_UTILS_HPP
 
 #include <string>
-#include "../../../../cmake-build-debug/include/server/utils/leaf_build.hpp"
+#include "utils/leaf_build.hpp"
 
 namespace Leaf {
     class Utils {

@@ -23,6 +23,7 @@ set(LEAF_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/http/connection_manager.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/http/request_handler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/models/leaf_server_configuration.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/configuration_loaders/leaf_server_configuration_loader.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_options_parser/leaf_options_parser.cpp
 
