@@ -22,7 +22,7 @@ file(MAKE_DIRECTORY ${LEAF_LOG_DIR_ROOT_PATH})
 file(MAKE_DIRECTORY ${LEAF_GENERATED_INCLUDE_ROOT_PATH}/server)
 
 ## Generated Headers
-configure_file(${PROJECT_INCLUDE_ROOT_PATH}/server/utils/leaf_build.hpp.in ${LEAF_GENERATED_INCLUDE_ROOT_PATH}/server/utils/leaf_build.hpp)
+configure_file(${PROJECT_INCLUDE_ROOT_PATH}/utils/leaf_build.hpp.in ${LEAF_GENERATED_INCLUDE_ROOT_PATH}/utils/leaf_build.hpp)
 
 ## Server Config
 configure_file(${PROJECT_CONFIG_ROOT_PATH}/mime_types.ini ${LEAF_CONFIG_ROOT_PATH}/mime_types.ini COPYONLY)

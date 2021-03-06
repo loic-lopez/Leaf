@@ -2,14 +2,14 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#ifndef LEAF_SERVER_OPTIONS_HPP
-#define LEAF_SERVER_OPTIONS_HPP
+#ifndef LEAF_MAIN_SERVER_OPTIONS_HPP
+#define LEAF_MAIN_SERVER_OPTIONS_HPP
 
 #include <string>
 
-namespace Leaf::LeafServer::Models {
+namespace Leaf::LeafProcessManager::Models {
 
-    class LeafServerOptions {
+    class LeafProcessManagerOptions {
     private:
         std::string _serverConfigFilePath;
 
@@ -22,4 +22,4 @@ namespace Leaf::LeafServer::Models {
     };
 }
 
-#endif //LEAF_SERVER_OPTIONS_HPP
+#endif //LEAF_MAIN_SERVER_OPTIONS_HPP

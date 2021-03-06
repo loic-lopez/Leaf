@@ -3,9 +3,9 @@
 //
 
 #include <iostream>
-#include "server/utils/utils.hpp"
+#include "utils/utils.hpp"
 
-std::string Leaf::LeafServer::Utils::BuildInfo() {
+std::string Leaf::Utils::BuildInfo() {
     return Leaf::Build::LeafVersion
            + ", build type: " + Leaf::Build::LeafBuildType + " [" + Leaf::Build::Arch + "]"
            + ", build date: " + Leaf::Build::LeafBuildDate;

@@ -18,17 +18,20 @@ set(LEAF_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/http/http.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/https/https.cpp
 
-        # server
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/leaf_server.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/http/connection_manager.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/http/request_handler.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/leaf_process_manager.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/leaf_server_options_parser.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/models/leaf_server_options.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/models/leaf_server_configuration.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/configuration_loaders/leaf_server_configuration_loader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/configuration_loaders/leaf_mime_types_loader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/server/utils/utils.cpp
+        # leaf_server
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/leaf_server.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/http/connection_manager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/http/request_handler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/models/leaf_server_configuration.cpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_options_parser/leaf_options_parser.cpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_process_manager/leaf_process_manager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_process_manager/models/leaf_process_manager_options.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_process_manager/models/leaf_process_manager_configuration.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_process_manager/configuration_loaders/leaf_process_manager_configuration_loader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/leaf_process_manager/configuration_loaders/leaf_mime_types_loader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/utils/utils.cpp
 
         PARENT_SCOPE
         )

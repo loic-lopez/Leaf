@@ -5,10 +5,10 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include "exceptions/mime_types_config_file_not_found.hpp"
-#include "server/configuration_loaders/leaf_mime_types_loader.hpp"
+#include "leaf_process_manager/configuration_loaders/leaf_mime_types_loader.hpp"
 
 using namespace Leaf::Exceptions;
-using namespace Leaf::LeafServer;
+using namespace Leaf::LeafProcessManager;
 
 Leaf::Models::MimeTypes *ConfigurationLoaders::MimeTypesLoader::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<MimeTypesConfigFileNotFound>(configFilePath);

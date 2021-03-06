@@ -6,7 +6,7 @@
 #include "abstracts/ini_configuration_loader.hpp"
 #include "models/mime_types.hpp"
 
-namespace Leaf::LeafServer::ConfigurationLoaders {
+namespace Leaf::LeafProcessManager::ConfigurationLoaders {
 
     class MimeTypesLoader : public Abstracts::INIConfigurationLoader<Models::MimeTypes> {
     public:

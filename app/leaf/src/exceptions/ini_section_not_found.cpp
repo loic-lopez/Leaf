@@ -15,6 +15,6 @@ Leaf::Exceptions::IniSectionNotFound::IniSectionNotFound(std::string section,
 void Leaf::Exceptions::IniSectionNotFound::buildStdExceptionMessage(const char *exceptionClassName) {
     _msg = exceptionClassName;
     _msg += " exception raised: this means the";
-    _msg += " server ini config file located at " + _configFilePath + " doesn't have a section ";
+    _msg += " leaf_server ini config file located at " + _configFilePath + " doesn't have a section ";
     _msg += _section + " while it is required. ";
 }

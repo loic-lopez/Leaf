@@ -2,17 +2,20 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#ifndef LEAF_SERVER_OPTIONS_PARSER_HPP
-#define LEAF_SERVER_OPTIONS_PARSER_HPP
+#ifndef LEAF_OPTIONS_PARSER_HPP
+#define LEAF_OPTIONS_PARSER_HPP
 
 #include <string>
 #include <boost/program_options/variables_map.hpp>
 #include <boost/program_options/options_description.hpp>
-#include "server/models/leaf_server_options.hpp"
+#include "leaf_process_manager/models/leaf_process_manager_options.hpp"
 
-namespace Leaf::LeafServer {
+namespace Leaf {
+
+    using namespace LeafProcessManager;
+
     namespace CliOptions {
-        inline static const char SERVER_CONFIG_FILE[] = "server-config-file";
+        inline static const char SERVER_CONFIG_FILE[] = "leaf_server-config-file";
         inline static const char HELP[] = "help";
     }
 
@@ -24,7 +27,7 @@ namespace Leaf::LeafServer {
     using CallbackThatTriggersHelp =
     bool(const std::string &option, const boost::program_options::variables_map &commandLineArgs);
 
-    class LeafServerOptionsParser {
+    class LeafOptionsParser {
     public:
         enum class Status : unsigned int {
             SUCCESS,
@@ -41,10 +44,10 @@ namespace Leaf::LeafServer {
 
         class Notifier {
         private:
-            Models::LeafServerOptions *const _leafServerOptions;
+            Models::LeafProcessManagerOptions *const _leafServerOptions;
 
         public:
-            explicit Notifier(Models::LeafServerOptions *leafServerOptions);
+            explicit Notifier(Models::LeafProcessManagerOptions *leafServerOptions);
 
             std::function<void(const std::string &)> makeServerConfigFileNotifier();
         };
@@ -54,7 +57,7 @@ namespace Leaf::LeafServer {
         boost::program_options::options_description _serverCliRequiredOptionsDescription;
         boost::program_options::options_description _serverCliOptionalOptionsDescription;
         boost::program_options::options_description _serverEnvOptionsDescription;
-        Models::LeafServerOptions *const _leafServerOptions;
+        Models::LeafProcessManagerOptions *const _leafProcessManagerOptions;
 
         std::map<std::string, CallbackReceiver> _callbacksThatTriggersHelp;
         boost::program_options::typed_value<std::string> *_serverConfigFileValue;
@@ -63,7 +66,7 @@ namespace Leaf::LeafServer {
         std::string matchEnvironmentVariable(const std::string &envVar);
 
     public:
-        explicit LeafServerOptionsParser(Models::LeafServerOptions *serverOptions);
+        explicit LeafOptionsParser(Models::LeafProcessManagerOptions *serverOptions);
 
         Status parseCommandLineArgs(int ac, const char **av);
 
@@ -73,4 +76,4 @@ namespace Leaf::LeafServer {
     };
 }
 
-#endif //LEAF_SERVER_OPTIONS_PARSER_HPP
+#endif //LEAF_OPTIONS_PARSER_HPP

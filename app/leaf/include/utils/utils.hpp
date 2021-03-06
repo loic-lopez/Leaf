@@ -6,9 +6,9 @@
 #define LEAF_UTILS_HPP
 
 #include <string>
-#include "server/utils/leaf_build.hpp"
+#include "../../../../cmake-build-debug/include/server/utils/leaf_build.hpp"
 
-namespace Leaf::LeafServer {
+namespace Leaf {
     class Utils {
     public:
         static std::string BuildInfo();

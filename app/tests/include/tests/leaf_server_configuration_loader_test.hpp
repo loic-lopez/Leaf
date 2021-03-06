@@ -6,25 +6,23 @@
 #define LEAF_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP
 
 #include <gtest/gtest.h>
-#include "server/models/leaf_server_configuration.hpp"
+#include "leaf_process_manager/models/leaf_process_manager_configuration.hpp"
 
 namespace Leaf::Tests {
-    class LeafServerConfigurationLoaderTest : public ::testing::Test {
+    class LeafProcessManagerConfigurationLoaderTest : public ::testing::Test {
     protected:
         void SetUp() override {
             Test::SetUp();
-            _leafServerConfiguration = nullptr;
+            _processManagerConfiguration = nullptr;
         }
 
         void TearDown() override {
             Test::TearDown();
-            if (_leafServerConfiguration != nullptr) {
-                delete _leafServerConfiguration;
-            }
+            delete _processManagerConfiguration;
         }
 
     public:
-        Leaf::LeafServer::Models::LeafServerConfiguration *_leafServerConfiguration;
+        Leaf::LeafProcessManager::Models::LeafProcessManagerConfiguration *_processManagerConfiguration;
     };
 }
 

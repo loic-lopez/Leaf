@@ -2,13 +2,17 @@
 // Created by LoicL on 23/11/2020.
 //
 
-#include "server/leaf_server.hpp"
-
-#include <utility>
+#include "leaf_server/leaf_server.hpp"
 
 using namespace Leaf::LeafServer;
 
-LeafServer::LeafServer() : _thread(), _threadMustBeKilled(false) {
+LeafServer::LeafServer(const std::string &serverIniPath)
+        : _thread(), _threadMustBeKilled(false), _serverIniPath(serverIniPath) {
+
+}
+
+LeafServer::LeafServer(const LeafServer &leafServer)
+        : _thread(), _threadMustBeKilled(false), _serverIniPath(leafServer._serverIniPath) {
 
 }
 
@@ -35,10 +39,13 @@ void LeafServer::start() {
 }
 
 void LeafServer::serve() {
+    loadConfiguration();
     onStart();
 }
 
-LeafServer *LeafServer::loadConfiguration(const std::string &serverIniPath) {
-    (void) serverIniPath;
-    return this;
+void LeafServer::loadConfiguration() {
+
+    std::cout << "Loading LeafServer: " + _serverIniPath << std::endl;
+
+
 }

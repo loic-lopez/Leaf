@@ -3,9 +3,9 @@
 //
 
 #include <utility>
-#include "server/models/leaf_server_configuration.hpp"
+#include "leaf_process_manager/models/leaf_process_manager_configuration.hpp"
 
-Leaf::LeafServer::Models::LeafServerConfiguration::LeafServerConfiguration(
+Leaf::LeafProcessManager::Models::LeafProcessManagerConfiguration::LeafProcessManagerConfiguration(
         std::string serversRootPath,
         std::string leafConfigurationDirectory,
         std::string leafLogDirectory,

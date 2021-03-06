@@ -5,16 +5,17 @@
 #include <iostream>
 #include <boost/program_options/parsers.hpp>
 #include <boost/algorithm/string.hpp>
-#include "server/utils/utils.hpp"
-#include "server/leaf_server_options_parser.hpp"
+#include "utils/utils.hpp"
+#include "leaf_options_parser/leaf_options_parser.hpp"
 
-using namespace Leaf::LeafServer;
+using namespace Leaf;
+using namespace Leaf::LeafProcessManager;
 
-LeafServerOptionsParser::LeafServerOptionsParser(Models::LeafServerOptions *serverOptions) :
+LeafOptionsParser::LeafOptionsParser(Models::LeafProcessManagerOptions *serverOptions) :
         _notifier(serverOptions),
         _serverCliRequiredOptionsDescription("Required options"),
         _serverCliOptionalOptionsDescription("Optional options"),
-        _leafServerOptions(serverOptions) {
+        _leafProcessManagerOptions(serverOptions) {
 
     _serverConfigFileValue = boost::program_options::value<std::string>()
             ->notifier(_notifier.makeServerConfigFileNotifier());
@@ -22,7 +23,7 @@ LeafServerOptionsParser::LeafServerOptionsParser(Models::LeafServerOptions *serv
     _serverCliRequiredOptionsDescription.add_options()
             (CliOptions::SERVER_CONFIG_FILE,
              _serverConfigFileValue,
-             "set the config .ini file path for the server.");
+             "set the config .ini file path for the leaf_server.");
 
     _serverCliOptionalOptionsDescription.add_options()
             (CliOptions::HELP, "display this help message");
@@ -40,7 +41,7 @@ LeafServerOptionsParser::LeafServerOptionsParser(Models::LeafServerOptions *serv
     };
 }
 
-LeafServerOptionsParser::Status LeafServerOptionsParser::parseCommandLineArgs(const int ac, const char **av) {
+LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, const char **av) {
     boost::program_options::variables_map optionalCommandLineArgs;
 
     boost::program_options::basic_parsed_options<char> optionalOptions =
@@ -57,7 +58,7 @@ LeafServerOptionsParser::Status LeafServerOptionsParser::parseCommandLineArgs(co
         }
     }
 
-    if (_leafServerOptions->getServerConfigFilePath().empty()) { // make field required if not already set by the ENV
+    if (_leafProcessManagerOptions->getServerConfigFilePath().empty()) { // make field required if not already set by the ENV
         _serverConfigFileValue->required();
     }
 
@@ -74,7 +75,7 @@ LeafServerOptionsParser::Status LeafServerOptionsParser::parseCommandLineArgs(co
     return Status::SUCCESS;
 }
 
-void LeafServerOptionsParser::parseEnvironment() {
+void LeafOptionsParser::parseEnvironment() {
     boost::program_options::variables_map envVars;
 
     boost::program_options::store(
@@ -88,7 +89,7 @@ void LeafServerOptionsParser::parseEnvironment() {
     boost::program_options::notify(envVars);
 }
 
-std::string LeafServerOptionsParser::matchEnvironmentVariable(const std::string &envVar) {
+std::string LeafOptionsParser::matchEnvironmentVariable(const std::string &envVar) {
     if (!boost::algorithm::contains(envVar, EnvOptions::ENV_PREFIX)) return "";
 
     bool matched = std::any_of(
@@ -100,18 +101,18 @@ std::string LeafServerOptionsParser::matchEnvironmentVariable(const std::string 
     return matched ? envVar : "";
 }
 
-void LeafServerOptionsParser::displayHelp() {
+void LeafOptionsParser::displayHelp() {
     std::cout << "Leaf: " << Utils::BuildInfo() << std::endl;
     std::cout << "Usage: [--option=value] [--option]" << std::endl << std::endl;
     std::cout << _serverCliRequiredOptionsDescription << std::endl;
     std::cout << _serverCliOptionalOptionsDescription << std::endl;
 }
 
-std::function<void(const std::string &)> LeafServerOptionsParser::Notifier::makeServerConfigFileNotifier() {
+std::function<void(const std::string &)> LeafOptionsParser::Notifier::makeServerConfigFileNotifier() {
     return [this](const std::string &value) -> void {
         this->_leafServerOptions->setServerConfigFilePath(value);
     };
 }
 
-LeafServerOptionsParser::Notifier::Notifier(Models::LeafServerOptions *const leafServerOptions)
+LeafOptionsParser::Notifier::Notifier(Models::LeafProcessManagerOptions *const leafServerOptions)
         : _leafServerOptions(leafServerOptions) {}
