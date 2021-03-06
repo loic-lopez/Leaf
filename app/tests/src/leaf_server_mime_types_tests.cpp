@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include "tests/leaf_server_mime_types_loader_test.hpp"
-#include "server/configuration_loaders/leaf_mime_types_loader.hpp"
+#include "leaf_process_manager/configuration_loaders/leaf_mime_types_loader.hpp"
 #include "exceptions/mime_types_config_file_not_found.hpp"
 
 using namespace Leaf::Tests;
-using namespace Leaf::LeafServer::ConfigurationLoaders;
+using namespace Leaf::LeafProcessManager::ConfigurationLoaders;
 
 TEST_F(LeafMimeTypesLoaderTest, when_initialize_mime_types_config_file_should_be_loaded) {
     MimeTypesLoader mimeTypesLoader;

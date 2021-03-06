@@ -6,27 +6,27 @@
 #define LEAF_LEAFSERVEROPTIONSPARSERTEST_HPP
 
 #include <gtest/gtest.h>
-#include "server/models/leaf_server_options.hpp"
+#include "leaf_process_manager/models/leaf_process_manager_options.hpp"
 
 namespace Leaf::Tests {
     class LeafServerOptionsParserTest : public ::testing::Test {
     protected:
-        Leaf::LeafServer::Models::LeafServerOptions *_serverOptions;
+        Leaf::LeafProcessManager::Models::LeafProcessManagerOptions *_processManagerOptions;
 
         void SetUp() override {
             Test::SetUp();
-            _serverOptions = new Leaf::LeafServer::Models::LeafServerOptions;
+            _processManagerOptions = new Leaf::LeafProcessManager::Models::LeafProcessManagerOptions;
         }
 
         void TearDown() override {
             Test::TearDown();
-            delete _serverOptions;
-            _serverOptions = nullptr;
+            delete _processManagerOptions;
+            _processManagerOptions = nullptr;
         }
 
     public:
-        Leaf::LeafServer::Models::LeafServerOptions *getServerOptions() {
-            return _serverOptions;
+        Leaf::LeafProcessManager::Models::LeafProcessManagerOptions *getServerOptions() {
+            return _processManagerOptions;
         }
     };
 }
