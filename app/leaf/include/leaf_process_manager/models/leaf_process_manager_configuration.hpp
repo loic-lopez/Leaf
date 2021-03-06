@@ -2,16 +2,16 @@
 // Created by LoicL on 19/12/2020.
 //
 
-#ifndef LEAF_LEAF_SERVER_CONFIGURATION_HPP
-#define LEAF_LEAF_SERVER_CONFIGURATION_HPP
+#ifndef LEAF_LEAF_PROCESS_MANAGER_CONFIGURATION_HPP
+#define LEAF_LEAF_PROCESS_MANAGER_CONFIGURATION_HPP
 
 #include <string>
 
-namespace Leaf::LeafServer::Models {
+namespace Leaf::LeafProcessManager::Models {
 
-    class LeafServerConfiguration {
+    class LeafProcessManagerConfiguration {
     public:
-        explicit LeafServerConfiguration(
+        explicit LeafProcessManagerConfiguration(
                 std::string serversRootPath,
                 std::string leafConfigurationDirectory,
                 std::string leafLogDirectory,
@@ -21,11 +21,9 @@ namespace Leaf::LeafServer::Models {
         const std::string leafConfigurationDirectory;
         const std::string leafLogDirectory;
         const std::string mimeTypesConfigFile;
-
-
     };
 
 }
 
 
-#endif // LEAF_LEAF_SERVER_CONFIGURATION_HPP
+#endif // LEAF_LEAF_PROCESS_MANAGER_CONFIGURATION_HPP
