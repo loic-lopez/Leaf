@@ -12,14 +12,11 @@ Models::LeafProcessManagerConfiguration *
 ConfigurationLoaders::LeafProcessManagerConfigurationLoader::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<LeafServerConfigFileNotFound>(configFilePath);
     std::string serversRootPath;
-    std::string leafConfigurationDirectory;
     std::string leafLogDirectory;
     std::string mimeTypesConfigFile;
 
     serversRootPath = pTree.find(LEAF_SERVERS_SECTION)->second
             .find("servers_root_path")->second.get_value<std::string>();
-    leafConfigurationDirectory = pTree.find(LEAF_CONFIGURATION_SECTION)->second
-            .find("leaf_configuration_directory")->second.get_value<std::string>();
     leafLogDirectory = pTree.find(LEAF_CONFIGURATION_SECTION)->second
             .find("leaf_log_directory")->second.get_value<std::string>();
     mimeTypesConfigFile = pTree.find(HTTP_CONFIGURATION_SECTION)->second
@@ -29,7 +26,6 @@ ConfigurationLoaders::LeafProcessManagerConfigurationLoader::load(const std::str
 
     return new Leaf::LeafProcessManager::Models::LeafProcessManagerConfiguration{
             serversRootPath,
-            leafConfigurationDirectory,
             leafLogDirectory,
             mimeTypesConfigFile
     };

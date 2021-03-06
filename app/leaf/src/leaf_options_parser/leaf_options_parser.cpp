@@ -23,7 +23,7 @@ LeafOptionsParser::LeafOptionsParser(Models::LeafProcessManagerOptions *serverOp
     _cliRequiredOptionsDescription.add_options()
             (CliOptions::SERVER_CONFIG_FILE,
              _configFileValue,
-             "set the config .ini file path for the leaf_server.");
+             "set the config .ini file path for the leaf server.");
 
     _cliOptionalOptionsDescription.add_options()
             (CliOptions::HELP, "display this help message");

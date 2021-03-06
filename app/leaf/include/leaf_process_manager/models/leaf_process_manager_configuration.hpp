@@ -13,12 +13,10 @@ namespace Leaf::LeafProcessManager::Models {
     public:
         explicit LeafProcessManagerConfiguration(
                 std::string serversRootPath,
-                std::string leafConfigurationDirectory,
                 std::string leafLogDirectory,
                 std::string mimeTypesConfigFile);
 
         const std::string serversRootPath;
-        const std::string leafConfigurationDirectory;
         const std::string leafLogDirectory;
         const std::string mimeTypesConfigFile;
     };
