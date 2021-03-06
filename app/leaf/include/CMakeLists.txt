@@ -26,6 +26,8 @@ set(LEAF_INCLUDES
 
         ${CMAKE_CURRENT_SOURCE_DIR}/http/http.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/https/https.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/http/status_strings.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/http/stock_replies.hpp
 
         # Leaf Main Server (master process)
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_options_parser/leaf_options_parser.hpp
@@ -39,8 +41,6 @@ set(LEAF_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/leaf_server.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/http/connection_manager.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/http/request_handler.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/http/status_strings.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/http/stock_replies.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/models/leaf_server_configuration.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/configuration_loaders/leaf_server_configuration_loader.hpp
 

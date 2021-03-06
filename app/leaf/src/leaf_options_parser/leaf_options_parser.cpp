@@ -13,22 +13,22 @@ using namespace Leaf::LeafProcessManager;
 
 LeafOptionsParser::LeafOptionsParser(Models::LeafProcessManagerOptions *serverOptions) :
         _notifier(serverOptions),
-        _serverCliRequiredOptionsDescription("Required options"),
-        _serverCliOptionalOptionsDescription("Optional options"),
+        _cliRequiredOptionsDescription("Required options"),
+        _cliOptionalOptionsDescription("Optional options"),
         _leafProcessManagerOptions(serverOptions) {
 
-    _serverConfigFileValue = boost::program_options::value<std::string>()
+    _configFileValue = boost::program_options::value<std::string>()
             ->notifier(_notifier.makeServerConfigFileNotifier());
 
-    _serverCliRequiredOptionsDescription.add_options()
+    _cliRequiredOptionsDescription.add_options()
             (CliOptions::SERVER_CONFIG_FILE,
-             _serverConfigFileValue,
+             _configFileValue,
              "set the config .ini file path for the leaf_server.");
 
-    _serverCliOptionalOptionsDescription.add_options()
+    _cliOptionalOptionsDescription.add_options()
             (CliOptions::HELP, "display this help message");
 
-    _serverEnvOptionsDescription.add_options()
+    _envOptionsDescription.add_options()
             (EnvOptions::SERVER_CONFIG_FILE,
              boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier()));
 
@@ -46,7 +46,7 @@ LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, 
 
     boost::program_options::basic_parsed_options<char> optionalOptions =
             boost::program_options::command_line_parser(ac, av)
-                    .options(_serverCliOptionalOptionsDescription)
+                    .options(_cliOptionalOptionsDescription)
                     .allow_unregistered().run();
 
     boost::program_options::store(optionalOptions, optionalCommandLineArgs);
@@ -59,14 +59,14 @@ LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, 
     }
 
     if (_leafProcessManagerOptions->getServerConfigFilePath().empty()) { // make field required if not already set by the ENV
-        _serverConfigFileValue->required();
+        _configFileValue->required();
     }
 
     boost::program_options::variables_map requiredCommandLineArgs;
 
     boost::program_options::basic_parsed_options<char> requiredOptions =
             boost::program_options::command_line_parser(ac, av)
-                    .options(_serverCliRequiredOptionsDescription)
+                    .options(_cliRequiredOptionsDescription)
                     .allow_unregistered().run();
 
     boost::program_options::store(requiredOptions, requiredCommandLineArgs);
@@ -80,7 +80,7 @@ void LeafOptionsParser::parseEnvironment() {
 
     boost::program_options::store(
             boost::program_options::parse_environment(
-                    _serverEnvOptionsDescription,
+                    _envOptionsDescription,
                     [this](const std::string &envVar) -> std::string {
                         return this->matchEnvironmentVariable(envVar);
                     }),
@@ -93,8 +93,8 @@ std::string LeafOptionsParser::matchEnvironmentVariable(const std::string &envVa
     if (!boost::algorithm::contains(envVar, EnvOptions::ENV_PREFIX)) return "";
 
     bool matched = std::any_of(
-            this->_serverEnvOptionsDescription.options().cbegin(),
-            this->_serverEnvOptionsDescription.options().cend(),
+            this->_envOptionsDescription.options().cbegin(),
+            this->_envOptionsDescription.options().cend(),
             [envVar](const boost::shared_ptr<boost::program_options::option_description> &opt) {
                 return envVar == opt->long_name();
             });
@@ -104,8 +104,8 @@ std::string LeafOptionsParser::matchEnvironmentVariable(const std::string &envVa
 void LeafOptionsParser::displayHelp() {
     std::cout << "Leaf: " << Utils::BuildInfo() << std::endl;
     std::cout << "Usage: [--option=value] [--option]" << std::endl << std::endl;
-    std::cout << _serverCliRequiredOptionsDescription << std::endl;
-    std::cout << _serverCliOptionalOptionsDescription << std::endl;
+    std::cout << _cliRequiredOptionsDescription << std::endl;
+    std::cout << _cliOptionalOptionsDescription << std::endl;
 }
 
 std::function<void(const std::string &)> LeafOptionsParser::Notifier::makeServerConfigFileNotifier() {

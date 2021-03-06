@@ -10,7 +10,7 @@
 
 using namespace Leaf::LeafProcessManager;
 
-LeafProcessManager::LeafProcessManager() {
+LeafProcessManager::LeafProcessManager() : _processManagerOptions(new Models::LeafProcessManagerOptions) {
 
 }
 
