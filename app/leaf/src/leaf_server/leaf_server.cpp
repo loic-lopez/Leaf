@@ -5,15 +5,23 @@
 #include "leaf_server/configuration_loaders/leaf_server_configuration_loader.hpp"
 #include "leaf_server/leaf_server.hpp"
 
+#include <utility>
+
 using namespace Leaf::LeafServer;
 
-LeafServer::LeafServer(const std::string &serverIniPath)
-        : _thread(), _threadMustBeKilled(false), _serverIniPath(serverIniPath) {
+LeafServer::LeafServer(std::string serverIniPath)
+        : _thread(), _threadMustBeKilled(false), _serverIniPath(std::move(serverIniPath)),
+          _ioContext(1),
+          _signals(_ioContext),
+          _acceptor(_ioContext) {
 
 }
 
 LeafServer::LeafServer(const LeafServer &leafServer)
-        : _thread(), _threadMustBeKilled(false), _serverIniPath(leafServer._serverIniPath) {
+        : _thread(), _threadMustBeKilled(false), _serverIniPath(leafServer._serverIniPath),
+          _ioContext(1),
+          _signals(_ioContext),
+          _acceptor(_ioContext) {
 
 }
 
@@ -26,6 +34,10 @@ void LeafServer::onStart() const {
               << _serverConfiguration->listenAddr
               << ":" << _serverConfiguration->port
               << std::endl;
+}
+
+void LeafServer::stop() {
+
 }
 
 void LeafServer::join() {
@@ -49,3 +61,8 @@ void LeafServer::loadConfiguration() {
 
     _serverConfiguration.reset(serverConfigurationLoader.load(_serverIniPath));
 }
+
+void LeafServer::accept() {
+
+}
+

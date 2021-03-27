@@ -1,7 +1,7 @@
-
 ## Setup gtest
 enable_testing()
-include(${CMAKE_BINARY_DIR}/GTestConfig.cmake)
+
+find_package(GTest REQUIRED)
 
 include_directories(include)
 

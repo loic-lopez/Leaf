@@ -7,25 +7,29 @@
 
 #include <iostream>
 #include <thread>
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/signal_set.hpp>
+#include <boost/asio/ip/tcp.hpp>
 #include "leaf_server/models/leaf_server_configuration.hpp"
 
 namespace Leaf::LeafServer {
     class LeafServer {
-    private:
+    private: // initializer list
         std::thread _thread;
         bool _threadMustBeKilled;
-        std::unique_ptr<Models::LeafServerConfiguration> _serverConfiguration;
         const std::string _serverIniPath;
 
-    protected:
-        void onStart() const;
+        /// The io_context used to perform asynchronous operations.
+        boost::asio::io_context _ioContext;
 
-        void loadConfiguration();
+        /// The signal_set is used to register for process termination notifications.
+        boost::asio::signal_set _signals;
 
-        void serve();
+        /// Acceptor used to listen for incoming connections.
+        boost::asio::ip::tcp::acceptor _acceptor;
 
     public:
-        explicit LeafServer(const std::string &serverIniPath);
+        explicit LeafServer(std::string serverIniPath);
 
         LeafServer(const LeafServer &leafServer);
 
@@ -34,7 +38,22 @@ namespace Leaf::LeafServer {
         void join();
 
         void start();
+
+    private:
+        std::unique_ptr<Models::LeafServerConfiguration> _serverConfiguration;
+
+        void onStart() const;
+
+        void loadConfiguration();
+
+        void serve();
+
+        void accept();
+
+        void stop();
     };
+
+
 }
 
 
