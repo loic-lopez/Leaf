@@ -6,8 +6,5 @@ gtest/1.10.0
 gtest:build_gmock=True
 
 [generators]
-cmake_find_package_multi
+cmake_find_package
 cmake_paths
-cmake_multi
-markdown
-

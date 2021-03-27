@@ -62,8 +62,10 @@ conan_cmake_run(
         BASIC_SETUP
         CMAKE_TARGETS
         BUILD missing
+        SETTINGS compiler.cppstd=17
 )
 
+include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
 include_directories(app/leaf/include)
 
