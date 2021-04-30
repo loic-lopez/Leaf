@@ -3,6 +3,7 @@
 //
 
 #include <filesystem>
+#include <csignal>
 #include <boost/interprocess/detail/os_thread_functions.hpp>
 #include "utils/utils.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
@@ -16,7 +17,9 @@ LeafProcessManager::LeafProcessManager() : _processManagerOptions(new Models::Le
 
 LeafProcessManager::~LeafProcessManager() = default;
 
-void LeafProcessManager::onStart() {
+void LeafProcessManager::displayBanner() {
+    std::cout << "Leaf: " << Utils::BuildInfo() << std::endl << std::endl;
+
     std::cout
             << R"(     .\^/.                                            .\^/.
    . |`|/| .                                        . |`|/| .
@@ -26,13 +29,13 @@ void LeafProcessManager::onStart() {
   >`-._|/.-'<     | |___  |  __/ | (_| | |  _|     >`-._|/.-'<
  '~|/~~|~~\|~'    |_____|  \___|  \__,_| |_|      '~|/~~|~~\|~'
        |                                                |)" << std::endl;
-    std::cout << "Leaf: " << Utils::BuildInfo() << std::endl;
+
     std::cout << "Started Leaf with PID " << boost::interprocess::ipcdetail::get_current_process_id()
               << " {MOVE TO LOG}" << std::endl;
 }
 
 void LeafProcessManager::waitForServers() {
-    for (LeafServer::LeafServer &leafServer : this->_leafServers) {
+    for (LeafServer::LeafServer &leafServer : _leafServers) {
         leafServer.join();
     }
 }
@@ -40,12 +43,12 @@ void LeafProcessManager::waitForServers() {
 void LeafProcessManager::loadLeafConfiguration() {
     ConfigurationLoaders::LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
     std::string configFilePath = _processManagerOptions->getServerConfigFilePath();
+    std::filesystem::current_path(std::filesystem::path(configFilePath).parent_path());
 
     std::cout << "Loading leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
     _processManagerConfiguration.reset(processManagerConfigurationLoader.load(configFilePath));
 
-
-    for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->serversRootPath)) {
+    for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath())) {
         if (p.is_regular_file()) {
             std::cout << "Creating LeafServer with config: " << p.path().string() << std::endl;
             _leafServers.emplace_back(p.path().string());
@@ -79,8 +82,23 @@ void LeafProcessManager::parseCommandLineArgs(int ac, const char **av) {
 
 
 void LeafProcessManager::start() {
-    onStart();
-    loadLeafConfiguration();
+    displayBanner();
+
+    try {
+        loadLeafConfiguration();
+    } catch (const std::exception &exception) {
+        std::cerr << "Leaf main thread encountered an error:" << std::endl;
+        std::cerr << exception.what() << std::endl;
+        std::exit(1);
+    }
     startServers();
     waitForServers();
+
+    std::cout << "Leaf main thread is shutting down: GoodBye" << std::endl;
 }
+
+LeafProcessManager &LeafProcessManager::GetInstance() {
+    static LeafProcessManager leafProcessManager;
+    return leafProcessManager;
+}
+

@@ -6,6 +6,7 @@
 #define LEAF_MAIN_SERVER_OPTIONS_HPP
 
 #include <string>
+#include <boost/filesystem/path.hpp>
 
 namespace Leaf::LeafProcessManager::Models {
 
@@ -18,7 +19,6 @@ namespace Leaf::LeafProcessManager::Models {
         [[nodiscard]] const std::string &getServerConfigFilePath() const;
 
         void setServerConfigFilePath(const std::string &serverConfigFilePath);
-
     };
 }
 
