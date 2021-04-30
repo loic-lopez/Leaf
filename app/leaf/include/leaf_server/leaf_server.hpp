@@ -40,13 +40,17 @@ namespace Leaf::LeafServer {
         void start();
 
     private:
-        std::unique_ptr<Models::LeafServerConfiguration> _serverConfiguration;
+        std::shared_ptr<Models::LeafServerConfiguration> _serverConfiguration;
 
-        void onStart() const;
+        void initialize();
 
         void loadConfiguration();
 
         void serve();
+
+        void run();
+
+        void registerSignalsAwaitStopCallback();
 
         void accept();
 

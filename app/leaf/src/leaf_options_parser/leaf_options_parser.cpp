@@ -9,7 +9,6 @@
 #include "leaf_options_parser/leaf_options_parser.hpp"
 
 using namespace Leaf;
-using namespace Leaf::LeafProcessManager;
 
 LeafOptionsParser::LeafOptionsParser(Models::LeafProcessManagerOptions *serverOptions) :
         _notifier(serverOptions),
@@ -95,7 +94,7 @@ std::string LeafOptionsParser::matchEnvironmentVariable(const std::string &envVa
     bool matched = std::any_of(
             this->_envOptionsDescription.options().cbegin(),
             this->_envOptionsDescription.options().cend(),
-            [envVar](const boost::shared_ptr<boost::program_options::option_description> &opt) {
+            [envVar](const boost::shared_ptr<boost::program_options::option_description> &opt) -> bool {
                 return envVar == opt->long_name();
             });
     return matched ? envVar : "";

@@ -22,9 +22,9 @@ TEST_F(LeafProcessManagerConfigurationLoaderTest,
 
     _processManagerConfiguration = processManagerConfigurationLoader.load("../conf/leaf.ini");
 
-    ASSERT_TRUE(!_processManagerConfiguration->mimeTypesConfigFile.empty());
-    ASSERT_TRUE(!_processManagerConfiguration->leafLogDirectory.empty());
-    ASSERT_TRUE(!_processManagerConfiguration->serversRootPath.empty());
+    ASSERT_TRUE(!_processManagerConfiguration->getMimeTypesConfigFilePath().empty());
+    ASSERT_TRUE(!_processManagerConfiguration->getLeafLogDirectoryPath().empty());
+    ASSERT_TRUE(!_processManagerConfiguration->getLeafLogDirectoryPath().empty());
 }
 
 TEST_F(LeafProcessManagerConfigurationLoaderTest,
