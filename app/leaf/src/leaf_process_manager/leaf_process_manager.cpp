@@ -35,8 +35,8 @@ void LeafProcessManager::displayBanner() {
 }
 
 void LeafProcessManager::waitForServers() {
-    for (LeafServer::LeafServer &leafServer : _leafServers) {
-        leafServer.join();
+    for (auto &leafServer : _leafServers) {
+        leafServer->join();
     }
 }
 
@@ -51,14 +51,16 @@ void LeafProcessManager::loadLeafConfiguration() {
     for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath())) {
         if (p.is_regular_file()) {
             std::cout << "Creating LeafServer with config: " << p.path().string() << std::endl;
-            _leafServers.emplace_back(p.path().string());
+            std::shared_ptr<LeafServer::LeafServer> leafServerPtr = std::make_shared<LeafServer::LeafServer>(
+                    p.path().string());
+            _leafServers.push_back(std::move(leafServerPtr));
         }
     }
 }
 
 void LeafProcessManager::startServers() {
     for (auto &leafServer : _leafServers)
-        leafServer.start();
+        leafServer->start();
 }
 
 void LeafProcessManager::parseCommandLineArgs(int ac, const char **av) {

@@ -31,7 +31,7 @@ namespace Leaf::LeafServer {
     public:
         explicit LeafServer(std::string serverIniPath);
 
-        LeafServer(const LeafServer &leafServer);
+        LeafServer(const LeafServer &leafServer) = delete;
 
         virtual ~LeafServer();
 
