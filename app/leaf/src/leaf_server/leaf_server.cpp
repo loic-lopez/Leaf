@@ -27,15 +27,6 @@ LeafServer::LeafServer(std::string serverIniPath)
     registerSignalsAwaitStopCallback();
 }
 
-LeafServer::LeafServer(const LeafServer &leafServer)
-        : _thread(), _threadMustBeKilled(false), _serverIniPath(leafServer._serverIniPath),
-          _ioContext(1),
-          _signals(_ioContext),
-          _acceptor(_ioContext) {
-
-    registerSignalsAwaitStopCallback();
-}
-
 LeafServer::~LeafServer() {
     join();
 }
@@ -109,21 +100,20 @@ void LeafServer::run() {
 }
 
 void LeafServer::accept() {
-    _acceptor.async_accept(
-            [this](boost::system::error_code ec, boost::asio::ip::tcp::socket) {
-                // Check whether the server was stopped by a signal before this
-                // completion handler had a chance to run.
-                if (!_acceptor.is_open()) {
-                    return;
-                }
+    _acceptor.async_accept([this](boost::system::error_code ec, boost::asio::ip::tcp::socket) {
+        // Check whether the server was stopped by a signal before this
+        // completion handler had a chance to run.
+        if (!_acceptor.is_open()) {
+            return;
+        }
 
-                if (!ec) {
-                    /* connection_manager_.start(std::make_shared<connection>(
-                             std::move(socket), connection_manager_, request_handler_));*/
-                }
+        if (!ec) {
+            /* connection_manager_.start(std::make_shared<connection>(
+                     std::move(socket), connection_manager_, request_handler_));*/
+        }
 
-                accept();
-            });
+        accept();
+    });
 }
 
 void LeafServer::registerSignalsAwaitStopCallback() {

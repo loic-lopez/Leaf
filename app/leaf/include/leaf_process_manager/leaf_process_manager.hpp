@@ -42,7 +42,7 @@ namespace Leaf::LeafProcessManager {
     private:
         std::unique_ptr<Models::LeafProcessManagerOptions> _processManagerOptions;
         std::unique_ptr<Models::LeafProcessManagerConfiguration> _processManagerConfiguration;
-        std::vector<LeafServer::LeafServer> _leafServers;
+        std::vector<std::shared_ptr<LeafServer::LeafServer>> _leafServers;
     };
 }
 

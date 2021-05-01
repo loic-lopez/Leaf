@@ -69,7 +69,4 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 include_directories(app/leaf/include)
 
 add_subdirectory(app)
-
-
-
-
+add_subdirectory(conf)
