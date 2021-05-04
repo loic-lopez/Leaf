@@ -3,7 +3,6 @@
 //
 
 #include <filesystem>
-#include <csignal>
 #include <boost/interprocess/detail/os_thread_functions.hpp>
 #include "utils/utils.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
@@ -11,7 +10,8 @@
 
 using namespace Leaf::LeafProcessManager;
 
-LeafProcessManager::LeafProcessManager() : _processManagerOptions(new Models::LeafProcessManagerOptions) {
+LeafProcessManager::LeafProcessManager() : _processManagerOptions(
+        std::make_unique<Models::LeafProcessManagerOptions>()) {
 
 }
 
