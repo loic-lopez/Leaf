@@ -3,12 +3,8 @@ name: Build & Push cmake_with_conan container
 on:
   push:
     branches: [ main ]
-    paths:
-      - "docker/cmake_with_conan/**"
   pull_request:
     branches: [ main ]
-    paths:
-      - "docker/cmake_with_conan/**"
 
 jobs:
   build:
