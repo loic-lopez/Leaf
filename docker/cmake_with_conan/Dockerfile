@@ -1,8 +1,6 @@
 FROM debian:bullseye-slim
 
-RUN apt-get update
-
-RUN apt-get install g++ python3-pip wget make libssl-dev -y
+RUN apt-get update && apt-get install g++ python3-pip wget make libssl-dev -y
 
 WORKDIR /tmp
 
@@ -10,8 +8,9 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.20.2/cmake-3.20.2
     tar -xzvf cmake-3.20.2.tar.gz
 
 RUN cd cmake-3.20.2 && \
-    ./bootstrap && \
-    make -j4 && \
+    ./bootstrap
+
+RUN make -j4 && \
     make install
 
 RUN rm -rf /tmp/*

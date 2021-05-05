@@ -1,0 +1,20 @@
+name: Build & Push cmake_with_conan container
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "docker/cmake_with_conan"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "docker/cmake_with_conan"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
