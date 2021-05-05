@@ -3,8 +3,12 @@ name: Build & Push cmake_with_conan container
 on:
   push:
     branches: [ main ]
+    paths:
+      - "docker/cmake_with_conan/**"
   pull_request:
     branches: [ main ]
+    paths:
+      - "docker/cmake_with_conan/**"
 
 jobs:
   build:
@@ -21,6 +25,7 @@ jobs:
           versionSpec: '5.x'
 
       - name: Determine Version
+        id: gitversion
         uses: gittools/actions/gitversion/execute@v0.9.7
 
       - name: Build container
