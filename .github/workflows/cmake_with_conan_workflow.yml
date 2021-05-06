@@ -74,11 +74,11 @@ jobs:
       - name: Tag latest container
         run: docker tag ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }} ghcr.io/loic-lopez/cmake_with_conan:latest
 
-      - name: Push ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }} container
-        run: docker push ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }}
-
       - name: Login to ghcr.io registry
         run: echo ${{ secrets.PUSH_CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+      - name: Push ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }} container
+        run: docker push ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }}
 
       - name: Push ghcr.io/loic-lopez/cmake_with_conan:latest container
         run: docker push ghcr.io/loic-lopez/cmake_with_conan:latest

@@ -1,6 +1,6 @@
-FROM debian:bullseye-slim
+FROM debian:bullseye-slim as cmake_builder
 
-RUN apt-get update && apt-get install g++ python3-pip wget make libssl-dev -y
+RUN apt-get update && apt-get install g++ wget make libssl-dev -y
 
 WORKDIR /tmp
 
@@ -14,13 +14,19 @@ RUN cd cmake-3.20.2 && \
 
 RUN rm -rf /tmp/*
 
+FROM debian:bullseye-slim
+
+COPY --from=cmake_builder /usr/local /usr/local
+
+RUN apt-get update && apt-get install g++ python3-pip make -y
+
 RUN adduser --disabled-password --gecos "" leaf
 
 USER leaf
 
-RUN pip install conan
-
 ENV PATH="$PATH:/home/leaf/.local/bin"
+
+RUN pip install conan
 
 RUN mkdir -p /home/leaf/workspace/build
 
