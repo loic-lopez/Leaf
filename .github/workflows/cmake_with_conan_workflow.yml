@@ -69,7 +69,7 @@ jobs:
           path: cmake_with_conan/
 
       - name: Load cmake_with_conan:${{ needs.build.outputs.semVer }} Docker image
-        run: docker load < cmake_with_conan/${{ steps.build.outputs.artifactName }}
+        run: docker load < cmake_with_conan/${{ needs.build.outputs.artifactName }}
 
       - name: Tag latest container
         run: docker tag ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }} ghcr.io/loic-lopez/cmake_with_conan:latest
