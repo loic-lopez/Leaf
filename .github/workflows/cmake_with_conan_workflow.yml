@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      semVer: v${{ steps.gitversion.outputs.semVer }}
+      semVer: ${{ steps.prefixed_semver.outputs.semVer }}
       branchName: ${{ steps.gitversion.outputs.branchName }}
     steps:
       - uses: actions/checkout@v2
@@ -33,9 +33,12 @@ jobs:
         with:
           useConfigFile: true
 
-      - name: Build container
-        run: |
-          docker build -t ghcr.io/loic-lopez/cmake_with_conan:${{ steps.gitversion.outputs.semVer }} docker/cmake_with_conan
+      - name: Add prefix to semVer calculated by GitVersion
+        id: prefixed_semver
+        run: echo '::set-output name=semVer::v${{ steps.gitversion.outputs.semVer }}'
+
+      - name: Build ghcr.io/loic-lopez/cmake_with_conan:${{ steps.prefixed_semver.outputs.semVer }} container
+        run: docker build -t ghcr.io/loic-lopez/cmake_with_conan:${{ steps.prefixed_semver.outputs.semVer }} docker/cmake_with_conan
 
   push:
     runs-on: ubuntu-latest
