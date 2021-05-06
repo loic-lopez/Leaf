@@ -14,7 +14,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    outputs:
+      semVer: ${{ steps.prefixed_semver.outputs.semVer }}
+      branchName: ${{ steps.gitversion.outputs.branchName }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -31,23 +33,26 @@ jobs:
         with:
           useConfigFile: true
 
-      - name: Build container
-        run: |
-          docker build -t ghcr.io/loic-lopez/cmake_with_conan:${{ steps.gitversion.outputs.semVer }} docker/cmake_with_conan
+      - name: Add prefix to semVer calculated by GitVersion
+        id: prefixed_semver
+        run: echo '::set-output name=semVer::v${{ steps.gitversion.outputs.semVer }}'
+
+      - name: Build ghcr.io/loic-lopez/cmake_with_conan:${{ steps.prefixed_semver.outputs.semVer }} container
+        run: docker build -t ghcr.io/loic-lopez/cmake_with_conan:${{ steps.prefixed_semver.outputs.semVer }} docker/cmake_with_conan
 
   push:
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: contains(needs.build.outputs.branchName, 'main')
     steps:
       - name: Login to ghcr.io registry
-        run: |
-          echo ${{ secrets.PUSH_CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        run: echo ${{ secrets.PUSH_CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
 
-      - name: Tag container
-        run: |
-          docker build -t ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }} docker/cmake_with_conan
+      - name: Tag latest container
+        run: docker tag ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }} ghcr.io/loic-lopez/cmake_with_conan:latest
 
-      - name: Push container
-        run: |
-          docker push ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }}
+      - name: Push ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }} container
+        run: docker push ghcr.io/loic-lopez/cmake_with_conan:${{ needs.build.outputs.semVer }}
+
+      - name: Push ghcr.io/loic-lopez/cmake_with_conan:latest container
+        run: docker push ghcr.io/loic-lopez/cmake_with_conan:latest
