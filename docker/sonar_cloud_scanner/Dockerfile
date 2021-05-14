@@ -17,19 +17,19 @@ RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip \
 
 RUN rm *.zip
 
-FROM ghcr.io/loic-lopez/cmake_with_conan:v0.1.33
+FROM ghcr.io/loic-lopez/cmake_with_conan:latest
 
 LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
 LABEL org.opencontainers.image.title="sonar_cloud_scanner"
 
-RUN mkdir -p /home/leaf/bin/build-wrapper-linux-x86
-RUN mkdir -p /home/leaf/bin/sonar-scanner-cli
+RUN mkdir -p /sonar/build-wrapper-linux-x86
+RUN mkdir -p /sonar/sonar-scanner-cli
 
-COPY --from=sonar_cloud_scanner_builder /tools/build-wrapper-linux-x86 /home/leaf/bin/build-wrapper-linux-x86
+COPY --from=sonar_cloud_scanner_builder /tools/build-wrapper-linux-x86 /sonar/build-wrapper-linux-x86
 
-COPY --from=sonar_cloud_scanner_builder /tools/sonar-scanner-cli /home/leaf/bin/sonar-scanner-cli
+COPY --from=sonar_cloud_scanner_builder /tools/sonar-scanner-cli /sonar/sonar-scanner-cli
 
-ENV PATH=$PATH:/home/leaf/bin/build-wrapper-linux-x86
+ENV PATH=$PATH:/sonar/build-wrapper-linux-x86
 
-ENV PATH=$PATH:/home/leaf/bin/sonar-scanner-cli/bin
+ENV PATH=$PATH:/sonar/sonar-scanner-cli/bin
