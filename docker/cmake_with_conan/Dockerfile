@@ -24,16 +24,4 @@ COPY --from=cmake_builder /usr/local /usr/local
 
 RUN apt-get update && apt-get install g++ python3-pip make -y
 
-RUN adduser --disabled-password --gecos "" leaf
-
-USER leaf
-
-ENV PATH="$PATH:/home/leaf/.local/bin"
-
 RUN pip install conan
-
-RUN mkdir -p /home/leaf/workspace/build
-
-VOLUME /home/leaf/workspace/leaf
-
-WORKDIR /home/leaf/workspace/
