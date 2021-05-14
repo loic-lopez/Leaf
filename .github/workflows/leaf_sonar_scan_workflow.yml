@@ -1,0 +1,44 @@
+name: Scan Leaf project with sonar cloud
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "app/**"
+      - ".github/workflows/leaf_sonar_scan_workflow.yml"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "app/**"
+      - ".github/workflows/leaf_sonar_scan_workflow.yml"
+  workflow_dispatch:
+
+jobs:
+  build_and_scan:
+    runs-on: ubuntu-latest
+    container: ghcr.io/loic-lopez/sonar_cloud_scanner:latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Create build folder
+        run: mkdir build
+
+      - name: Run CMake build
+        working-directory: build
+        run: cmake ../
+
+      - name: Compile Leaf with Sonar build-wrapper-linux-x86-64
+        run: build-wrapper-linux-x86-64 --out-dir sonar-bw-outputs make -j4
+        working-directory: build
+
+      - name: Launch SonarCloud scan
+        working-directory: ${{ env.source_directory }}
+        run: |
+          sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
