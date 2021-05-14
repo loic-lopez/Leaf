@@ -16,6 +16,10 @@ RUN rm -rf /tmp/*
 
 FROM debian:bullseye-slim
 
+LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
+LABEL org.opencontainers.image.authors="Loïc LOPEZ"
+LABEL org.opencontainers.image.title="cmake_with_conan"
+
 COPY --from=cmake_builder /usr/local /usr/local
 
 RUN apt-get update && apt-get install g++ python3-pip make -y
