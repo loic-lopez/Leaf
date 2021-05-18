@@ -11,9 +11,9 @@ Leaf::LeafProcessManager::Models::LeafProcessManagerConfiguration::LeafProcessMa
         const std::string &leafLogDirectoryPath,
         const std::string &mimeTypesConfigFilePath
 ) :
-        serversRootPath(boost::filesystem::canonical(serversRootPath).string()),
-        leafLogDirectoryPath(boost::filesystem::canonical(leafLogDirectoryPath).string()),
-        mimeTypesConfigFilePath(boost::filesystem::canonical(mimeTypesConfigFilePath).string()) {
+        serversRootPath(boost::filesystem::weakly_canonical(serversRootPath).string()),
+        leafLogDirectoryPath(boost::filesystem::weakly_canonical(leafLogDirectoryPath).string()),
+        mimeTypesConfigFilePath(boost::filesystem::weakly_canonical(mimeTypesConfigFilePath).string()) {
 }
 
 const std::string &Leaf::LeafProcessManager::Models::LeafProcessManagerConfiguration::getServersRootPath() const {
