@@ -1,0 +1,15 @@
+//
+// Created by LoicL on 12/12/2020.
+//
+
+#ifndef LEAF_TESTS_UTILS
+#define LEAF_TESTS_UTILS
+
+#include <string>
+
+namespace Leaf::Tests::Config {
+    const std::string RootDirectory = "@LEAF_CONFIG_ROOT_PATH@";
+}
+
+
+#endif //LEAF_TESTS_UTILS

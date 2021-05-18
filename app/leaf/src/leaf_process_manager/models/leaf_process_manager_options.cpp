@@ -11,5 +11,5 @@ const std::string &Leaf::LeafProcessManager::Models::LeafProcessManagerOptions::
 
 void Leaf::LeafProcessManager::Models::LeafProcessManagerOptions::setServerConfigFilePath(
         const std::string &serverConfigFilePath) {
-    _serverConfigFilePath = boost::filesystem::canonical(serverConfigFilePath).string();
+    _serverConfigFilePath = boost::filesystem::weakly_canonical(serverConfigFilePath).string();
 }
