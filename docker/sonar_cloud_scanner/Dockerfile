@@ -23,10 +23,11 @@ LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
 LABEL org.opencontainers.image.title="sonar_cloud_scanner"
 
-RUN apt-get update && apt-get install git -y
+RUN apt-get update && apt-get install git gcovr -y
 
 RUN mkdir -p /sonar/build-wrapper-linux-x86
 RUN mkdir -p /sonar/sonar-scanner-cli
+RUN mkdir -p /sonar/bin
 
 COPY --from=sonar_cloud_scanner_builder /tools/build-wrapper-linux-x86 /sonar/build-wrapper-linux-x86
 
@@ -35,3 +36,7 @@ COPY --from=sonar_cloud_scanner_builder /tools/sonar-scanner-cli /sonar/sonar-sc
 ENV PATH=$PATH:/sonar/build-wrapper-linux-x86
 
 ENV PATH=$PATH:/sonar/sonar-scanner-cli/bin
+
+COPY ./scripts/sonar_test_report_converter.py /sonar/bin/sonar_test_report_converter
+
+ENV PATH=$PATH:/sonar/bin
