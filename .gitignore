@@ -36,3 +36,5 @@
 /cmake-build-relwithdebinfo/
 /cmake-build-*
 /.idea/
+/build*
+

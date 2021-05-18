@@ -68,5 +68,16 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
 include_directories(app/leaf/include)
 
-add_subdirectory(app)
+# configure tests
+enable_testing()
+
+## Output dirs
+set(LEAF_CONFIG_ROOT_PATH ${CMAKE_BINARY_DIR}/conf)
+set(LEAF_SERVERS_ROOT_PATH ${LEAF_CONFIG_ROOT_PATH})
+set(LEAF_LOG_DIR_ROOT_PATH ${CMAKE_BINARY_DIR}/log)
+
+# conf
 add_subdirectory(conf)
+
+# sources
+add_subdirectory(app)

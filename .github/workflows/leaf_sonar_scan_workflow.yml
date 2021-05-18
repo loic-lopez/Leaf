@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_scan:
+  build_test_and_scan:
     runs-on: ubuntu-latest
     container: ghcr.io/loic-lopez/sonar_cloud_scanner:latest
     defaults:
@@ -31,14 +31,28 @@ jobs:
 
       - name: Run CMake build
         working-directory: build
-        run: cmake ../
+        run: cmake -DLEAF_CODE_COVERAGE:BOOL=ON ../
 
       - name: Compile Leaf with Sonar build-wrapper-linux-x86-64
         run: build-wrapper-linux-x86-64 --out-dir sonar-bw-outputs make -j4
         working-directory: build
 
+      - name: Create reports output directories
+        working-directory: build
+        run: mkdir -p test_reports/sonar/ && mkdir -p test_reports/gtest/
+
+      - name: Launch GTest tests with CTest wrapper
+        run: ctest --verbose
+        working-directory: build
+
+      - name: Run gcovr tool
+        run: gcovr --sonarqube=test_reports/sonar/coverage.xml --print-summary -r .. --filter ../app/leaf -e ".*main\.cpp"
+        working-directory: build
+
+      - name: Convert GTest output to SonarCloud Generic Execution Report
+        run: sonar_test_report_converter -t gtest --search_folder build/test_reports/gtest --gtest_src_folder app/tests/src -o build/test_reports/sonar/tests_results.xml --report_pattern=".xml" --gtest_src_pattern=".cpp"
+
       - name: Launch SonarCloud scan
-        working-directory: ${{ env.source_directory }}
         run: |
           sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
         env:

@@ -10,6 +10,15 @@ find_package(Boost EXACT COMPONENTS program_options filesystem thread REQUIRED)
 
 set(LEAF_ENABLED_BOOST_LIBRARIES Boost::program_options Boost::thread Boost::filesystem)
 
+option(LEAF_CODE_COVERAGE "LEAF_CODE_COVERAGE" OFF)
+
+if (NOT MSVC AND LEAF_CODE_COVERAGE)
+    SET(GCC_COVERAGE_COMPILE_FLAGS "-g -O0 -coverage -fprofile-arcs -ftest-coverage")
+    SET(GCC_COVERAGE_LINK_FLAGS    "-coverage -lgcov")
+    SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
+    SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}" )
+endif()
+
 # Include Leaf
 add_subdirectory(leaf)
 
