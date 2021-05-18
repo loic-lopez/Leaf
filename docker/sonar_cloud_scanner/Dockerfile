@@ -39,4 +39,6 @@ ENV PATH=$PATH:/sonar/sonar-scanner-cli/bin
 
 COPY ./scripts/sonar_test_report_converter.py /sonar/bin/sonar_test_report_converter
 
+RUN chmod +x /sonar/bin/sonar_test_report_converter
+
 ENV PATH=$PATH:/sonar/bin
