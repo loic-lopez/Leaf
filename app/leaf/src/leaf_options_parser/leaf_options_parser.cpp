@@ -12,8 +12,6 @@ using namespace Leaf;
 
 LeafOptionsParser::LeafOptionsParser(Models::LeafProcessManagerOptions *serverOptions) :
         _notifier(serverOptions),
-        _cliRequiredOptionsDescription("Required options"),
-        _cliOptionalOptionsDescription("Optional options"),
         _leafProcessManagerOptions(serverOptions) {
 
     _configFileValue = boost::program_options::value<std::string>()
