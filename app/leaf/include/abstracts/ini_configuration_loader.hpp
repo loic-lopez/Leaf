@@ -12,7 +12,7 @@
 
 namespace Leaf::Abstracts {
 
-    template<class Model>
+    template<template<class> class stl_memory_container, class Model>
     class INIConfigurationLoader {
     protected:
         const std::vector<std::string> _sections;
@@ -24,7 +24,7 @@ namespace Leaf::Abstracts {
         checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string &configFilePath);
 
     public:
-        virtual Model *load(const std::string &configFilePath) = 0;
+        virtual stl_memory_container<Model> load(const std::string &configFilePath) = 0;
 
         explicit INIConfigurationLoader(std::vector<std::string> sections);
     };

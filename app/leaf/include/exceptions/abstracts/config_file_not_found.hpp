@@ -22,9 +22,8 @@ namespace Leaf::Exceptions::Abstracts {
     public:
         explicit ConfigFileNotFound(
                 std::string configFilePath,
-                char const *atFunction,
-                int atLine,
-                int _errno
+                int _errno,
+                const boost::source_location &location
         );
     };
 }

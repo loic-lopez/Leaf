@@ -31,7 +31,7 @@ jobs:
 
       - name: Run CMake build
         working-directory: build
-        run: cmake -DLEAF_CODE_COVERAGE:BOOL=ON ../
+        run: cmake -DCMAKE_BUILD_TYPE=Debug -DLEAF_CODE_COVERAGE:BOOL=ON ../
 
       - name: Compile Leaf with Sonar build-wrapper-linux-x86-64
         run: build-wrapper-linux-x86-64 --out-dir sonar-bw-outputs make -j4
@@ -46,7 +46,7 @@ jobs:
         working-directory: build
 
       - name: Run gcovr tool
-        run: gcovr --sonarqube=test_reports/sonar/coverage.xml --print-summary -r .. --filter ../app/leaf -e ".*main\.cpp"
+        run: gcovr --sonarqube=test_reports/sonar/coverage.xml --print-summary -r .. -e ".*main\.cpp"
         working-directory: build
 
       - name: Convert GTest output to SonarCloud Generic Execution Report

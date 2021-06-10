@@ -17,8 +17,7 @@ namespace Leaf::Exceptions {
         explicit IniSectionNotFound(
                 std::string section,
                 std::string configFilePath,
-                char const *atFunction,
-                int atLine
+                const boost::source_location &location
         );
 
     protected:

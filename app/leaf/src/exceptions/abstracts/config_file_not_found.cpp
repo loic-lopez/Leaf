@@ -6,16 +6,15 @@
 
 void Leaf::Exceptions::Abstracts::ConfigFileNotFound::buildStdExceptionMessage(const char *exceptionClassName) {
     _msg = exceptionClassName;
-    _msg += " exception raised: this means the";
-    _msg += " config file located at " + _configFilePath + " doesn't exists.";
+    _msg += " exception raised:\n";
+    _msg += "this means config file located at " + _configFilePath + " doesn't exists.";
 }
 
 Leaf::Exceptions::Abstracts::ConfigFileNotFound::ConfigFileNotFound(
         std::string configFilePath,
-        const char *atFunction,
-        int atLine,
-        int _errno
-) : ExceptionWithErrno(atFunction, atLine, _errno), _configFilePath(std::move(configFilePath)) {
+        int _errno,
+        const boost::source_location &location
+) : ExceptionWithErrno(location, _errno), _configFilePath(std::move(configFilePath)) {
 
 }
 

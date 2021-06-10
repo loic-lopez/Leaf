@@ -31,7 +31,9 @@ namespace Leaf::Models::Http {
             not_implemented = 501,
             bad_gateway = 502,
             service_unavailable = 503
-        } status;
+        };
+
+        Status status;
 
         /// The headers to be included in the reply.
         std::vector<HttpHeader> headers;
