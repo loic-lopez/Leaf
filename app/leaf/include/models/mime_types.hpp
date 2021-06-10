@@ -15,9 +15,9 @@ namespace Leaf::Models {
 
         inline static const char DEFAULT[] = "text/plain";
 
-        std::string extensionToType(const std::string &extension) {
+        [[nodiscard]] std::string extensionToType(const std::string &extension) const {
             for (const MimeType &mimeType : mimeTypes) {
-                for (const std::string &ext : mimeType.extensions) {
+                for (std::string_view ext : mimeType.extensions) {
                     if (ext == extension) {
                         return mimeType.type;
                     }

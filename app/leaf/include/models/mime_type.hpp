@@ -13,13 +13,13 @@ namespace Leaf::Models {
 
     class MimeType {
     public:
+        const std::vector<std::string> extensions;
+        const std::string type;
+
         MimeType(std::string type, std::vector<std::string> extensions)
                 : extensions(std::move(extensions)), type(std::move(type)) {
 
         }
-
-        const std::vector<std::string> extensions;
-        const std::string type;
     };
 
 }
