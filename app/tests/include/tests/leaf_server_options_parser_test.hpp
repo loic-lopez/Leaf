@@ -11,21 +11,20 @@
 namespace Leaf::Tests {
     class LeafServerOptionsParserTest : public ::testing::Test {
     protected:
-        Leaf::LeafProcessManager::Models::LeafProcessManagerOptions *_processManagerOptions;
+        std::unique_ptr<Leaf::LeafProcessManager::Models::LeafProcessManagerOptions> _processManagerOptions;
 
         void SetUp() override {
             Test::SetUp();
-            _processManagerOptions = new Leaf::LeafProcessManager::Models::LeafProcessManagerOptions;
+            _processManagerOptions = std::make_unique<Leaf::LeafProcessManager::Models::LeafProcessManagerOptions>();
         }
 
         void TearDown() override {
             Test::TearDown();
-            delete _processManagerOptions;
             _processManagerOptions = nullptr;
         }
 
     public:
-        Leaf::LeafProcessManager::Models::LeafProcessManagerOptions *getServerOptions() {
+        std::unique_ptr<Leaf::LeafProcessManager::Models::LeafProcessManagerOptions> &getServerOptions() {
             return _processManagerOptions;
         }
     };

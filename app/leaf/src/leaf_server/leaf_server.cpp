@@ -83,7 +83,7 @@ void LeafServer::serve() {
 void LeafServer::loadConfiguration() {
     ConfigurationLoaders::LeafServerConfigurationLoader serverConfigurationLoader;
 
-    _serverConfiguration.reset(serverConfigurationLoader.load(_serverIniPath));
+    _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
 }
 
 

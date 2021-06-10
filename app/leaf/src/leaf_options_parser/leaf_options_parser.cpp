@@ -11,7 +11,7 @@
 using namespace Leaf;
 using namespace Leaf::LeafProcessManager;
 
-LeafOptionsParser::LeafOptionsParser(Models::LeafProcessManagerOptions *serverOptions) :
+LeafOptionsParser::LeafOptionsParser(LeafProcessManager::Models::LeafProcessManagerOptions * const serverOptions) :
         _notifier(serverOptions),
         _leafProcessManagerOptions(serverOptions) {
 
@@ -108,9 +108,9 @@ void LeafOptionsParser::displayHelp() {
 
 std::function<void(const std::string &)> LeafOptionsParser::Notifier::makeServerConfigFileNotifier() {
     return [this](const std::string &value) -> void {
-        this->_leafServerOptions->setServerConfigFilePath(value);
+        this->_leafProcessManagerOptions->setServerConfigFilePath(value);
     };
 }
 
 LeafOptionsParser::Notifier::Notifier(Models::LeafProcessManagerOptions *const leafServerOptions)
-        : _leafServerOptions(leafServerOptions) {}
+        : _leafProcessManagerOptions(leafServerOptions) {}

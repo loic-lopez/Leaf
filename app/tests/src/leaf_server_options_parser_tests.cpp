@@ -22,13 +22,13 @@ constexpr auto setEnv = [](const char *key, const char *value) {
 using namespace Leaf::Tests;
 
 TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_no_params_must_throw_required_option) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions());
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
     ASSERT_THROW(leafOptionsParser.parseCommandLineArgs(1, nullptr), boost::program_options::required_option);
 }
 
 TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must_without_required_param_must_throw) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions());
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
     const char *args[] = {"test", "--too"};
 
@@ -37,7 +37,7 @@ TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must
 
 
 TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must_not_throw) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions());
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
     std::string serverConfigFileArg = "--";
     serverConfigFileArg += Leaf::CliOptions::SERVER_CONFIG_FILE;
     serverConfigFileArg += "=some_path";
@@ -48,7 +48,7 @@ TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must
 
 
 TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_help_option_must_return_NEED_DISPLAY_HELP) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions());
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
     Leaf::LeafOptionsParser::Status leafOptionsParserParserStatus;
     const char *args[] = {"test", "--help"};
@@ -58,7 +58,7 @@ TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_help_option_must_r
 }
 
 TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_known_param_must_store_it) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions());
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
     std::string serverConfigFileArg = "--";
     serverConfigFileArg += Leaf::CliOptions::SERVER_CONFIG_FILE;
@@ -73,7 +73,7 @@ TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_known_param_must_s
 }
 
 TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_accept_a_good_env_var) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions());
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
     std::string serverConfEnvName = "LEAF_SERVER_CONFIG_FILE";
     setEnv(serverConfEnvName.c_str(), "some_path");
@@ -82,7 +82,7 @@ TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_accept_a_good_env_var)
 }
 
 TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_not_crash_on_undeclared_env_var_from_environment) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions());
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
     std::string serverConfEnvName = "LEAF_SERVER_CONFIG_FILE_FAIL";
     setEnv(serverConfEnvName.c_str(), "some_value");
@@ -91,7 +91,7 @@ TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_not_crash_on_undeclare
 }
 
 TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_not_throw_an_exception_when_not_env_var_is_provided) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions());
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
     ASSERT_NO_THROW(leafOptionsParser.parseEnvironment());
 }
@@ -107,7 +107,7 @@ public:
 };
 
 TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_a_good_variable) {
-    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions());
+    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
 
     std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable(
             Leaf::EnvOptions::SERVER_CONFIG_FILE);
@@ -117,7 +117,7 @@ TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_a_good_
 
 TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_an_empty_string_on_var_not_found) {
 
-    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions());
+    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
 
     std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable("LEAF_SOME_VAR");
 
@@ -126,7 +126,7 @@ TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_an_empt
 
 
 TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_an_empty_string_on_var_not_right_prefixed) {
-    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions());
+    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
 
     std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable("SOME_VAR");
 

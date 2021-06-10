@@ -43,7 +43,7 @@ void LeafProcessManager::loadLeafConfiguration() {
     std::filesystem::current_path(std::filesystem::path(configFilePath).parent_path());
 
     std::cout << "Loading leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
-    _processManagerConfiguration.reset(processManagerConfigurationLoader.load(configFilePath));
+    _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePath);
 
     for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath())) {
         if (p.is_regular_file()) {

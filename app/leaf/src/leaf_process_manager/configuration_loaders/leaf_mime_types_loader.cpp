@@ -10,7 +10,7 @@
 using namespace Leaf::Exceptions;
 using namespace Leaf::LeafProcessManager;
 
-Leaf::Models::MimeTypes *ConfigurationLoaders::MimeTypesLoader::load(const std::string &configFilePath) {
+std::unique_ptr<Leaf::Models::MimeTypes> ConfigurationLoaders::MimeTypesLoader::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<MimeTypesConfigFileNotFound>(configFilePath);
     std::vector<Models::MimeType> mimeTypes;
 
@@ -26,9 +26,7 @@ Leaf::Models::MimeTypes *ConfigurationLoaders::MimeTypesLoader::load(const std::
 
     std::cout << configFilePath << " successfully loaded." << std::endl;
 
-    return new Models::MimeTypes{
-            .mimeTypes = mimeTypes
-    };
+    return std::make_unique<Models::MimeTypes>(mimeTypes);
 }
 
 ConfigurationLoaders::MimeTypesLoader::MimeTypesLoader() : INIConfigurationLoader({MIME_TYPE_SECTION}) {

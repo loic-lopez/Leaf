@@ -10,13 +10,13 @@
 
 namespace Leaf::LeafProcessManager::ConfigurationLoaders {
     class LeafProcessManagerConfigurationLoader
-            : public Abstracts::INIConfigurationLoader<Models::LeafProcessManagerConfiguration> {
+            : public Abstracts::INIConfigurationLoader<std::unique_ptr, Models::LeafProcessManagerConfiguration> {
     public:
         inline static const char LEAF_SERVERS_SECTION[] = "LeafServers";
         inline static const char LEAF_CONFIGURATION_SECTION[] = "LeafConfiguration";
         inline static const char HTTP_CONFIGURATION_SECTION[] = "HttpConfiguration";
 
-        Models::LeafProcessManagerConfiguration *load(const std::string &configFilePath) override;
+        std::unique_ptr<Models::LeafProcessManagerConfiguration> load(const std::string &configFilePath) override;
 
         explicit LeafProcessManagerConfigurationLoader();
     };

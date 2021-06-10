@@ -42,7 +42,7 @@ namespace Leaf {
 
         class Notifier {
         private:
-            LeafProcessManager::Models::LeafProcessManagerOptions *const _leafServerOptions;
+            LeafProcessManager::Models::LeafProcessManagerOptions * const _leafProcessManagerOptions;
 
         public:
             explicit Notifier(LeafProcessManager::Models::LeafProcessManagerOptions *leafServerOptions);
