@@ -10,13 +10,9 @@
 
 using namespace Leaf::LeafProcessManager;
 
-LeafProcessManager::LeafProcessManager() {
-
-}
-
 LeafProcessManager::~LeafProcessManager() = default;
 
-void LeafProcessManager::displayBanner() {
+void LeafProcessManager::displayBanner() const {
     std::cout << "Leaf: " << Utils::BuildInfo() << std::endl << std::endl;
 
     std::cout
@@ -30,8 +26,8 @@ void LeafProcessManager::displayBanner() {
        |                                                |)" << std::endl;
 }
 
-void LeafProcessManager::waitForServers() {
-    for (auto &leafServer : _leafServers) {
+void LeafProcessManager::waitForServers() const {
+    for (const auto &leafServer : _leafServers) {
         leafServer->join();
     }
 }
@@ -47,8 +43,7 @@ void LeafProcessManager::loadLeafConfiguration() {
     for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath())) {
         if (p.is_regular_file()) {
             std::cout << "Creating LeafServer with config: " << p.path().string() << std::endl;
-            std::shared_ptr<LeafServer::LeafServer> leafServerPtr = std::make_shared<LeafServer::LeafServer>(
-                    p.path().string());
+            auto leafServerPtr = std::make_shared<LeafServer::LeafServer>(p.path().string());
             _leafServers.push_back(std::move(leafServerPtr));
         }
     }
@@ -56,12 +51,12 @@ void LeafProcessManager::loadLeafConfiguration() {
     std::cout << "Successfully loaded leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
 }
 
-void LeafProcessManager::startServers() {
-    for (auto &leafServer : _leafServers)
+void LeafProcessManager::startServers() const {
+    for (const auto &leafServer : _leafServers)
         leafServer->start();
 }
 
-void LeafProcessManager::parseCommandLineArgs(int ac, const char **av) {
+void LeafProcessManager::parseCommandLineArgs(int ac, const char **av) const {
     LeafOptionsParser optionsParser(_processManagerOptions.get());
 
     optionsParser.parseEnvironment();
@@ -69,7 +64,7 @@ void LeafProcessManager::parseCommandLineArgs(int ac, const char **av) {
 
     try {
         optionParserStatus = optionsParser.parseCommandLineArgs(ac, av);
-    } catch (const std::exception &exception) {
+    } catch (const Leaf::Interfaces::IException &exception) {
         std::cerr << exception.what() << std::endl;
         std::cout << "Displaying help: " << std::endl << std::endl;
     }

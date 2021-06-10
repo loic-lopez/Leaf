@@ -12,18 +12,18 @@
 namespace Leaf::LeafProcessManager {
     class LeafProcessManager {
     private:
-        void displayBanner();
+        void displayBanner() const;
 
-        void startServers();
+        void startServers() const;
 
         void loadLeafConfiguration();
 
-        void waitForServers();
+        void waitForServers() const;
 
-        LeafProcessManager();
+        LeafProcessManager() = default;
 
     public:
-        void parseCommandLineArgs(int ac, const char **av);
+        void parseCommandLineArgs(int ac, const char **av) const;
 
         void start();
 
@@ -44,6 +44,7 @@ namespace Leaf::LeafProcessManager {
                 std::make_unique<Models::LeafProcessManagerOptions>();
         std::unique_ptr<Models::LeafProcessManagerConfiguration> _processManagerConfiguration;
         std::vector<std::shared_ptr<LeafServer::LeafServer>> _leafServers;
+        inline static LeafProcessManager leafProcessManager;
     };
 }
 
