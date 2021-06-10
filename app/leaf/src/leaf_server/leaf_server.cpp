@@ -65,7 +65,7 @@ void LeafServer::join() {
 }
 
 void LeafServer::start() {
-    _thread = std::thread(&LeafServer::serve, this);
+    _thread = std::jthread(&LeafServer::serve, this);
 }
 
 void LeafServer::serve() {

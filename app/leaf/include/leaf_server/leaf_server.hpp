@@ -15,7 +15,7 @@
 namespace Leaf::LeafServer {
     class LeafServer {
     private: // initializer list
-        std::thread _thread;
+        std::jthread _thread;
         bool _threadMustBeKilled;
         const std::string _serverIniPath;
 
