@@ -14,14 +14,14 @@ Leaf::Models::MimeTypes *ConfigurationLoaders::MimeTypesLoader::load(const std::
     boost::property_tree::ptree pTree = this->initializeBoostPtree<MimeTypesConfigFileNotFound>(configFilePath);
     std::vector<Models::MimeType> mimeTypes;
 
-    for (const auto &mimeTypeLine : pTree.find(MimeTypesLoader::MIME_TYPE_SECTION)->second) {
-        std::string mimeTypeValues = mimeTypeLine.second.get_value<std::string>();
+    for (const auto &[first, second] : pTree.find(MimeTypesLoader::MIME_TYPE_SECTION)->second) {
+        auto mimeTypeValues = second.get_value<std::string>();
         std::vector<std::string> parsedMimeTypes;
 
         boost::trim(mimeTypeValues);
         boost::split(parsedMimeTypes, mimeTypeValues, boost::is_any_of(","));
 
-        mimeTypes.emplace_back(mimeTypeLine.first, parsedMimeTypes);
+        mimeTypes.emplace_back(first, parsedMimeTypes);
     }
 
     std::cout << configFilePath << " successfully loaded." << std::endl;
