@@ -29,6 +29,7 @@ std::unique_ptr<Leaf::Models::MimeTypes> ConfigurationLoaders::MimeTypesLoader::
     return std::make_unique<Models::MimeTypes>(mimeTypes);
 }
 
-ConfigurationLoaders::MimeTypesLoader::MimeTypesLoader() : INIConfigurationLoader({MIME_TYPE_SECTION}) {
+ConfigurationLoaders::MimeTypesLoader::MimeTypesLoader()
+: Abstracts::INIConfigurationLoader<std::unique_ptr, Leaf::Models::MimeTypes>({MIME_TYPE_SECTION}) {
 
 }

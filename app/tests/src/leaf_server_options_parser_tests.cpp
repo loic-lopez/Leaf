@@ -3,6 +3,8 @@
 //
 
 #include <cstdlib>
+#include "leaf_process_manager/leaf_process_manager.hpp"
+#include "tests/leaf_server_options_parser_test.hpp"
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 
@@ -16,9 +18,6 @@ constexpr auto setEnv = [](const char *key, const char *value) {
 
 #endif
 
-#include "leaf_process_manager/leaf_process_manager.hpp"
-#include "tests/leaf_server_options_parser_test.hpp"
-
 using namespace Leaf::Tests;
 
 TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_no_params_must_throw_required_option) {
@@ -30,9 +29,9 @@ TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_no_params_must_thr
 TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must_without_required_param_must_throw) {
     Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-    const char *args[] = {"test", "--too"};
+    std::array args = {"test", "--too"};
 
-    ASSERT_THROW(leafOptionsParser.parseCommandLineArgs(2, args), boost::program_options::required_option);
+    ASSERT_THROW(leafOptionsParser.parseCommandLineArgs(2, args.data()), boost::program_options::required_option);
 }
 
 
@@ -41,9 +40,9 @@ TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must
     std::string serverConfigFileArg = "--";
     serverConfigFileArg += Leaf::CliOptions::SERVER_CONFIG_FILE;
     serverConfigFileArg += "=some_path";
-    const char *args[] = {"test", serverConfigFileArg.c_str(), "--too"};
+    std::array args = {"test", serverConfigFileArg.c_str(), "--too"};
 
-    ASSERT_NO_THROW(leafOptionsParser.parseCommandLineArgs(2, args));
+    ASSERT_NO_THROW(leafOptionsParser.parseCommandLineArgs(2, args.data()));
 }
 
 
@@ -51,8 +50,8 @@ TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_help_option_must_r
     Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
     Leaf::LeafOptionsParser::Status leafOptionsParserParserStatus;
-    const char *args[] = {"test", "--help"};
-    leafOptionsParserParserStatus = leafOptionsParser.parseCommandLineArgs(2, args);
+    std::array args = {"test", "--help"};
+    leafOptionsParserParserStatus = leafOptionsParser.parseCommandLineArgs(2, args.data());
 
     ASSERT_EQ(leafOptionsParserParserStatus, Leaf::LeafOptionsParser::Status::NEED_DISPLAY_HELP);
 }
@@ -63,11 +62,11 @@ TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_known_param_must_s
     std::string serverConfigFileArg = "--";
     serverConfigFileArg += Leaf::CliOptions::SERVER_CONFIG_FILE;
     serverConfigFileArg += "=some_path";
-    const char *args[] = {"test", serverConfigFileArg.c_str()};
+    std::array args = {"test", serverConfigFileArg.c_str()};
 
     Leaf::LeafOptionsParser::Status leafOptionsParserParserStatus;
 
-    ASSERT_NO_THROW(leafOptionsParserParserStatus = leafOptionsParser.parseCommandLineArgs(2, args));
+    ASSERT_NO_THROW(leafOptionsParserParserStatus = leafOptionsParser.parseCommandLineArgs(2, args.data()));
     ASSERT_EQ(getServerOptions()->getServerConfigFilePath(), "some_path");
     ASSERT_EQ(leafOptionsParserParserStatus, Leaf::LeafOptionsParser::Status::SUCCESS);
 }
@@ -101,7 +100,7 @@ class LeafOptionsParser_Surcharged : public Leaf::LeafOptionsParser {
 public:
     using Leaf::LeafOptionsParser::LeafOptionsParser;
 
-    std::string matchEnvironmentVariableCallable(const std::string &envVar) {
+    [[nodiscard]] std::string matchEnvironmentVariableCallable(const std::string &envVar) const {
         return this->matchEnvironmentVariable(envVar);
     };
 };

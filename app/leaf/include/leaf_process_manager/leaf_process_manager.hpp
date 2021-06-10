@@ -40,7 +40,8 @@ namespace Leaf::LeafProcessManager {
         LeafProcessManager &operator=(LeafProcessManager &&) = delete;
 
     private:
-        std::unique_ptr<Models::LeafProcessManagerOptions> _processManagerOptions;
+        std::unique_ptr<Models::LeafProcessManagerOptions> _processManagerOptions =
+                std::make_unique<Models::LeafProcessManagerOptions>();
         std::unique_ptr<Models::LeafProcessManagerConfiguration> _processManagerConfiguration;
         std::vector<std::shared_ptr<LeafServer::LeafServer>> _leafServers;
     };

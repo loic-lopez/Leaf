@@ -10,17 +10,12 @@
 
 namespace Leaf::Tests {
     class LeafServerOptionsParserTest : public ::testing::Test {
-    protected:
+    private:
         std::unique_ptr<Leaf::LeafProcessManager::Models::LeafProcessManagerOptions> _processManagerOptions;
 
         void SetUp() override {
             Test::SetUp();
             _processManagerOptions = std::make_unique<Leaf::LeafProcessManager::Models::LeafProcessManagerOptions>();
-        }
-
-        void TearDown() override {
-            Test::TearDown();
-            _processManagerOptions = nullptr;
         }
 
     public:

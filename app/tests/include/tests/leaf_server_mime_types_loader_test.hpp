@@ -16,9 +16,6 @@ namespace Leaf::Tests {
             _mimeTypes = nullptr;
         }
 
-        void TearDown() override {
-            Test::TearDown();
-        }
 
     public:
         std::unique_ptr<Leaf::Models::MimeTypes> _mimeTypes;

@@ -73,16 +73,16 @@ LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, 
     return Status::SUCCESS;
 }
 
-void LeafOptionsParser::parseEnvironment() {
+void LeafOptionsParser::parseEnvironment() const {
     boost::program_options::variables_map envVars;
 
     boost::program_options::store(
-            boost::program_options::parse_environment(
-                    _envOptionsDescription,
-                    [this](const std::string &envVar) -> std::string {
-                        return this->matchEnvironmentVariable(envVar);
-                    }),
-            envVars
+        boost::program_options::parse_environment(
+                _envOptionsDescription,
+                [this](const std::string &envVar) -> std::string {
+                    return this->matchEnvironmentVariable(envVar);
+                }),
+        envVars
     );
     boost::program_options::notify(envVars);
 }

@@ -68,7 +68,7 @@ namespace Leaf {
 
         Status parseCommandLineArgs(int ac, const char **av);
 
-        void parseEnvironment();
+        void parseEnvironment() const;
 
         void displayHelp();
     };

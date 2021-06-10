@@ -10,8 +10,7 @@
 
 using namespace Leaf::LeafProcessManager;
 
-LeafProcessManager::LeafProcessManager() : _processManagerOptions(
-        std::make_unique<Models::LeafProcessManagerOptions>()) {
+LeafProcessManager::LeafProcessManager() {
 
 }
 
