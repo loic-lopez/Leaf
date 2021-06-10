@@ -29,9 +29,6 @@ void LeafProcessManager::displayBanner() {
   >`-._|/.-'<     | |___  |  __/ | (_| | |  _|     >`-._|/.-'<
  '~|/~~|~~\|~'    |_____|  \___|  \__,_| |_|      '~|/~~|~~\|~'
        |                                                |)" << std::endl;
-
-    std::cout << "Started Leaf with PID " << boost::interprocess::ipcdetail::get_current_process_id()
-              << " {MOVE TO LOG}" << std::endl;
 }
 
 void LeafProcessManager::waitForServers() {
@@ -56,6 +53,8 @@ void LeafProcessManager::loadLeafConfiguration() {
             _leafServers.push_back(std::move(leafServerPtr));
         }
     }
+
+    std::cout << "Successfully loaded leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
 }
 
 void LeafProcessManager::startServers() {
@@ -84,7 +83,6 @@ void LeafProcessManager::parseCommandLineArgs(int ac, const char **av) {
 
 
 void LeafProcessManager::start() {
-    displayBanner();
 
     try {
         loadLeafConfiguration();
@@ -93,6 +91,13 @@ void LeafProcessManager::start() {
         std::cerr << exception.what() << std::endl;
         std::exit(1);
     }
+
+
+    displayBanner();
+
+    std::cout << "Started Leaf with PID " << boost::interprocess::ipcdetail::get_current_process_id()
+              << " {MOVE TO LOG}" << std::endl;
+
     startServers();
     waitForServers();
 

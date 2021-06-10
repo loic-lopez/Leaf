@@ -14,7 +14,7 @@ namespace Leaf::Abstracts {
     template<Leaf::Concepts::LeafExceptionClass LeafException>
     boost::property_tree::ptree INIConfigurationLoader<Model>::initializeBoostPtree(const std::string &configFilePath) {
         if (!boost::filesystem::exists(configFilePath) || boost::filesystem::is_directory(configFilePath)) {
-            BOOST_THROW_EXCEPTION(LeafException(configFilePath, BOOST_CURRENT_FUNCTION, __LINE__, errno));
+            BOOST_THROW_EXCEPTION(LeafException(configFilePath, errno, BOOST_CURRENT_LOCATION));
         }
 
         boost::property_tree::ptree pTree;
@@ -30,10 +30,7 @@ namespace Leaf::Abstracts {
                                                                const std::string &configFilePath) {
         for (const auto &section : _sections) {
             if (pTree.find(section) == pTree.not_found()) {
-                boost::throw_exception(
-                        Exceptions::IniSectionNotFound(section, configFilePath, BOOST_CURRENT_FUNCTION, __LINE__),
-                        BOOST_CURRENT_LOCATION
-                );
+                BOOST_THROW_EXCEPTION(Exceptions::IniSectionNotFound(section, configFilePath, BOOST_CURRENT_LOCATION));
             }
         }
     }

@@ -8,8 +8,8 @@ const char *Leaf::Exceptions::Abstracts::Exception::what() const noexcept {
     return _msg.c_str();;
 }
 
-Leaf::Exceptions::Abstracts::Exception::Exception(const char *atFunction, int atLine) :
-        _atFunction(atFunction), _atLine(atLine) {
-    *this << boost::errinfo_api_function(atFunction)
-          << boost::errinfo_at_line(atLine);
+Leaf::Exceptions::Abstracts::Exception::Exception(const boost::source_location &sourceLocation) : _sourceLocation(sourceLocation)
+{
+    *this << boost::errinfo_api_function(_sourceLocation.function_name())
+          << boost::errinfo_at_line(_sourceLocation.line());
 }
