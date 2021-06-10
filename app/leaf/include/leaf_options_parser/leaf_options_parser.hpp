@@ -61,7 +61,7 @@ namespace Leaf {
         boost::program_options::typed_value<std::string> *_configFileValue;
 
     protected:
-        std::string matchEnvironmentVariable(const std::string &envVar);
+        [[nodiscard]] std::string matchEnvironmentVariable(const std::string &envVar) const;
 
     public:
         explicit LeafOptionsParser(LeafProcessManager::Models::LeafProcessManagerOptions *serverOptions);

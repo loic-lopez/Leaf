@@ -5,7 +5,7 @@
 #include "exceptions/abstracts/exception.hpp"
 
 const char *Leaf::Exceptions::Abstracts::Exception::what() const noexcept {
-    return _msg.c_str();;
+    return _msg.c_str();
 }
 
 Leaf::Exceptions::Abstracts::Exception::Exception(const boost::source_location &sourceLocation) : _sourceLocation(sourceLocation)

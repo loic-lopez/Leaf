@@ -30,7 +30,7 @@ LeafOptionsParser::LeafOptionsParser(Models::LeafProcessManagerOptions *serverOp
             (EnvOptions::SERVER_CONFIG_FILE,
              boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier()));
 
-    _callbacksThatTriggersHelp[CliOptions::HELP] = CallbackReceiver{
+    _callbacksThatTriggersHelp[CliOptions::HELP] = CallbackReceiver {
             .optionVerifier = [](const std::string &option,
                                  const boost::program_options::variables_map &commandLineArgs) -> bool {
                 return commandLineArgs.contains(option);
@@ -50,9 +50,9 @@ LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, 
     boost::program_options::store(optionalOptions, optionalCommandLineArgs);
     boost::program_options::notify(optionalCommandLineArgs);
 
-    for (const auto &callback : this->_callbacksThatTriggersHelp) {
-        if (callback.second.optionVerifier(callback.first, optionalCommandLineArgs)) {
-            return callback.second.statusWhenOptionVerifierMatched;
+    for (const auto &[first, second] : this->_callbacksThatTriggersHelp) {
+        if (second.optionVerifier(first, optionalCommandLineArgs)) {
+            return second.statusWhenOptionVerifierMatched;
         }
     }
 
@@ -87,10 +87,10 @@ void LeafOptionsParser::parseEnvironment() {
     boost::program_options::notify(envVars);
 }
 
-std::string LeafOptionsParser::matchEnvironmentVariable(const std::string &envVar) {
+std::string LeafOptionsParser::matchEnvironmentVariable(const std::string &envVar) const {
     if (!boost::algorithm::contains(envVar, EnvOptions::ENV_PREFIX)) return "";
 
-    bool matched = std::any_of(
+    bool matched = std::ranges::any_of(
             this->_envOptionsDescription.options().cbegin(),
             this->_envOptionsDescription.options().cend(),
             [envVar](const boost::shared_ptr<boost::program_options::option_description> &opt) -> bool {
