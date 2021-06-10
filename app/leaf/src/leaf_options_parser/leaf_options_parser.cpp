@@ -9,6 +9,7 @@
 #include "leaf_options_parser/leaf_options_parser.hpp"
 
 using namespace Leaf;
+using namespace Leaf::LeafProcessManager;
 
 LeafOptionsParser::LeafOptionsParser(Models::LeafProcessManagerOptions *serverOptions) :
         _notifier(serverOptions),

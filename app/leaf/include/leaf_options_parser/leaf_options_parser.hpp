@@ -12,8 +12,6 @@
 
 namespace Leaf {
 
-    using namespace LeafProcessManager;
-
     namespace CliOptions {
         inline static const char SERVER_CONFIG_FILE[] = "server-config-file";
         inline static const char HELP[] = "help";
@@ -44,10 +42,10 @@ namespace Leaf {
 
         class Notifier {
         private:
-            Models::LeafProcessManagerOptions *const _leafServerOptions;
+            LeafProcessManager::Models::LeafProcessManagerOptions *const _leafServerOptions;
 
         public:
-            explicit Notifier(Models::LeafProcessManagerOptions *leafServerOptions);
+            explicit Notifier(LeafProcessManager::Models::LeafProcessManagerOptions *leafServerOptions);
 
             std::function<void(const std::string &)> makeServerConfigFileNotifier();
         };
@@ -57,7 +55,7 @@ namespace Leaf {
         boost::program_options::options_description _cliRequiredOptionsDescription = boost::program_options::options_description("Required arguments");
         boost::program_options::options_description _cliOptionalOptionsDescription = boost::program_options::options_description("Optional arguments");
         boost::program_options::options_description _envOptionsDescription;
-        Models::LeafProcessManagerOptions *const _leafProcessManagerOptions;
+        LeafProcessManager::Models::LeafProcessManagerOptions *const _leafProcessManagerOptions;
 
         std::map<std::string, CallbackReceiver> _callbacksThatTriggersHelp;
         boost::program_options::typed_value<std::string> *_configFileValue;
@@ -66,7 +64,7 @@ namespace Leaf {
         std::string matchEnvironmentVariable(const std::string &envVar);
 
     public:
-        explicit LeafOptionsParser(Models::LeafProcessManagerOptions *serverOptions);
+        explicit LeafOptionsParser(LeafProcessManager::Models::LeafProcessManagerOptions *serverOptions);
 
         Status parseCommandLineArgs(int ac, const char **av);
 
