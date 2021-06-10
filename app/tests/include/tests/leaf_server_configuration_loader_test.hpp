@@ -16,13 +16,8 @@ namespace Leaf::Tests {
             _processManagerConfiguration = nullptr;
         }
 
-        void TearDown() override {
-            Test::TearDown();
-            delete _processManagerConfiguration;
-        }
-
     public:
-        Leaf::LeafProcessManager::Models::LeafProcessManagerConfiguration *_processManagerConfiguration;
+        std::unique_ptr<Leaf::LeafProcessManager::Models::LeafProcessManagerConfiguration> _processManagerConfiguration;
     };
 }
 

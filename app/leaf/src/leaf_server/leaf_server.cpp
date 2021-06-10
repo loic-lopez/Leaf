@@ -10,8 +10,7 @@
 using namespace Leaf::LeafServer;
 
 LeafServer::LeafServer(std::string serverIniPath)
-        : _thread(), _threadMustBeKilled(false), _serverIniPath(std::move(serverIniPath)),
-          _ioContext(1),
+        : _serverIniPath(std::move(serverIniPath)),
           _signals(_ioContext),
           _acceptor(_ioContext) {
 
@@ -25,10 +24,6 @@ LeafServer::LeafServer(std::string serverIniPath)
 #endif // defined(SIGQUIT)
 
     registerSignalsAwaitStopCallback();
-}
-
-LeafServer::~LeafServer() {
-    join();
 }
 
 void LeafServer::initialize() {
@@ -69,7 +64,7 @@ void LeafServer::join() {
 }
 
 void LeafServer::start() {
-    _thread = std::thread(&LeafServer::serve, this);
+    _thread = std::jthread(&LeafServer::serve, this);
 }
 
 void LeafServer::serve() {
@@ -77,7 +72,7 @@ void LeafServer::serve() {
         loadConfiguration();
         initialize();
         run();
-    } catch (const std::exception &exception) {
+    } catch (const Leaf::Interfaces::IException &exception) {
         std::cerr << "Leaf thread " << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port
                   << " encountered an error:" << std::endl;
         std::cerr << boost::diagnostic_information(exception) << std::endl;
@@ -87,7 +82,7 @@ void LeafServer::serve() {
 void LeafServer::loadConfiguration() {
     ConfigurationLoaders::LeafServerConfigurationLoader serverConfigurationLoader;
 
-    _serverConfiguration.reset(serverConfigurationLoader.load(_serverIniPath));
+    _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
 }
 
 

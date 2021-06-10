@@ -13,7 +13,7 @@ namespace Leaf::Exceptions::Abstracts {
     protected:
         int _errno;
     public:
-        explicit ExceptionWithErrno(const char *atFunction, int atLine, int _errno);
+        explicit ExceptionWithErrno(const boost::source_location &sourceLocation, int _errno);
     };
 }
 

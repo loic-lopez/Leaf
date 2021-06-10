@@ -8,7 +8,7 @@
 using namespace Leaf::Exceptions;
 using namespace Leaf::LeafServer;
 
-Models::LeafServerConfiguration *
+std::shared_ptr<Models::LeafServerConfiguration>
 ConfigurationLoaders::LeafServerConfigurationLoader::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<LeafServerConfigFileNotFound>(configFilePath);
     int port;
@@ -19,14 +19,10 @@ ConfigurationLoaders::LeafServerConfigurationLoader::load(const std::string &con
     documentRootPath = pTree.find(LEAF_SERVER_SECTION)->second.find("port")->second.get_value<std::string>();
     listenAddr = pTree.find(LEAF_SERVER_SECTION)->second.find("listen_addr")->second.get_value<std::string>();
 
-    return new Models::LeafServerConfiguration{
-            port,
-            documentRootPath,
-            listenAddr
-    };
+    return std::make_shared<Models::LeafServerConfiguration>(port, documentRootPath, listenAddr);
 }
 
 ConfigurationLoaders::LeafServerConfigurationLoader::LeafServerConfigurationLoader()
-        : Abstracts::INIConfigurationLoader<Models::LeafServerConfiguration>({LEAF_SERVER_SECTION}) {
+        : INIConfigurationLoader<std::shared_ptr, Models::LeafServerConfiguration>({LEAF_SERVER_SECTION}) {
 
 }

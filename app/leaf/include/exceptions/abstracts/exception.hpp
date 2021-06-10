@@ -18,14 +18,13 @@ namespace Leaf::Exceptions::Abstracts {
 
     class Exception : public Interfaces::IException {
     protected:
-        char const *_atFunction;
         std::string _msg;
-        int _atLine;
+        boost::source_location _sourceLocation;
 
         virtual void buildStdExceptionMessage(const char *exceptionClassName) = 0;
 
     public:
-        explicit Exception(char const *atFunction, int atLine);
+        explicit Exception(const boost::source_location &sourceLocation);
 
         const char *what() const noexcept override;
     };

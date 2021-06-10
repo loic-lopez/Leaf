@@ -8,11 +8,11 @@
 
 namespace Leaf::LeafProcessManager::ConfigurationLoaders {
 
-    class MimeTypesLoader : public Abstracts::INIConfigurationLoader<Models::MimeTypes> {
+    class MimeTypesLoader : public Abstracts::INIConfigurationLoader<std::unique_ptr, Leaf::Models::MimeTypes> {
     public:
         explicit MimeTypesLoader();
 
-        Models::MimeTypes *load(const std::string &configFilePath) override;
+        std::unique_ptr<Leaf::Models::MimeTypes> load(const std::string &configFilePath) override;
 
         inline static const char MIME_TYPE_SECTION[] = "MimesTypes";
     };

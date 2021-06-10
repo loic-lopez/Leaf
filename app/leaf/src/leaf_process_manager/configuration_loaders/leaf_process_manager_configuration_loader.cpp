@@ -8,7 +8,7 @@
 using namespace Leaf::Exceptions;
 using namespace Leaf::LeafProcessManager;
 
-Models::LeafProcessManagerConfiguration *
+std::unique_ptr<Models::LeafProcessManagerConfiguration>
 ConfigurationLoaders::LeafProcessManagerConfigurationLoader::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<LeafServerConfigFileNotFound>(configFilePath);
     std::string serversRootPath;
@@ -24,15 +24,15 @@ ConfigurationLoaders::LeafProcessManagerConfigurationLoader::load(const std::str
 
     std::cout << configFilePath << " successfully loaded." << " {MOVE TO LOG}" << std::endl;
 
-    return new Leaf::LeafProcessManager::Models::LeafProcessManagerConfiguration{
-            serversRootPath,
-            leafLogDirectory,
-            mimeTypesConfigFile
-    };
+    return std::make_unique<LeafProcessManager::Models::LeafProcessManagerConfiguration>(
+        serversRootPath,
+        leafLogDirectory,
+        mimeTypesConfigFile
+    );
 }
 
 ConfigurationLoaders::LeafProcessManagerConfigurationLoader::LeafProcessManagerConfigurationLoader()
-        : INIConfigurationLoader({LEAF_CONFIGURATION_SECTION, LEAF_SERVERS_SECTION, HTTP_CONFIGURATION_SECTION}) {
+        : Abstracts::INIConfigurationLoader<std::unique_ptr, Models::LeafProcessManagerConfiguration>({LEAF_CONFIGURATION_SECTION, LEAF_SERVERS_SECTION, HTTP_CONFIGURATION_SECTION}) {
 
 }
 
