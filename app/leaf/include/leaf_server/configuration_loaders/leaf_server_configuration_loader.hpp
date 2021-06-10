@@ -13,7 +13,7 @@ namespace Leaf::LeafServer::ConfigurationLoaders {
             : public Abstracts::INIConfigurationLoader<Models::LeafServerConfiguration> {
     public:
         inline static const char LEAF_SERVER_SECTION[] = "LeafServer";
-    public:
+
         Models::LeafServerConfiguration *load(const std::string &configFilePath) override;
 
         explicit LeafServerConfigurationLoader();

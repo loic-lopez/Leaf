@@ -16,7 +16,6 @@ namespace Leaf::LeafProcessManager::ConfigurationLoaders {
         inline static const char LEAF_CONFIGURATION_SECTION[] = "LeafConfiguration";
         inline static const char HTTP_CONFIGURATION_SECTION[] = "HttpConfiguration";
 
-    public:
         Models::LeafProcessManagerConfiguration *load(const std::string &configFilePath) override;
 
         explicit LeafProcessManagerConfigurationLoader();

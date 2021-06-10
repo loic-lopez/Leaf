@@ -33,8 +33,6 @@ namespace Leaf::LeafServer {
 
         LeafServer(const LeafServer &leafServer) = delete;
 
-        virtual ~LeafServer();
-
         void join();
 
         void start();

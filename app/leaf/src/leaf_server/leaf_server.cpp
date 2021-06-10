@@ -27,10 +27,6 @@ LeafServer::LeafServer(std::string serverIniPath)
     registerSignalsAwaitStopCallback();
 }
 
-LeafServer::~LeafServer() {
-    join();
-}
-
 void LeafServer::initialize() {
     std::cout << "Starting Leaf thread: listening on "
               << _serverConfiguration->listenAddr
