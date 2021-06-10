@@ -44,7 +44,6 @@ namespace Leaf::LeafProcessManager {
                 std::make_unique<Models::LeafProcessManagerOptions>();
         std::unique_ptr<Models::LeafProcessManagerConfiguration> _processManagerConfiguration;
         std::vector<std::shared_ptr<LeafServer::LeafServer>> _leafServers;
-        inline static LeafProcessManager leafProcessManager;
     };
 }
 

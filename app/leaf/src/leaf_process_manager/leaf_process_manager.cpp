@@ -64,7 +64,7 @@ void LeafProcessManager::parseCommandLineArgs(int ac, const char **av) const {
 
     try {
         optionParserStatus = optionsParser.parseCommandLineArgs(ac, av);
-    } catch (const Leaf::Interfaces::IException &exception) {
+    } catch (const std::exception &exception) {
         std::cerr << exception.what() << std::endl;
         std::cout << "Displaying help: " << std::endl << std::endl;
     }

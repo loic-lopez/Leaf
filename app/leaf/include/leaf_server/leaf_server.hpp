@@ -16,11 +16,11 @@ namespace Leaf::LeafServer {
     class LeafServer {
     private: // initializer list
         std::jthread _thread;
-        bool _threadMustBeKilled;
+        bool _threadMustBeKilled = false;
         const std::string _serverIniPath;
 
         /// The io_context used to perform asynchronous operations.
-        boost::asio::io_context _ioContext;
+        boost::asio::io_context _ioContext = boost::asio::io_context(1);
 
         /// The signal_set is used to register for process termination notifications.
         boost::asio::signal_set _signals;
