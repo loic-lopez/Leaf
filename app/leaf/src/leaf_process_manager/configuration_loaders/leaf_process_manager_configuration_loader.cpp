@@ -25,14 +25,15 @@ ConfigurationLoaders::LeafProcessManagerConfigurationLoader::load(const std::str
     std::cout << configFilePath << " successfully loaded." << " {MOVE TO LOG}" << std::endl;
 
     return std::make_unique<LeafProcessManager::Models::LeafProcessManagerConfiguration>(
-        serversRootPath,
-        leafLogDirectory,
-        mimeTypesConfigFile
+            serversRootPath,
+            leafLogDirectory,
+            mimeTypesConfigFile
     );
 }
 
 ConfigurationLoaders::LeafProcessManagerConfigurationLoader::LeafProcessManagerConfigurationLoader()
-        : Abstracts::INIConfigurationLoader<std::unique_ptr, Models::LeafProcessManagerConfiguration>({LEAF_CONFIGURATION_SECTION, LEAF_SERVERS_SECTION, HTTP_CONFIGURATION_SECTION}) {
+        : Abstracts::INIConfigurationLoader<std::unique_ptr, Models::LeafProcessManagerConfiguration>(
+        {LEAF_CONFIGURATION_SECTION, LEAF_SERVERS_SECTION, HTTP_CONFIGURATION_SECTION}) {
 
 }
 

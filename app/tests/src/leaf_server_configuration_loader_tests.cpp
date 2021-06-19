@@ -1,41 +1,36 @@
 #include <gtest/gtest.h>
-#include <boost/exception/diagnostic_information.hpp>
-#include "tests/leaf_server_configuration_loader_test.hpp"
-#include "leaf_process_manager/configuration_loaders/leaf_process_manager_configuration_loader.hpp"
 #include "exceptions/leaf_server_config_file_not_found.hpp"
 #include "generated/leaf_tests_config.hpp"
+#include "leaf_server/configuration_loaders/leaf_server_configuration_loader.hpp"
 
-using namespace Leaf::Tests;
-using namespace Leaf::LeafProcessManager;
-using namespace Leaf::LeafProcessManager::ConfigurationLoaders;
+using namespace Leaf::LeafServer;
 
-TEST_F(LeafProcessManagerConfigurationLoaderTest, when_initialize_leaf_server_config_file_should_be_loaded) {
-    LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
+TEST(LeafServerConfigurationLoaderTest, when_initialize_leaf_server_config_file_should_be_loaded) {
+    ConfigurationLoaders::LeafServerConfigurationLoader leafServerConfigurationLoader;
+    std::shared_ptr<Models::LeafServerConfiguration> leafServerConfiguration;
 
-    try {
-        processManagerConfigurationLoader.load(Leaf::Tests::Config::RootDirectory + "/leaf.ini");
-    } catch (std::exception &exception) {
-        std::cout << exception.what() << std::endl;
-    }
-    EXPECT_NO_THROW(
-            processManagerConfigurationLoader.load(Leaf::Tests::Config::RootDirectory + "/leaf.ini")
-    );
+    EXPECT_NO_THROW({
+        leafServerConfiguration = leafServerConfigurationLoader.load(Leaf::Tests::Config::RootDirectory + "/servers/http_port_80.ini");
+    });
+
+    ASSERT_TRUE(leafServerConfiguration.get() != nullptr);
 }
 
-TEST_F(LeafProcessManagerConfigurationLoaderTest,
-       when_initialize_leaf_server_config_file_should_be_loaded_and_configuration_filled) {
-    LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
+TEST(LeafServerConfigurationLoaderTest,
+     when_initialize_leaf_server_config_file_should_be_loaded_and_configuration_filled) {
+    ConfigurationLoaders::LeafServerConfigurationLoader leafServerConfigurationLoader;
+    std::shared_ptr<Models::LeafServerConfiguration> leafServerConfiguration;
 
-    _processManagerConfiguration = processManagerConfigurationLoader.load(Leaf::Tests::Config::RootDirectory + "/leaf.ini");
+    leafServerConfiguration = leafServerConfigurationLoader.load(Leaf::Tests::Config::RootDirectory + "/servers/http_port_80.ini");
 
-    ASSERT_TRUE(!_processManagerConfiguration->getMimeTypesConfigFilePath().empty());
-    ASSERT_TRUE(!_processManagerConfiguration->getLeafLogDirectoryPath().empty());
-    ASSERT_TRUE(!_processManagerConfiguration->getLeafLogDirectoryPath().empty());
+    ASSERT_TRUE(!leafServerConfiguration->documentRootPath.empty());
+    ASSERT_EQ(leafServerConfiguration->port, 80);
+    ASSERT_TRUE(!leafServerConfiguration->listenAddr.empty());
 }
 
-TEST_F(LeafProcessManagerConfigurationLoaderTest,
-       when_initialize_leaf_conf_file_not_found_exception_must_be_thrown_when_ini) {
-    LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
+TEST(LeafServerConfigurationLoaderTest,
+     when_initialize_leaf_conf_file_not_found_exception_must_be_thrown_when_ini) {
+    ConfigurationLoaders::LeafServerConfigurationLoader leafServerConfigurationLoader;
 
-    EXPECT_THROW(processManagerConfigurationLoader.load("leaf.ini"), Leaf::Exceptions::LeafServerConfigFileNotFound);
+    EXPECT_THROW(leafServerConfigurationLoader.load("server.ini"), Leaf::Exceptions::LeafServerConfigFileNotFound);
 }

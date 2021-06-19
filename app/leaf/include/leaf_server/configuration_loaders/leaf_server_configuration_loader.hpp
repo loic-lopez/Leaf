@@ -9,7 +9,8 @@
 #include "leaf_server/models/leaf_server_configuration.hpp"
 
 namespace Leaf::LeafServer::ConfigurationLoaders {
-    class LeafServerConfigurationLoader : public Abstracts::INIConfigurationLoader<std::shared_ptr, Models::LeafServerConfiguration> {
+    class LeafServerConfigurationLoader
+            : public Abstracts::INIConfigurationLoader<std::shared_ptr, Models::LeafServerConfiguration> {
     public:
         inline static const char LEAF_SERVER_SECTION[] = "LeafServer";
 

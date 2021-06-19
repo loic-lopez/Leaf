@@ -42,7 +42,7 @@ namespace Leaf {
 
         class Notifier {
         private:
-            LeafProcessManager::Models::LeafProcessManagerOptions * const _leafProcessManagerOptions;
+            LeafProcessManager::Models::LeafProcessManagerOptions *const _leafProcessManagerOptions;
 
         public:
             explicit Notifier(LeafProcessManager::Models::LeafProcessManagerOptions *leafServerOptions);
@@ -52,8 +52,10 @@ namespace Leaf {
 
         Notifier _notifier;
 
-        boost::program_options::options_description _cliRequiredOptionsDescription = boost::program_options::options_description("Required arguments");
-        boost::program_options::options_description _cliOptionalOptionsDescription = boost::program_options::options_description("Optional arguments");
+        boost::program_options::options_description _cliRequiredOptionsDescription = boost::program_options::options_description(
+                "Required arguments");
+        boost::program_options::options_description _cliOptionalOptionsDescription = boost::program_options::options_description(
+                "Optional arguments");
         boost::program_options::options_description _envOptionsDescription;
         LeafProcessManager::Models::LeafProcessManagerOptions *const _leafProcessManagerOptions;
 

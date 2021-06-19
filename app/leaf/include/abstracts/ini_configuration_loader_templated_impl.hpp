@@ -12,7 +12,8 @@
 namespace Leaf::Abstracts {
     template<template<class> class stl_memory_container, class Model>
     template<Leaf::Concepts::LeafExceptionClass LeafException>
-    boost::property_tree::ptree INIConfigurationLoader<stl_memory_container, Model>::initializeBoostPtree(const std::string &configFilePath) {
+    boost::property_tree::ptree
+    INIConfigurationLoader<stl_memory_container, Model>::initializeBoostPtree(const std::string &configFilePath) {
         if (!boost::filesystem::exists(configFilePath) || boost::filesystem::is_directory(configFilePath)) {
             BOOST_THROW_EXCEPTION(LeafException(configFilePath, errno, BOOST_CURRENT_LOCATION));
         }
@@ -26,8 +27,9 @@ namespace Leaf::Abstracts {
     }
 
     template<template<class> class stl_memory_container, class Model>
-    void INIConfigurationLoader<stl_memory_container, Model>::checkForPtreeIntegrity(const boost::property_tree::ptree &pTree,
-                                                               const std::string &configFilePath) {
+    void INIConfigurationLoader<stl_memory_container, Model>::checkForPtreeIntegrity(
+            const boost::property_tree::ptree &pTree,
+            const std::string &configFilePath) {
         for (const auto &section : _sections) {
             if (pTree.find(section) == pTree.not_found()) {
                 BOOST_THROW_EXCEPTION(Exceptions::IniSectionNotFound(section, configFilePath, BOOST_CURRENT_LOCATION));
@@ -36,7 +38,8 @@ namespace Leaf::Abstracts {
     }
 
     template<template<class> class stl_memory_container, class Model>
-    INIConfigurationLoader<stl_memory_container, Model>::INIConfigurationLoader(std::vector<std::string> sections): _sections(
+    INIConfigurationLoader<stl_memory_container, Model>::INIConfigurationLoader(std::vector<std::string> sections)
+            : _sections(
             std::move(sections)) {
 
     }

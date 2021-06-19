@@ -7,8 +7,10 @@ set(GTEST_LIBS GTest::gmock_main GTest::gmock GTest::gtest)
 
 add_executable(${LEAF_PROJECT_TESTS}
         src/leaf_server_mime_types_tests.cpp
-        src/leaf_server_configuration_loader_tests.cpp
+        src/leaf_process_manager_configuration_loader_tests.cpp
         src/leaf_server_options_parser_tests.cpp
+        src/leaf_server_tests.cpp
+        src/leaf_server_configuration_loader_tests.cpp
 
         include/tests/leaf_server_options_parser_test.hpp
         include/tests/leaf_server_configuration_loader_test.hpp

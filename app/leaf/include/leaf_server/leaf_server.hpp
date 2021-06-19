@@ -16,7 +16,6 @@ namespace Leaf::LeafServer {
     class LeafServer {
     private: // initializer list
         std::jthread _thread;
-        bool _threadMustBeKilled = false;
         const std::string _serverIniPath;
 
         /// The io_context used to perform asynchronous operations.
@@ -34,6 +33,8 @@ namespace Leaf::LeafServer {
         LeafServer(const LeafServer &leafServer) = delete;
 
         void join();
+
+        void terminate();
 
         void start();
 
