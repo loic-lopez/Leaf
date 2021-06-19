@@ -30,13 +30,16 @@ LeafOptionsParser::LeafOptionsParser(LeafProcessManager::Models::LeafProcessMana
             (EnvOptions::SERVER_CONFIG_FILE,
              boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier()));
 
-    _callbacksThatTriggersHelp[CliOptions::HELP] = CallbackReceiver {
-            .optionVerifier = [](const std::string &option,
-                                 const boost::program_options::variables_map &commandLineArgs) -> bool {
-                return commandLineArgs.contains(option);
-            },
-            .statusWhenOptionVerifierMatched = Status::NEED_DISPLAY_HELP
-    };
+    _callbacksThatTriggersHelp[CliOptions::HELP] = std::move(
+            CallbackReceiver{
+                    .optionVerifier = [](
+                            const std::string &option,
+                            const boost::program_options::variables_map &commandLineArgs) -> bool {
+                        return commandLineArgs.contains(option);
+                    },
+                    .statusWhenOptionVerifierMatched = Status::NEED_DISPLAY_HELP
+            }
+    );
 }
 
 LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, const char **av) {

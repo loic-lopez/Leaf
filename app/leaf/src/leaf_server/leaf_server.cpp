@@ -3,6 +3,7 @@
 //
 
 #include <utility>
+#include <syncstream>
 
 #include "leaf_server/configuration_loaders/leaf_server_configuration_loader.hpp"
 #include "leaf_server/leaf_server.hpp"
@@ -27,7 +28,9 @@ LeafServer::LeafServer(std::string serverIniPath)
 }
 
 void LeafServer::initialize() {
-    std::cout << "Starting Leaf thread: listening on "
+    std::osyncstream(std::cout) << "Starting Leaf thread "
+              << std::this_thread::get_id()
+              << " listening on "
               << _serverConfiguration->listenAddr
               << ":" << _serverConfiguration->port
               << std::endl;
@@ -44,13 +47,13 @@ void LeafServer::initialize() {
 }
 
 void LeafServer::stop() {
-    std::cout << "Shutting down Leaf thread: on "
+    std::osyncstream(std::cout) << "Shutting down Leaf thread: on "
               << _serverConfiguration->listenAddr
               << ":" << _serverConfiguration->port
               << std::endl;
     _acceptor.close();
     // connection_manager_.stop_all(); TODO:
-    std::cout << "Successfully shutdown Leaf thread: on "
+    std::osyncstream(std::cout) << "Successfully shutdown Leaf thread: on "
               << _serverConfiguration->listenAddr
               << ":" << _serverConfiguration->port
               << std::endl;
@@ -72,8 +75,9 @@ void LeafServer::serve() {
         loadConfiguration();
         initialize();
         run();
-    } catch (const Leaf::Interfaces::IException &exception) {
-        std::cerr << "Leaf thread " << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port
+    } catch (const boost::exception &exception) {
+        std::osyncstream(std::cerr) << "Leaf thread " << std::this_thread::get_id()
+        << " listening on: " << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port
                   << " encountered an error:" << std::endl;
         std::cerr << boost::diagnostic_information(exception) << std::endl;
     }
@@ -87,7 +91,7 @@ void LeafServer::loadConfiguration() {
 
 
 void LeafServer::run() {
-    std::cout << "Running Leaf thread: listening on "
+    std::osyncstream(std::cout) << "Running Leaf thread: listening on "
               << _serverConfiguration->listenAddr
               << ":" << _serverConfiguration->port
               << std::endl;

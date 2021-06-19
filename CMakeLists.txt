@@ -61,7 +61,7 @@ conan_cmake_run(
         conanfile.txt
         BASIC_SETUP
         BUILD missing
-        SETTINGS compiler.cppstd=17
+        SETTINGS compiler.cppstd=20
 )
 
 include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
