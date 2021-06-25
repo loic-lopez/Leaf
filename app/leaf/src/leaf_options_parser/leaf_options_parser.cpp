@@ -11,7 +11,7 @@
 using namespace Leaf;
 using namespace Leaf::LeafProcessManager;
 
-LeafOptionsParser::LeafOptionsParser(LeafProcessManager::Models::LeafProcessManagerOptions * const serverOptions) :
+LeafOptionsParser::LeafOptionsParser(LeafProcessManager::Models::LeafProcessManagerOptions *const serverOptions) :
         _notifier(serverOptions),
         _leafProcessManagerOptions(serverOptions) {
 
@@ -30,13 +30,15 @@ LeafOptionsParser::LeafOptionsParser(LeafProcessManager::Models::LeafProcessMana
             (EnvOptions::SERVER_CONFIG_FILE,
              boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier()));
 
-    _callbacksThatTriggersHelp[CliOptions::HELP] = CallbackReceiver {
-            .optionVerifier = [](const std::string &option,
-                                 const boost::program_options::variables_map &commandLineArgs) -> bool {
-                return commandLineArgs.contains(option);
-            },
-            .statusWhenOptionVerifierMatched = Status::NEED_DISPLAY_HELP
-    };
+    _callbacksThatTriggersHelp[CliOptions::HELP] =
+            CallbackReceiver{
+                    .optionVerifier = [](
+                            const std::string &option,
+                            const boost::program_options::variables_map &commandLineArgs) -> bool {
+                        return commandLineArgs.contains(option);
+                    },
+                    .statusWhenOptionVerifierMatched = Status::NEED_DISPLAY_HELP
+            };
 }
 
 LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, const char **av) {
@@ -77,12 +79,12 @@ void LeafOptionsParser::parseEnvironment() const {
     boost::program_options::variables_map envVars;
 
     boost::program_options::store(
-        boost::program_options::parse_environment(
-                _envOptionsDescription,
-                [this](const std::string &envVar) -> std::string {
-                    return this->matchEnvironmentVariable(envVar);
-                }),
-        envVars
+            boost::program_options::parse_environment(
+                    _envOptionsDescription,
+                    [this](const std::string &envVar) -> std::string {
+                        return this->matchEnvironmentVariable(envVar);
+                    }),
+            envVars
     );
     boost::program_options::notify(envVars);
 }

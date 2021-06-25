@@ -132,6 +132,23 @@ TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_an_empt
     ASSERT_EQ(matchedEnvVar, "");
 }
 
+TEST_F(LeafServerOptionsParserTest, assert_that_display_help_does_not_throw_an_exception) {
+    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
+    std::stringstream buffer;
+    std::streambuf *sbuf = std::cout.rdbuf();
+    std::cout.rdbuf(buffer.rdbuf());
+
+    leafOptionsParser.displayHelp();
+
+    std::cout.rdbuf(sbuf);
+
+    std::cout << buffer.view();
+
+    if (buffer.view().empty())
+    {
+        FAIL() << "displayHelp() method of Leaf::LeafOptionsParser does not write on standard output.";
+    }
+}
 
 

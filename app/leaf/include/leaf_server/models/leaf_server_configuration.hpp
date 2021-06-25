@@ -15,7 +15,7 @@ namespace Leaf::LeafServer::Models {
         const std::string documentRootPath;
         const std::string listenAddr;
 
-        LeafServerConfiguration(const int port, std::string documentRootPath, std::string listenAddr);
+        explicit LeafServerConfiguration(int port, std::string documentRootPath, std::string listenAddr);
     };
 
 }

@@ -11,13 +11,10 @@ using namespace Leaf::LeafServer;
 std::shared_ptr<Models::LeafServerConfiguration>
 ConfigurationLoaders::LeafServerConfigurationLoader::load(const std::string &configFilePath) {
     boost::property_tree::ptree pTree = this->initializeBoostPtree<LeafServerConfigFileNotFound>(configFilePath);
-    int port;
-    std::string documentRootPath;
-    std::string listenAddr;
 
-    port = pTree.find(LEAF_SERVER_SECTION)->second.find("port")->second.get_value<int>();
-    documentRootPath = pTree.find(LEAF_SERVER_SECTION)->second.find("port")->second.get_value<std::string>();
-    listenAddr = pTree.find(LEAF_SERVER_SECTION)->second.find("listen_addr")->second.get_value<std::string>();
+    int port = pTree.get_child(LEAF_SERVER_SECTION).get_child("port").get_value<int>();
+    std::string documentRootPath = pTree.get_child(LEAF_SERVER_SECTION).get_child("document_root_path").get_value<std::string>();
+    std::string listenAddr = pTree.get_child(LEAF_SERVER_SECTION).get_child("listen_addr").get_value<std::string>();
 
     return std::make_shared<Models::LeafServerConfiguration>(port, documentRootPath, listenAddr);
 }

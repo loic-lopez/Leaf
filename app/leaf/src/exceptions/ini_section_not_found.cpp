@@ -3,19 +3,24 @@
 //
 
 #include <utility>
+#include "exceptions/error_info.hpp"
 #include "exceptions/ini_section_not_found.hpp"
 
-Leaf::Exceptions::IniSectionNotFound::IniSectionNotFound(std::string section,
-                                                         std::string configFilePath,
-                                                         const boost::source_location &location)
+using namespace Leaf::Exceptions;
+
+IniSectionNotFound::IniSectionNotFound(const std::string &section,
+                                                         const std::string &configFilePath,
+                                                         const std::source_location &location)
         : Exception(location),
-          _section(std::move(section)),
-          _configFilePath(std::move(configFilePath)) {
+          _section(section),
+          _configFilePath(configFilePath) {
+    IniSectionNotFound::buildStdExceptionMessage("IniSectionNotFound");
+    *this << Exceptions::ErrorInfo::errinfo_ini_section(section);
 }
 
-void Leaf::Exceptions::IniSectionNotFound::buildStdExceptionMessage(const char *exceptionClassName) {
+void IniSectionNotFound::buildStdExceptionMessage(const char *exceptionClassName) {
     _msg = exceptionClassName;
     _msg += " exception raised:\n";
     _msg += "this means the leaf_server ini config file located at " + _configFilePath + " doesn't have a section ";
-    _msg += _section + " while it is required. ";
+    _msg += _section + " while it is required.";
 }
