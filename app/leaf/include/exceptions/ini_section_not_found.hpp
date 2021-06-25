@@ -9,15 +9,15 @@
 
 namespace Leaf::Exceptions {
     class IniSectionNotFound : public Exceptions::Abstracts::Exception {
-    private:
+    protected:
         std::string _section;
         std::string _configFilePath;
 
     public:
         explicit IniSectionNotFound(
-                std::string section,
-                std::string configFilePath,
-                const boost::source_location &location
+                const std::string &section,
+                const std::string &configFilePath,
+                const std::source_location &location
         );
 
     protected:

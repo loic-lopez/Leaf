@@ -48,7 +48,8 @@ void LeafProcessManager::loadLeafConfiguration() {
         }
     }
 
-    std::cout << "Successfully loaded leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
+    std::cout << "Successfully loaded leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}"
+              << std::endl;
 }
 
 void LeafProcessManager::startServers() const {

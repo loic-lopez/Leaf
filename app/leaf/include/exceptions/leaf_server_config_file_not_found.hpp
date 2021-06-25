@@ -14,7 +14,7 @@ namespace Leaf::Exceptions {
         explicit LeafServerConfigFileNotFound(
                 const std::string &configFilePath,
                 int _errno,
-                const boost::source_location &location
+                const std::source_location &location
         );
     };
 }

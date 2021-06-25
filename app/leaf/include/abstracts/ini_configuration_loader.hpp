@@ -15,6 +15,12 @@ namespace Leaf::Abstracts {
     template<template<class> class stl_memory_container, class Model>
     class INIConfigurationLoader {
     protected:
+        struct IniSection {
+            std::string sectionName;
+            std::vector<std::string> sectionProperties;
+        };
+
+    protected:
         const std::vector<std::string> _sections;
 
         template<Leaf::Concepts::LeafExceptionClass LeafException>

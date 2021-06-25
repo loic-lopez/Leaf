@@ -3,6 +3,7 @@
 //
 
 #include <utility>
+#include <syncstream>
 
 #include "leaf_server/configuration_loaders/leaf_server_configuration_loader.hpp"
 #include "leaf_server/leaf_server.hpp"
@@ -27,10 +28,10 @@ LeafServer::LeafServer(std::string serverIniPath)
 }
 
 void LeafServer::initialize() {
-    std::cout << "Starting Leaf thread: listening on "
-              << _serverConfiguration->listenAddr
-              << ":" << _serverConfiguration->port
-              << std::endl;
+    std::osyncstream(std::cout) << "Starting Leaf thread listening on: "
+                                << _serverConfiguration->listenAddr
+                                << ":" << _serverConfiguration->port
+                                << std::endl;
 
     boost::asio::ip::tcp::resolver resolver(_ioContext);
     boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(_serverConfiguration->listenAddr,
@@ -44,21 +45,20 @@ void LeafServer::initialize() {
 }
 
 void LeafServer::stop() {
-    std::cout << "Shutting down Leaf thread: on "
-              << _serverConfiguration->listenAddr
-              << ":" << _serverConfiguration->port
-              << std::endl;
+    std::osyncstream(std::cout) << "Shutting down Leaf thread listening on: "
+                                << _serverConfiguration->listenAddr
+                                << ":" << _serverConfiguration->port
+                                << std::endl;
     _acceptor.close();
     // connection_manager_.stop_all(); TODO:
-    std::cout << "Successfully shutdown Leaf thread: on "
-              << _serverConfiguration->listenAddr
-              << ":" << _serverConfiguration->port
-              << std::endl;
+    std::osyncstream(std::cout) << "Successfully shutdown Leaf thread listening on: "
+                                << _serverConfiguration->listenAddr
+                                << ":" << _serverConfiguration->port
+                                << std::endl;
 }
 
 void LeafServer::join() {
-    if (_thread.joinable() && !_threadMustBeKilled) {
-        _threadMustBeKilled = true;
+    if (_thread.joinable()) {
         _thread.join();
     }
 }
@@ -72,9 +72,10 @@ void LeafServer::serve() {
         loadConfiguration();
         initialize();
         run();
-    } catch (const Leaf::Interfaces::IException &exception) {
-        std::cerr << "Leaf thread " << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port
-                  << " encountered an error:" << std::endl;
+    } catch (const boost::exception &exception) {
+        std::osyncstream(std::cerr) << "Leaf thread listening on: "
+        << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port
+                                    << " encountered an error:" << std::endl;
         std::cerr << boost::diagnostic_information(exception) << std::endl;
     }
 }
@@ -82,15 +83,17 @@ void LeafServer::serve() {
 void LeafServer::loadConfiguration() {
     ConfigurationLoaders::LeafServerConfigurationLoader serverConfigurationLoader;
 
+    std::cout << "LOADING CONFIG!!" << "ini_path: " << _serverIniPath << std::endl;
+
     _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
 }
 
 
 void LeafServer::run() {
-    std::cout << "Running Leaf thread: listening on "
-              << _serverConfiguration->listenAddr
-              << ":" << _serverConfiguration->port
-              << std::endl;
+    std::osyncstream(std::cout) << "Running Leaf thread: listening on "
+                                << _serverConfiguration->listenAddr
+                                << ":" << _serverConfiguration->port
+                                << std::endl;
     _ioContext.run();
 }
 
@@ -116,4 +119,8 @@ void LeafServer::registerSignalsAwaitStopCallback() {
             [this](boost::system::error_code, int) {
                 stop();
             });
+}
+
+void LeafServer::terminate() {
+    _ioContext.stop();
 }

@@ -20,6 +20,7 @@ set(LEAF_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/leaf_server_config_file_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/error_info.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/ini_section_not_found.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/ini_property_in_section_exception.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/abstracts/config_file_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/abstracts/exception.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/abstracts/exception_with_errno.hpp
