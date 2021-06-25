@@ -76,6 +76,9 @@ set(LEAF_CONFIG_ROOT_PATH ${CMAKE_BINARY_DIR}/conf)
 set(LEAF_SERVERS_ROOT_PATH ${LEAF_CONFIG_ROOT_PATH})
 set(LEAF_LOG_DIR_ROOT_PATH ${CMAKE_BINARY_DIR}/log)
 
+## Create base dirs
+file(MAKE_DIRECTORY ${LEAF_LOG_DIR_ROOT_PATH})
+
 # conf
 add_subdirectory(conf)
 

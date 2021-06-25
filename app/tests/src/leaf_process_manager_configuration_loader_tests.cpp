@@ -13,7 +13,7 @@ TEST_F(LeafProcessManagerConfigurationLoaderTest, when_initialize_leaf_process_m
     LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
 
     EXPECT_NO_THROW(
-            processManagerConfigurationLoader.load(Leaf::Tests::Config::RootDirectory + "/leaf.ini")
+            processManagerConfigurationLoader.load(Leaf::Tests::Config::LeafConfigRootDirectory + "/leaf.ini")
     );
 }
 
@@ -22,11 +22,11 @@ TEST_F(LeafProcessManagerConfigurationLoaderTest,
     LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
 
     _processManagerConfiguration = processManagerConfigurationLoader.load(
-            Leaf::Tests::Config::RootDirectory + "/leaf.ini");
+            Leaf::Tests::Config::LeafConfigRootDirectory + "/leaf.ini");
 
     ASSERT_TRUE(!_processManagerConfiguration->getMimeTypesConfigFilePath().empty());
     ASSERT_TRUE(!_processManagerConfiguration->getLeafLogDirectoryPath().empty());
-    ASSERT_TRUE(!_processManagerConfiguration->getLeafLogDirectoryPath().empty());
+    ASSERT_TRUE(!_processManagerConfiguration->getServersRootPath().empty());
 }
 
 TEST_F(LeafProcessManagerConfigurationLoaderTest,
@@ -34,4 +34,16 @@ TEST_F(LeafProcessManagerConfigurationLoaderTest,
     LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
 
     EXPECT_THROW(processManagerConfigurationLoader.load("leaf.ini"), Leaf::Exceptions::LeafServerConfigFileNotFound);
+}
+
+TEST_F(LeafProcessManagerConfigurationLoaderTest,
+     on_missing_section_ini_section_not_found_exception_must_be_thrown) {
+    LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
+
+    EXPECT_THROW(
+            {
+                processManagerConfigurationLoader.load(Leaf::Tests::Config::LeafTestsConfigDirectory + "/leaf.with_missing_section.ini");
+            },
+            Leaf::Exceptions::IniSectionNotFound
+    );
 }

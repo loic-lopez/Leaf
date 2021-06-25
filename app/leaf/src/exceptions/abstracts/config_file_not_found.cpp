@@ -13,7 +13,7 @@ void Leaf::Exceptions::Abstracts::ConfigFileNotFound::buildStdExceptionMessage(c
 Leaf::Exceptions::Abstracts::ConfigFileNotFound::ConfigFileNotFound(
         std::string configFilePath,
         int _errno,
-        const boost::source_location &location
+        const std::source_location &location
 ) : ExceptionWithErrno(location, _errno), _configFilePath(std::move(configFilePath)) {
 
 }

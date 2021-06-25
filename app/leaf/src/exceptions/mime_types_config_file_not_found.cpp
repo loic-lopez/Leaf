@@ -8,7 +8,7 @@
 Leaf::Exceptions::MimeTypesConfigFileNotFound::MimeTypesConfigFileNotFound(
         const std::string &configFilePath,
         int _errno,
-        const boost::source_location &location)
+        const std::source_location &location)
         : ConfigFileNotFound(configFilePath, _errno, location) {
     ConfigFileNotFound::buildStdExceptionMessage("MimeTypesConfigFileNotFound");
     *this << Exceptions::ErrorInfo::errinfo_mime_types_config_file_path(_configFilePath);

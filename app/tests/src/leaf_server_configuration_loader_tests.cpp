@@ -10,7 +10,7 @@ TEST(LeafServerConfigurationLoaderTest, when_initialize_leaf_server_config_file_
     std::shared_ptr<Models::LeafServerConfiguration> leafServerConfiguration;
 
     EXPECT_NO_THROW({
-        leafServerConfiguration = leafServerConfigurationLoader.load(Leaf::Tests::Config::RootDirectory + "/servers/http_port_80.ini");
+        leafServerConfiguration = leafServerConfigurationLoader.load(Leaf::Tests::Config::LeafConfigRootDirectory + "/servers/http_port_80.ini");
     });
 
     ASSERT_TRUE(leafServerConfiguration.get() != nullptr);
@@ -21,7 +21,7 @@ TEST(LeafServerConfigurationLoaderTest,
     ConfigurationLoaders::LeafServerConfigurationLoader leafServerConfigurationLoader;
     std::shared_ptr<Models::LeafServerConfiguration> leafServerConfiguration;
 
-    leafServerConfiguration = leafServerConfigurationLoader.load(Leaf::Tests::Config::RootDirectory + "/servers/http_port_80.ini");
+    leafServerConfiguration = leafServerConfigurationLoader.load(Leaf::Tests::Config::LeafConfigRootDirectory + "/servers/http_port_80.ini");
 
     ASSERT_TRUE(!leafServerConfiguration->documentRootPath.empty());
     ASSERT_EQ(leafServerConfiguration->port, 80);
@@ -34,3 +34,43 @@ TEST(LeafServerConfigurationLoaderTest,
 
     EXPECT_THROW(leafServerConfigurationLoader.load("server.ini"), Leaf::Exceptions::LeafServerConfigFileNotFound);
 }
+
+
+TEST(LeafServerConfigurationLoaderTest,
+     on_missing_section_ini_section_not_found_exception_must_be_thrown) {
+    ConfigurationLoaders::LeafServerConfigurationLoader leafServerConfigurationLoader;
+
+    EXPECT_THROW(
+            {
+                leafServerConfigurationLoader.load(Leaf::Tests::Config::LeafTestsConfigDirectory + "/servers/http_port_8080_empty.ini");
+            },
+            Leaf::Exceptions::IniSectionNotFound
+    );
+}
+
+
+/*
+TEST(LeafServerConfigurationLoaderTest,
+     on_missing_key_value_pair_an_exception_must_be_thrown) {
+    ConfigurationLoaders::LeafServerConfigurationLoader leafServerConfigurationLoader;
+
+    EXPECT_THROW(
+            {
+                leafServerConfigurationLoader.load(Leaf::Tests::Config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_missing_port.ini");
+            },
+            Leaf::Exceptions::IniPropertyInSectionException
+    );
+}
+
+TEST(LeafServerConfigurationLoaderTest,
+     on_duplicated_key_value_pair_an_exception_must_be_thrown) {
+    ConfigurationLoaders::LeafServerConfigurationLoader leafServerConfigurationLoader;
+
+    EXPECT_THROW(
+            {
+                leafServerConfigurationLoader.load(Leaf::Tests::Config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_missing_port.ini");
+            },
+            Leaf::Exceptions::IniPropertyInSectionException
+    );
+}
+*/

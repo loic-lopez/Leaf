@@ -83,6 +83,8 @@ void LeafServer::serve() {
 void LeafServer::loadConfiguration() {
     ConfigurationLoaders::LeafServerConfigurationLoader serverConfigurationLoader;
 
+    std::cout << "LOADING CONFIG!!" << "ini_path: " << _serverIniPath << std::endl;
+
     _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
 }
 

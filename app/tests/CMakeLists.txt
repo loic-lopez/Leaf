@@ -25,15 +25,27 @@ target_link_libraries(${LEAF_PROJECT_TESTS}
         ${LEAF_PROJECT_LIBRARY}
         )
 
-## Output dirs
+add_test(NAME ${LEAF_PROJECT_TESTS}
+        COMMAND ${LEAF_PROJECT_TESTS} --gtest_output=xml:${CMAKE_BINARY_DIR}/test_reports/gtest/gtest_output.xml)
+
+## Dirs in projects
+set(TESTS_CONFIG_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/conf)
+set(TESTS_SERVERS_ROOT_PATH ${TESTS_CONFIG_ROOT_PATH}/servers)
+set(LEAF_TESTS_CONFIG_ROOT_PATH ${CMAKE_BINARY_DIR}/Testing/conf/)
 set(LEAF_TEST_GENERATED_INCLUDE_ROOT_PATH ${CMAKE_BINARY_DIR}/include/tests)
+
+## Create output dirs
+file(MAKE_DIRECTORY ${LEAF_TESTS_CONFIG_ROOT_PATH}/servers)
+
+## Server Config
+configure_file(${TESTS_CONFIG_ROOT_PATH}/mime_types_empty.ini ${LEAF_TESTS_CONFIG_ROOT_PATH}/mime_types_empty.ini COPYONLY)
+configure_file(${TESTS_CONFIG_ROOT_PATH}/leaf.template.with_missing_section.ini ${LEAF_TESTS_CONFIG_ROOT_PATH}/leaf.with_missing_section.ini)
+
+## Leaf Servers
+file(COPY ${TESTS_SERVERS_ROOT_PATH} DESTINATION ${LEAF_TESTS_CONFIG_ROOT_PATH})
 
 configure_file(include/generated/leaf_tests_config.hpp.in ${LEAF_TEST_GENERATED_INCLUDE_ROOT_PATH}/generated/leaf_tests_config.hpp)
 
 target_include_directories(${LEAF_PROJECT_TESTS} PUBLIC ${LEAF_TEST_GENERATED_INCLUDE_ROOT_PATH})
-
-add_test(NAME ${LEAF_PROJECT_TESTS}
-        COMMAND ${LEAF_PROJECT_TESTS} --gtest_output=xml:${CMAKE_BINARY_DIR}/test_reports/gtest/gtest_output.xml)
-
 
 
