@@ -23,7 +23,9 @@ LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
 LABEL org.opencontainers.image.title="sonar_cloud_scanner"
 
-RUN apt-get update && apt-get install git gcovr -y
+RUN apt-get update && apt-get install git -y
+
+RUN pip install gcovr==5.0 && gcovr --version
 
 RUN mkdir -p /sonar/build-wrapper-linux-x86
 RUN mkdir -p /sonar/sonar-scanner-cli
