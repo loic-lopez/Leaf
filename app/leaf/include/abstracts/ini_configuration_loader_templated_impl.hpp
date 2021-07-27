@@ -24,24 +24,6 @@ namespace Leaf::Abstracts {
 
         boost::property_tree::ini_parser::read_ini(configFilePath, pTree);
 
-/*
-        try {
-
-        } catch (const boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error> &ini_parser_error) {
-*/
-/*            BOOST_THROW_EXCEPTION(
-                    Exceptions::IniPropertyInSectionException(
-                            Exceptions::IniPropertyInSectionException::DUPLICATED,
-                            "port",
-                            section,
-                            ini_parser_error.filename() + ini_parser_error.line(),
-                            std::source_location::current()
-                    )
-            );*//*
-
-        }
-*/
-
         checkForPtreeIntegrity(pTree, configFilePath);
 
         return pTree;
