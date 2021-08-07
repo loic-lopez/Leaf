@@ -21,6 +21,7 @@ namespace Leaf::Abstracts {
         }
 
         boost::property_tree::ptree pTree;
+
         boost::property_tree::ini_parser::read_ini(configFilePath, pTree);
 
         checkForPtreeIntegrity(pTree, configFilePath);
@@ -33,40 +34,32 @@ namespace Leaf::Abstracts {
             const boost::property_tree::ptree &pTree,
             const std::string &configFilePath) {
         for (const auto &section : _sections) {
-            if (pTree.find(section) == pTree.not_found()) {
-                BOOST_THROW_EXCEPTION(Exceptions::IniSectionNotFound(section, configFilePath, std::source_location::current()));
-            } else {
-                /*auto propertyCount = pTree.find(section)->second.count("port");
+            std::string sectionName = section.name;
+
+            if (pTree.find(sectionName) == pTree.not_found()) {
+                BOOST_THROW_EXCEPTION(
+                        Exceptions::IniSectionNotFound(sectionName, configFilePath, std::source_location::current()));
+            }
+
+            for (const auto &property : section.properties) {
+                auto propertyCount = pTree.find(sectionName)->second.count(property);
                 if (propertyCount == 0)
                     BOOST_THROW_EXCEPTION(
-                        Exceptions::IniPropertyInSectionException(
-                            Exceptions::IniPropertyInSectionException::MISSING,
-                            "port",
-                            section,
-                            configFilePath,
-                            std::source_location::current()
-                        )
+                            Exceptions::IniPropertyInSectionException(
+                                    Exceptions::IniPropertyInSectionException::MISSING,
+                                    property,
+                                    sectionName,
+                                    configFilePath,
+                                    std::source_location::current()
+                            )
                     );
-                else if (propertyCount > 1) {
-                    BOOST_THROW_EXCEPTION(
-                        Exceptions::IniPropertyInSectionException(
-                            Exceptions::IniPropertyInSectionException::DUPLICATED,
-                            "port",
-                            section,
-                            configFilePath,
-                            std::source_location::current()
-                        )
-                    );
-                    }
-                    */
             }
         }
     }
 
     template<template<class> class stl_memory_container, class Model>
-    INIConfigurationLoader<stl_memory_container, Model>::INIConfigurationLoader(std::vector<std::string> sections)
-            : _sections(
-            std::move(sections)) {
+    INIConfigurationLoader<stl_memory_container, Model>::INIConfigurationLoader(std::vector<IniSection> sections)
+            : _sections(std::move(sections)) {
 
     }
 }

@@ -16,12 +16,12 @@ namespace Leaf::Abstracts {
     class INIConfigurationLoader {
     protected:
         struct IniSection {
-            std::string sectionName;
-            std::vector<std::string> sectionProperties;
+            std::string name;
+            std::vector<std::string> properties;
         };
 
     protected:
-        const std::vector<std::string> _sections;
+        const std::vector<IniSection> _sections;
 
         template<Leaf::Concepts::LeafExceptionClass LeafException>
         boost::property_tree::ptree initializeBoostPtree(const std::string &configFilePath);
@@ -32,7 +32,7 @@ namespace Leaf::Abstracts {
     public:
         virtual stl_memory_container<Model> load(const std::string &configFilePath) = 0;
 
-        explicit INIConfigurationLoader(std::vector<std::string> sections);
+        explicit INIConfigurationLoader(std::vector<IniSection> sections);
     };
 }
 

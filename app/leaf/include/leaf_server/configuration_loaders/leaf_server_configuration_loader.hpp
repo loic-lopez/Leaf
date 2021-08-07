@@ -11,6 +11,12 @@
 namespace Leaf::LeafServer::ConfigurationLoaders {
     class LeafServerConfigurationLoader
             : public Abstracts::INIConfigurationLoader<std::shared_ptr, Models::LeafServerConfiguration> {
+
+    private:
+        inline static const std::vector<std::string> _properties = {
+                {"port"}, {"document_root_path"}, {"listen_addr"}
+        };
+
     public:
         inline static const char LEAF_SERVER_SECTION[] = "LeafServer";
 

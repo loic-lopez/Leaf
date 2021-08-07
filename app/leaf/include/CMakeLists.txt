@@ -45,6 +45,10 @@ set(LEAF_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/models/leaf_server_configuration.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_server/configuration_loaders/leaf_server_configuration_loader.hpp
 
+        # Streams
+        ${CMAKE_CURRENT_SOURCE_DIR}/streams/synced_cout.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/streams/synced_cerr.hpp
+
         # Utils
         ${CMAKE_CURRENT_SOURCE_DIR}/utils/utils.hpp
 

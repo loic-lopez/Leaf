@@ -29,8 +29,22 @@ ConfigurationLoaders::LeafProcessManagerConfigurationLoader::load(const std::str
 }
 
 ConfigurationLoaders::LeafProcessManagerConfigurationLoader::LeafProcessManagerConfigurationLoader()
-        : Abstracts::INIConfigurationLoader<std::unique_ptr, Models::LeafProcessManagerConfiguration>(
-        {LEAF_CONFIGURATION_SECTION, LEAF_SERVERS_SECTION, HTTP_CONFIGURATION_SECTION}) {
+    : Abstracts::INIConfigurationLoader<std::unique_ptr, Models::LeafProcessManagerConfiguration>(
+                {
+                    {
+                        .name = LEAF_CONFIGURATION_SECTION,
+                        .properties = _leaf_configuration_section_properties
+                    },
+                    {
+                        .name = LEAF_SERVERS_SECTION,
+                        .properties = _leaf_servers_section_properties
+                    },
+                    {
+                        .name = HTTP_CONFIGURATION_SECTION,
+                        .properties = _http_configuration_section_properties
+                    }
+                }
+            ) {
 
 }
 

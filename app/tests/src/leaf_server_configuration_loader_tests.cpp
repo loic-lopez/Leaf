@@ -49,7 +49,7 @@ TEST(LeafServerConfigurationLoaderTest,
 }
 
 
-/*
+
 TEST(LeafServerConfigurationLoaderTest,
      on_missing_key_value_pair_an_exception_must_be_thrown) {
     ConfigurationLoaders::LeafServerConfigurationLoader leafServerConfigurationLoader;
@@ -58,7 +58,7 @@ TEST(LeafServerConfigurationLoaderTest,
             {
                 leafServerConfigurationLoader.load(Leaf::Tests::Config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_missing_port.ini");
             },
-            Leaf::Exceptions::IniPropertyInSectionException
+            boost::wrapexcept<class Leaf::Exceptions::IniPropertyInSectionException>
     );
 }
 
@@ -68,9 +68,9 @@ TEST(LeafServerConfigurationLoaderTest,
 
     EXPECT_THROW(
             {
-                leafServerConfigurationLoader.load(Leaf::Tests::Config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_missing_port.ini");
+                leafServerConfigurationLoader.load(Leaf::Tests::Config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_duplicated_port.ini");
             },
-            Leaf::Exceptions::IniPropertyInSectionException
+            boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error>
     );
 }
-*/
+
