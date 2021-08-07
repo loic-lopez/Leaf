@@ -20,7 +20,7 @@ namespace Leaf::Streams {
         }
     };
 
-    inline static _synced_cout synced_cout = _synced_cout();
+    inline static const _synced_cout synced_cout = _synced_cout();
 }
 
 #endif //LEAF_SYNCED_COUT_HPP

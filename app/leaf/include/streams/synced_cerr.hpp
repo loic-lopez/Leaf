@@ -20,7 +20,7 @@ namespace Leaf::Streams {
         }
     };
 
-    inline static _synced_cerr synced_cerr = _synced_cerr();
+    inline static const _synced_cerr synced_cerr = _synced_cerr();
 }
 
 #endif //LEAF_SYNCED_CERR_HPP
