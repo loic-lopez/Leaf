@@ -76,10 +76,7 @@ void LeafServer::LeafServer::serve() {
         run();
     } catch (const boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error> &ini_parser_error) {
         Streams::synced_cerr << "Leaf thread encountered an error:" << std::endl;
-        Streams::synced_cerr << "Something is wrong in with the config file: " << ini_parser_error.filename() << ":" << ini_parser_error.line() << std::endl;
-    } catch (const boost::wrapexcept<boost::system::system_error> &system_error) {
-        Streams::synced_cerr << "Leaf thread listening on " << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port << " encountered an error:"<< std::endl;
-        Streams::synced_cerr << system_error.what() << std::endl;
+        Streams::synced_cerr << ini_parser_error.what() << std::endl;
     } catch (...) {
         Streams::synced_cerr << "Leaf thread encountered an unknown error:" << std::endl;
         Streams::synced_cerr << boost::current_exception_diagnostic_information() << std::endl;

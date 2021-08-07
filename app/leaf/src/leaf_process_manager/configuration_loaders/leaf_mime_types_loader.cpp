@@ -31,6 +31,11 @@ ConfigurationLoaders::MimeTypesLoader::load(const std::string &configFilePath) {
 }
 
 ConfigurationLoaders::MimeTypesLoader::MimeTypesLoader()
-        : Abstracts::INIConfigurationLoader<std::unique_ptr, Leaf::Models::MimeTypes>({MIME_TYPE_SECTION}) {
+        : Abstracts::INIConfigurationLoader<std::unique_ptr, Leaf::Models::MimeTypes>({
+            {
+                .name = MIME_TYPE_SECTION,
+                .properties = {}
+            }
+        }) {
 
 }

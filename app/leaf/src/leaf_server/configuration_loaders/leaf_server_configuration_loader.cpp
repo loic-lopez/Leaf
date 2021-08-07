@@ -20,6 +20,12 @@ ConfigurationLoaders::LeafServerConfigurationLoader::load(const std::string &con
 }
 
 ConfigurationLoaders::LeafServerConfigurationLoader::LeafServerConfigurationLoader()
-        : INIConfigurationLoader<std::shared_ptr, Models::LeafServerConfiguration>({LEAF_SERVER_SECTION}) {
-
+        : INIConfigurationLoader<std::shared_ptr, Models::LeafServerConfiguration>(
+                {
+                    {
+                        .name = LEAF_SERVER_SECTION,
+                        .properties = _properties
+                    }
+                }
+        ) {
 }
