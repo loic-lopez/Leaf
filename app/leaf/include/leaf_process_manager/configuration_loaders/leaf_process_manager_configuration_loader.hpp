@@ -12,6 +12,19 @@
 namespace Leaf::LeafProcessManager::ConfigurationLoaders {
     class LeafProcessManagerConfigurationLoader
             : public Abstracts::INIConfigurationLoader<std::unique_ptr, Models::LeafProcessManagerConfiguration> {
+    private:
+        inline static const std::vector<std::string> _leaf_servers_section_properties = {
+                {"servers_root_path"},
+        };
+
+        inline static const std::vector<std::string> _leaf_configuration_section_properties = {
+                {"leaf_log_directory"},
+        };
+
+        inline static const std::vector<std::string> _http_configuration_section_properties = {
+                {"mime_types_config_file"},
+        };
+
     public:
         inline static const std::string LEAF_SERVERS_SECTION = "LeafServers";
         inline static const std::string LEAF_CONFIGURATION_SECTION = "LeafConfiguration";
