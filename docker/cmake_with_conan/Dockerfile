@@ -1,6 +1,6 @@
 FROM debian:bullseye-slim as cmake_builder
 
-ARG CMAKE_VERSION=3.20.4
+ARG CMAKE_VERSION=3.21.2
 
 RUN echo 'deb http://deb.debian.org/debian experimental main' >> /etc/apt/sources.list
 
@@ -16,7 +16,7 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmak
 
 RUN cd cmake-$CMAKE_VERSION && \
     ./bootstrap && \
-    make -j4 && \
+    make -j$(nproc) && \
     make install
 
 FROM debian:bullseye-slim
@@ -31,6 +31,7 @@ COPY --from=cmake_builder /usr/local /usr/local
 
 RUN apt-get update && \
     apt-get -t experimental install --no-install-recommends g++ -y && \
-    apt-get install python3-pip make -y --no-install-recommends
+    apt-get install python3-pip make -y --no-install-recommends && \
+    apt-get clean
 
 RUN pip install conan
