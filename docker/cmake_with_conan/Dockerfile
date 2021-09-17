@@ -1,13 +1,15 @@
-FROM debian:bullseye-slim as cmake_builder
+FROM debian:bookworm-slim as cmake_builder
 
 ARG CMAKE_VERSION=3.21.2
 
-RUN echo 'deb http://deb.debian.org/debian experimental main' >> /etc/apt/sources.list
-
 RUN apt-get update && \
-    apt-get -t experimental install --no-install-recommends g++ -y && \
+    apt-get install --no-install-recommends g++-11 -y && \
     apt-get install --no-install-recommends make libssl-dev -y && \
-    apt-get install wget -y
+    apt-get install wget -y && \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10 && \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10 && \
+    g++ -v && \
+    gcc -v
 
 WORKDIR /tmp
 
@@ -19,7 +21,7 @@ RUN cd cmake-$CMAKE_VERSION && \
     make -j$(nproc) && \
     make install
 
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
@@ -30,8 +32,12 @@ RUN echo 'deb http://deb.debian.org/debian experimental main' >> /etc/apt/source
 COPY --from=cmake_builder /usr/local /usr/local
 
 RUN apt-get update && \
-    apt-get -t experimental install --no-install-recommends g++ -y && \
+    apt-get install --no-install-recommends g++-11 -y && \
     apt-get install python3-pip make -y --no-install-recommends && \
-    apt-get clean
+    apt-get clean && \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10 && \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10 && \
+    g++ -v && \
+    gcc -v
 
 RUN pip install conan
