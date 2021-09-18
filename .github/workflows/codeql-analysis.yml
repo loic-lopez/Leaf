@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: "Leaf CodeQL"
 
 on:
   push:
@@ -42,6 +42,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: Install Git
+      run: apt-get update && apt-get install git -y
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
