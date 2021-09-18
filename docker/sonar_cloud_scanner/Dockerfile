@@ -17,7 +17,7 @@ RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip \
 
 RUN rm *.zip
 
-FROM ghcr.io/loic-lopez/cmake_with_conan:v0.1.43
+FROM ghcr.io/loic-lopez/cmake_with_conan:v0.1.47
 
 LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
