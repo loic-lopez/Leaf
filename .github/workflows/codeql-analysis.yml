@@ -25,7 +25,7 @@ jobs:
     name: Analyze Leaf with CodeQL
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/loic-lopez/cmake_with_conan:v0.1.48
+      image: ghcr.io/loic-lopez/cmake_with_conan:v0.1.43
     permissions:
       actions: read
       contents: read
