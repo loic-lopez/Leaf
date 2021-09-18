@@ -16,7 +16,7 @@ on:
 jobs:
   build_test_and_scan:
     runs-on: ubuntu-latest
-    container: ghcr.io/loic-lopez/sonar_cloud_scanner:latest
+    container: ghcr.io/loic-lopez/sonar_cloud_scanner:v0.1.44
     defaults:
       run:
         shell: bash
