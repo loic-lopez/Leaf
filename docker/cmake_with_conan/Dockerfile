@@ -43,7 +43,14 @@ RUN apt-get update && \
     apt-get clean && \
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10 && \
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10 && \
+    update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-11 10 && \
+    update-alternatives --install /usr/bin/gcov-tool gcov-tool /usr/bin/gcov-tool-11 10 && \
+    update-alternatives --install /usr/bin/gcov-dump gcov-dump /usr/bin/gcov-dump-11 10 && \
+    update-alternatives --install /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-11 10 && \
+    update-alternatives --install /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-11 10 && \
+    update-alternatives --install /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-11 10 && \
     g++ -v && \
-    gcc -v
+    gcc -v && \
+    gcov -v
 
 RUN pip install conan
