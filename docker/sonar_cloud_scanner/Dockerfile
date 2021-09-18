@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim as sonar_cloud_scanner_builder
+FROM debian:bookworm-slim as sonar_cloud_scanner_builder
 
 ARG SONAR_SCANNER_VERSION=4.6.2.2472
 
@@ -17,13 +17,13 @@ RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip \
 
 RUN rm *.zip
 
-FROM ghcr.io/loic-lopez/cmake_with_conan:latest
+FROM ghcr.io/loic-lopez/cmake_with_conan:v0.1.48
 
 LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
 LABEL org.opencontainers.image.title="sonar_cloud_scanner"
 
-RUN apt-get update && apt-get install git -y
+RUN apt-get update && apt-get install git -y && apt-get clean
 
 RUN pip install gcovr==5.0 && gcovr --version
 
