@@ -53,4 +53,4 @@ RUN apt-get update && \
     gcc -v && \
     gcov -v
 
-RUN pip install conan
+RUN pip install -Iv conan==1.41.0
