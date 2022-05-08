@@ -7,12 +7,14 @@
 
 #include <string>
 
-namespace Leaf::Build {
-    const std::string LeafBuildDate = "@BUILD_DATE@";
-    const std::string LeafVersion = "v@PROJECT_VERSION@";
-    const std::string LeafBuildType = "@CMAKE_BUILD_TYPE@";
-    const std::string Arch = (std::to_string(sizeof(void *) * 8) + "-bit");
-}
+namespace leaf::build
+{
 
+static const std::string LeafBuildDate = "@BUILD_DATE@";
+static const std::string LeafVersion   = "v@PROJECT_VERSION@";
+static const std::string LeafBuildType = "@CMAKE_BUILD_TYPE@";
+static const std::string Arch          = (std::to_string(sizeof(void *) * 8) + "-bit");
 
-#endif //LEAF_VERSIONING_HPP
+}// namespace leaf::build
+
+#endif// LEAF_VERSIONING_HPP

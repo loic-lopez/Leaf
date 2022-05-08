@@ -6,23 +6,25 @@
 #define LEAF_LEAFSERVEROPTIONSPARSERTEST_HPP
 
 #include <gtest/gtest.h>
-#include "leaf_process_manager/models/leaf_process_manager_options.hpp"
 
-namespace Leaf::Tests {
-    class LeafServerOptionsParserTest : public ::testing::Test {
-    private:
-        std::unique_ptr<Leaf::LeafProcessManager::Models::LeafProcessManagerOptions> _processManagerOptions;
+#include "leaf_process_manager/leaf_process_manager_options.hpp"
 
-        void SetUp() override {
-            Test::SetUp();
-            _processManagerOptions = std::make_unique<Leaf::LeafProcessManager::Models::LeafProcessManagerOptions>();
-        }
+namespace leaf::test
+{
+class LeafServerOptionsParserTest : public ::testing::Test
+{
+ private:
+  std::unique_ptr<process_manager::LeafProcessManagerOptions> _processManagerOptions;
 
-    public:
-        std::unique_ptr<Leaf::LeafProcessManager::Models::LeafProcessManagerOptions> &getServerOptions() {
-            return _processManagerOptions;
-        }
-    };
-}
+  void SetUp() override
+  {
+    Test::SetUp();
+    _processManagerOptions = std::make_unique<process_manager::LeafProcessManagerOptions>();
+  }
 
-#endif //LEAF_LEAFSERVEROPTIONSPARSERTEST_HPP
+ public:
+  std::unique_ptr<process_manager::LeafProcessManagerOptions> &getServerOptions() { return _processManagerOptions; }
+};
+}// namespace leaf::test
+
+#endif// LEAF_LEAFSERVEROPTIONSPARSERTEST_HPP

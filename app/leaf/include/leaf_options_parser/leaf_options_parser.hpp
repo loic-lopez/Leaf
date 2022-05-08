@@ -6,74 +6,82 @@
 #define LEAF_OPTIONS_PARSER_HPP
 
 #include <string>
-#include <boost/program_options/variables_map.hpp>
+
 #include <boost/program_options/options_description.hpp>
-#include "leaf_process_manager/models/leaf_process_manager_options.hpp"
+#include <boost/program_options/variables_map.hpp>
 
-namespace Leaf {
+#include "leaf_process_manager/leaf_process_manager_options.hpp"
 
-    namespace CliOptions {
-        inline static const char SERVER_CONFIG_FILE[] = "server-config-file";
-        inline static const char HELP[] = "help";
-    }
+namespace leaf
+{
 
-    namespace EnvOptions {
-        inline static const char SERVER_CONFIG_FILE[] = "LEAF_SERVER_CONFIG_FILE";
-        inline static const char ENV_PREFIX[] = "LEAF_";
-    }
+namespace cli_options
+{
+inline static const char SERVER_CONFIG_FILE[] = "server-config-file";
+inline static const char HELP[]               = "help";
+}// namespace cli_options
 
-    using CallbackThatTriggersHelp =
-    bool(const std::string &option, const boost::program_options::variables_map &commandLineArgs);
+namespace env_options
+{
+inline static const char SERVER_CONFIG_FILE[] = "LEAF_SERVER_CONFIG_FILE";
+inline static const char ENV_PREFIX[]         = "LEAF_";
+}// namespace env_options
 
-    class LeafOptionsParser {
-    public:
-        enum class Status : unsigned int {
-            SUCCESS,
-            NEED_DISPLAY_HELP,
-            REQUIRED_OPTIONS_NOT_PRESENT
-        };
+using CallbackThatTriggersHelp = bool(const std::string &option, const boost::program_options::variables_map &commandLineArgs);
 
-    private:
-        class CallbackReceiver {
-        public:
-            std::function<CallbackThatTriggersHelp> optionVerifier;
-            Status statusWhenOptionVerifierMatched;
-        };
+class LeafOptionsParser
+{
+ public:
+  enum class Status : unsigned int
+  {
+    SUCCESS,
+    NEED_DISPLAY_HELP,
+    REQUIRED_OPTIONS_NOT_PRESENT
+  };
 
-        class Notifier {
-        private:
-            LeafProcessManager::Models::LeafProcessManagerOptions *const _leafProcessManagerOptions;
+ private:
+  class CallbackReceiver
+  {
+   public:
+    std::function<CallbackThatTriggersHelp> optionVerifier;
+    Status statusWhenOptionVerifierMatched;
+  };
 
-        public:
-            explicit Notifier(LeafProcessManager::Models::LeafProcessManagerOptions *leafServerOptions);
+  class Notifier
+  {
+   private:
+    process_manager::LeafProcessManagerOptions *const _leafProcessManagerOptions;
 
-            std::function<void(const std::string &)> makeServerConfigFileNotifier();
-        };
+   public:
+    explicit Notifier(process_manager::LeafProcessManagerOptions *leafServerOptions);
 
-        Notifier _notifier;
+    std::function<void(const std::string &)> makeServerConfigFileNotifier();
+  };
 
-        boost::program_options::options_description _cliRequiredOptionsDescription = boost::program_options::options_description(
-                "Required arguments");
-        boost::program_options::options_description _cliOptionalOptionsDescription = boost::program_options::options_description(
-                "Optional arguments");
-        boost::program_options::options_description _envOptionsDescription;
-        LeafProcessManager::Models::LeafProcessManagerOptions *const _leafProcessManagerOptions;
+  Notifier _notifier;
 
-        std::map<std::string, CallbackReceiver> _callbacksThatTriggersHelp;
-        boost::program_options::typed_value<std::string> *_configFileValue;
+  boost::program_options::options_description _cliRequiredOptionsDescription =
+    boost::program_options::options_description("Required arguments");
+  boost::program_options::options_description _cliOptionalOptionsDescription =
+    boost::program_options::options_description("Optional arguments");
+  boost::program_options::options_description _envOptionsDescription;
+  process_manager::LeafProcessManagerOptions *const _leafProcessManagerOptions;
 
-    protected:
-        [[nodiscard]] std::string matchEnvironmentVariable(const std::string &envVar) const;
+  std::map<std::string, CallbackReceiver> _callbacksThatTriggersHelp;
+  boost::program_options::typed_value<std::string> *_configFileValue;
 
-    public:
-        explicit LeafOptionsParser(LeafProcessManager::Models::LeafProcessManagerOptions *serverOptions);
+ protected:
+  [[nodiscard]] std::string matchEnvironmentVariable(const std::string &envVar) const;
 
-        Status parseCommandLineArgs(int ac, const char **av);
+ public:
+  explicit LeafOptionsParser(process_manager::LeafProcessManagerOptions *serverOptions);
 
-        void parseEnvironment() const;
+  Status parseCommandLineArgs(int ac, const char **av);
 
-        void displayHelp();
-    };
-}
+  void parseEnvironment() const;
 
-#endif //LEAF_OPTIONS_PARSER_HPP
+  void displayHelp();
+};
+}// namespace leaf
+
+#endif// LEAF_OPTIONS_PARSER_HPP

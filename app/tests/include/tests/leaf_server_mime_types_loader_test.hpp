@@ -6,20 +6,23 @@
 #define LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP
 
 #include <gtest/gtest.h>
-#include "models/mime_types.hpp"
 
-namespace Leaf::Tests {
-    class LeafMimeTypesLoaderTest : public ::testing::Test {
-    protected:
-        void SetUp() override {
-            Test::SetUp();
-            _mimeTypes = nullptr;
-        }
+#include "mime_type/mime_types.hpp"
 
+namespace leaf::test
+{
+class LeafMimeTypesLoaderTest : public ::testing::Test
+{
+ protected:
+  void SetUp() override
+  {
+    Test::SetUp();
+    _mimeTypes = nullptr;
+  }
 
-    public:
-        std::unique_ptr<Leaf::Models::MimeTypes> _mimeTypes;
-    };
-}
+ public:
+  std::unique_ptr<mime_type::MimeTypes> _mimeTypes;
+};
+}// namespace leaf::test
 
-#endif //LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP
+#endif// LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP

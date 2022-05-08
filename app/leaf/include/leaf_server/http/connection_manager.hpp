@@ -5,12 +5,11 @@
 #ifndef LEAF_CONNETION_MANAGER_HPP
 #define LEAF_CONNETION_MANAGER_HPP
 
+namespace leaf::server::http
+{
+class ConnectionManager
+{
+};
+}// namespace leaf::server::http
 
-namespace Leaf::LeafServer::Http {
-    class ConnectionManager {
-
-    };
-}
-
-
-#endif //LEAF_CONNETION_MANAGER_HPP
+#endif// LEAF_CONNETION_MANAGER_HPP

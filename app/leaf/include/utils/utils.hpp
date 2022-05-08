@@ -6,13 +6,10 @@
 #define LEAF_UTILS_HPP
 
 #include <string>
-#include "utils/leaf_build.hpp"
 
-namespace Leaf {
-    class Utils {
-    public:
-        static std::string BuildInfo();
-    };
+namespace leaf::utils
+{
+extern std::string BuildInfo();
 }
 
-#endif //LEAF_UTILS_HPP
+#endif// LEAF_UTILS_HPP
