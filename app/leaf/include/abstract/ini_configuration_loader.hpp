@@ -25,18 +25,18 @@ class INIConfigurationLoader
     std::vector<std::string> properties;
   };
 
- protected:
   const std::vector<IniSection> _sections;
 
   template<leaf::concepts::LeafExceptionClass LeafException>
   boost::property_tree::ptree initializeBoostPtree(const std::string &configFilePath);
 
   virtual void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string &configFilePath);
+  explicit INIConfigurationLoader(std::vector<IniSection> sections);
 
  public:
   virtual stl_memory_container<Model> load(const std::string &configFilePath) = 0;
 
-  explicit INIConfigurationLoader(std::vector<IniSection> sections);
+  virtual ~INIConfigurationLoader() = default;
 };
 }// namespace leaf::abstract
 

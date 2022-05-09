@@ -83,7 +83,7 @@ std::string LeafOptionsParser::matchEnvironmentVariable(const std::string &envVa
   return matched ? envVar : "";
 }
 
-void LeafOptionsParser::displayHelp()
+void LeafOptionsParser::displayHelp() const
 {
   std::cout << "Leaf: " << utils::BuildInfo() << std::endl;
   std::cout << "Usage: [--option=value] [--option]" << std::endl << std::endl;

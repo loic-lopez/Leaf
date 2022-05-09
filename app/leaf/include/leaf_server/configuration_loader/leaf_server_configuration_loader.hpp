@@ -16,11 +16,12 @@ class LeafServerConfigurationLoader : public abstract::INIConfigurationLoader<st
   inline static const std::vector<std::string> _properties = {{"port"}, {"document_root_path"}, {"listen_addr"}};
 
  public:
-  inline static const char LEAF_SERVER_SECTION[] = "LeafServer";
+  constexpr static const char LEAF_SERVER_SECTION[] = "LeafServer";
 
   std::shared_ptr<LeafServerConfiguration> load(const std::string &configFilePath) override;
 
   explicit LeafServerConfigurationLoader();
+  virtual ~LeafServerConfigurationLoader() = default;
 };
 }// namespace leaf::server::configuration_loader
 

@@ -50,7 +50,7 @@ void INIConfigurationLoader<stl_memory_container, Model>::checkForPtreeIntegrity
     {
       auto propertyCount = pTree.find(sectionName)->second.count(property);
       if (propertyCount == 0)
-        BOOST_THROW_EXCEPTION(exception::IniPropertyInSectionException(exception::IniPropertyInSectionException::MISSING, property,
+        BOOST_THROW_EXCEPTION(exception::IniPropertyInSectionException(exception::IniPropertyInSectionException::ExceptionType::MISSING, property,
                                                                        sectionName, configFilePath, std::source_location::current()));
     }
   }
