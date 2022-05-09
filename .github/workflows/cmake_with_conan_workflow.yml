@@ -19,18 +19,18 @@ jobs:
       branchName: ${{ steps.gitversion.outputs.branchName }}
       artifactName: ${{ steps.image_artifact.outputs.name }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.7
+        uses: gittools/actions/gitversion/setup@v0.9.13
         with:
           versionSpec: '5.x'
 
       - name: Determine Version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.7
+        uses: gittools/actions/gitversion/execute@v0.9.13
         with:
           useConfigFile: true
 
@@ -52,7 +52,7 @@ jobs:
             ghcr.io/loic-lopez/cmake_with_conan:${{ steps.prefixed_semver.outputs.semVer }} > \
             cmake_with_conan/${{ steps.image_artifact.outputs.name }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: cmake_with_conan_${{ steps.prefixed_semver.outputs.semVer }}
           path: cmake_with_conan/${{ steps.image_artifact.outputs.name }}
@@ -63,7 +63,7 @@ jobs:
     if: contains(needs.build.outputs.branchName, 'main')
     steps:
       - name: Download cmake_with_conan:${{ needs.build.outputs.semVer }} Docker image (Artifact)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: cmake_with_conan_${{ needs.build.outputs.semVer }}
           path: cmake_with_conan/
