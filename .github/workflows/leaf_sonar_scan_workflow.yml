@@ -16,13 +16,13 @@ on:
 jobs:
   build_test_and_scan:
     runs-on: ubuntu-latest
-    container: ghcr.io/loic-lopez/sonar_cloud_scanner:v0.1.48
+    container: ghcr.io/loic-lopez/sonar_cloud_scanner:latest
     defaults:
       run:
         shell: bash
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
         

@@ -19,18 +19,18 @@ jobs:
       branchName: ${{ steps.gitversion.outputs.branchName }}
       artifactName: ${{ steps.image_artifact.outputs.name }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.7
+        uses: gittools/actions/gitversion/setup@v0.9.13
         with:
           versionSpec: '5.x'
 
       - name: Determine Version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.7
+        uses: gittools/actions/gitversion/execute@v0.9.13
         with:
           useConfigFile: true
 
@@ -52,7 +52,7 @@ jobs:
             ghcr.io/loic-lopez/sonar_cloud_scanner:${{ steps.prefixed_semver.outputs.semVer }} > \
             sonar_cloud_scanner/${{ steps.image_artifact.outputs.name }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: sonar_cloud_scanner_${{ steps.prefixed_semver.outputs.semVer }}
           path: sonar_cloud_scanner/${{ steps.image_artifact.outputs.name }}
@@ -63,7 +63,7 @@ jobs:
     if: contains(needs.build.outputs.branchName, 'main')
     steps:
       - name: Download sonar_cloud_scanner:${{ needs.build.outputs.semVer }} Docker image (Artifact)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: sonar_cloud_scanner_${{ needs.build.outputs.semVer }}
           path: sonar_cloud_scanner/

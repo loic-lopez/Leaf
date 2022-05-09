@@ -38,4 +38,5 @@
 /.idea/
 .vs
 /build*
+out
 
