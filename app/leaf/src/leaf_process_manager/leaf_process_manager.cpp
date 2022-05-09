@@ -33,15 +33,15 @@ void LeafProcessManager::displayBanner() const
 void LeafProcessManager::loadLeafConfiguration()
 {
   configuration_loader::LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
-  std::string configFilePath = _processManagerOptions->getServerConfigFilePath();
+  std::filesystem::path const configFilePath = _processManagerOptions->getServerConfigFilePath();
 
   if (!std::filesystem::exists(configFilePath)) {
-    BOOST_THROW_EXCEPTION(exception::LeafServerConfigDirNotFound(configFilePath, std::source_location::current()));
+    BOOST_THROW_EXCEPTION(exception::LeafServerConfigDirNotFound(configFilePath.string(), std::source_location::current()));
   }
 
-  std::filesystem::current_path(std::filesystem::path(configFilePath).parent_path());
+  std::filesystem::current_path(configFilePath.parent_path());
 
-  std::cout << "Loading leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
+  std::cout << "Loading leaf_server configuration at: " + configFilePath.string() << ". {MOVE TO LOG}" << std::endl;
   _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePath);
 
   for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath()))
@@ -54,7 +54,7 @@ void LeafProcessManager::loadLeafConfiguration()
     }
   }
 
-  std::cout << "Successfully loaded leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
+  std::cout << "Successfully loaded leaf_server configuration at: " + configFilePath.string() << ". {MOVE TO LOG}" << std::endl;
 }
 
 void LeafProcessManager::startServers() const
