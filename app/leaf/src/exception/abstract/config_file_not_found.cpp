@@ -11,7 +11,7 @@ namespace leaf::exception::abstract
 
 void ConfigFileNotFound::buildStdExceptionMessage(const char *exceptionClassName)
 {
-  boost::format exceptionFormat = boost::format("%1% exception raised:\nthis means config file located at %2% doesn't exists.");
+  boost::format exceptionFormat("%1% exception raised:\nthis means config file located at %2% doesn't exists.");
   exceptionFormat % exceptionClassName % _configFilePath;
   _msg = exceptionFormat.str();
 }

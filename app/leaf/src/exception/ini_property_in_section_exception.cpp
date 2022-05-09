@@ -17,13 +17,13 @@ IniPropertyInSectionException::IniPropertyInSectionException(const ExceptionType
                                                              const std::string_view &configFilePath, const std::source_location &location)
     : exception::IniSectionNotFound(section, configFilePath, location), _property(property), _exceptionType(exceptionType)
 {
-  IniPropertyInSectionException::buildStdExceptionMessage("IniPropertyInSectionNotFound");
+  IniPropertyInSectionException::buildStdExceptionMessage(__FUNCTION__);
   *this << exception::error_info::errinfo_ini_property_in_section(_property);
 }
 
 void IniPropertyInSectionException::buildStdExceptionMessage(const char *exceptionClassName)
 {
-  boost::format exceptionFormat = boost::format("%1% exception raised:\nthis means the leaf_server ini config file located at %2% %3%.");
+  boost::format exceptionFormat("%1% exception raised:\nthis means the leaf_server ini config file located at %2% %3%.");
   exceptionFormat % exceptionClassName;
   exceptionFormat % _configFilePath;
   if (_exceptionType == ExceptionType::MISSING)

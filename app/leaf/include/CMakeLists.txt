@@ -24,6 +24,7 @@ set(LEAF_INCLUDES
         # Exceptions
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/mime_types_config_file_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/leaf_server_config_file_not_found.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/exception/leaf_server_config_dir_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/error_info.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/ini_section_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/ini_property_in_section_exception.hpp

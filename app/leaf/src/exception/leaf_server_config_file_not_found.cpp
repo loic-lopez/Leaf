@@ -11,7 +11,7 @@ LeafServerConfigFileNotFound::LeafServerConfigFileNotFound(const std::string &co
                                                            const std::source_location &location)
     : ConfigFileNotFound(configFilePath, _errno, location)
 {
-  ConfigFileNotFound::buildStdExceptionMessage("LeafServerConfigFileNotFound");
+  ConfigFileNotFound::buildStdExceptionMessage(__FUNCTION__);
   *this << exception::error_info::errinfo_server_config_file_path(_configFilePath);
 }
 
