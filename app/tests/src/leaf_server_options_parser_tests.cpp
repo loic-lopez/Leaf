@@ -3,6 +3,7 @@
 //
 
 #include <cstdlib>
+
 #include "leaf_process_manager/leaf_process_manager.hpp"
 #include "tests/leaf_server_options_parser_test.hpp"
 
@@ -12,143 +13,147 @@ constexpr auto setEnv = _putenv_s;
 
 #else
 
-constexpr auto setEnv = [](const char *key, const char *value) {
-    setenv(key, value, 0);
-};
+constexpr auto setEnv = [](const char *key, const char *value) { setenv(key, value, 0); };
 
 #endif
 
-using namespace Leaf::Tests;
+namespace leaf::test
+{
 
-TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_no_params_must_throw_required_option) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
+TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_no_params_must_throw_required_option)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-    ASSERT_THROW(leafOptionsParser.parseCommandLineArgs(1, nullptr), boost::program_options::required_option);
+  ASSERT_THROW(leafOptionsParser.parseCommandLineArgs(1, nullptr), boost::program_options::required_option);
 }
 
-TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must_without_required_param_must_throw) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
+TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must_without_required_param_must_throw)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-    std::array args = {"test", "--too"};
+  std::array args = {"test", "--too"};
 
-    ASSERT_THROW(leafOptionsParser.parseCommandLineArgs(2, args.data()), boost::program_options::required_option);
+  ASSERT_THROW(leafOptionsParser.parseCommandLineArgs(2, args.data()), boost::program_options::required_option);
 }
 
+TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must_not_throw)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
+  std::string serverConfigFileArg = "--";
+  serverConfigFileArg += cli_options::SERVER_CONFIG_FILE;
+  serverConfigFileArg += "=some_path";
+  std::array args = {"test", serverConfigFileArg.c_str(), "--too"};
 
-TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_unknown_param_must_not_throw) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
-    std::string serverConfigFileArg = "--";
-    serverConfigFileArg += Leaf::CliOptions::SERVER_CONFIG_FILE;
-    serverConfigFileArg += "=some_path";
-    std::array args = {"test", serverConfigFileArg.c_str(), "--too"};
-
-    ASSERT_NO_THROW(leafOptionsParser.parseCommandLineArgs(2, args.data()));
+  ASSERT_NO_THROW(leafOptionsParser.parseCommandLineArgs(2, args.data()));
 }
 
+TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_help_option_must_return_NEED_DISPLAY_HELP)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_help_option_must_return_NEED_DISPLAY_HELP) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
+  LeafOptionsParser::Status leafOptionsParserParserStatus;
+  std::array args               = {"test", "--help"};
+  leafOptionsParserParserStatus = leafOptionsParser.parseCommandLineArgs(2, args.data());
 
-    Leaf::LeafOptionsParser::Status leafOptionsParserParserStatus;
-    std::array args = {"test", "--help"};
-    leafOptionsParserParserStatus = leafOptionsParser.parseCommandLineArgs(2, args.data());
-
-    ASSERT_EQ(leafOptionsParserParserStatus, Leaf::LeafOptionsParser::Status::NEED_DISPLAY_HELP);
+  ASSERT_EQ(leafOptionsParserParserStatus, LeafOptionsParser::Status::NEED_DISPLAY_HELP);
 }
 
-TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_known_param_must_store_it) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
+TEST_F(LeafServerOptionsParserTest, parseCommandLineArgs_with_known_param_must_store_it)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-    std::string serverConfigFileArg = "--";
-    serverConfigFileArg += Leaf::CliOptions::SERVER_CONFIG_FILE;
-    serverConfigFileArg += "=some_path";
-    std::array args = {"test", serverConfigFileArg.c_str()};
+  std::string serverConfigFileArg = "--";
+  serverConfigFileArg += leaf::cli_options::SERVER_CONFIG_FILE;
+  serverConfigFileArg += "=some_path";
+  std::array args = {"test", serverConfigFileArg.c_str()};
 
-    Leaf::LeafOptionsParser::Status leafOptionsParserParserStatus;
+  LeafOptionsParser::Status leafOptionsParserParserStatus;
 
-    ASSERT_NO_THROW(leafOptionsParserParserStatus = leafOptionsParser.parseCommandLineArgs(2, args.data()));
-    ASSERT_EQ(getServerOptions()->getServerConfigFilePath(), "some_path");
-    ASSERT_EQ(leafOptionsParserParserStatus, Leaf::LeafOptionsParser::Status::SUCCESS);
+  ASSERT_NO_THROW(leafOptionsParserParserStatus = leafOptionsParser.parseCommandLineArgs(2, args.data()));
+  ASSERT_EQ(getServerOptions()->getServerConfigFilePath(), "some_path");
+  ASSERT_EQ(leafOptionsParserParserStatus, LeafOptionsParser::Status::SUCCESS);
 }
 
-TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_accept_a_good_env_var) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
+TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_accept_a_good_env_var)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-    std::string serverConfEnvName = "LEAF_SERVER_CONFIG_FILE";
-    setEnv(serverConfEnvName.c_str(), "some_path");
+  std::string serverConfEnvName = "LEAF_SERVER_CONFIG_FILE";
+  setEnv(serverConfEnvName.c_str(), "some_path");
 
-    ASSERT_NO_THROW(leafOptionsParser.parseEnvironment());
+  ASSERT_NO_THROW(leafOptionsParser.parseEnvironment());
 }
 
-TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_not_crash_on_undeclared_env_var_from_environment) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
+TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_not_crash_on_undeclared_env_var_from_environment)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-    std::string serverConfEnvName = "LEAF_SERVER_CONFIG_FILE_FAIL";
-    setEnv(serverConfEnvName.c_str(), "some_value");
+  std::string serverConfEnvName = "LEAF_SERVER_CONFIG_FILE_FAIL";
+  setEnv(serverConfEnvName.c_str(), "some_value");
 
-    ASSERT_NO_THROW(leafOptionsParser.parseEnvironment());
+  ASSERT_NO_THROW(leafOptionsParser.parseEnvironment());
 }
 
-TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_not_throw_an_exception_when_not_env_var_is_provided) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
+TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_not_throw_an_exception_when_not_env_var_is_provided)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-    ASSERT_NO_THROW(leafOptionsParser.parseEnvironment());
+  ASSERT_NO_THROW(leafOptionsParser.parseEnvironment());
 }
 
+class LeafOptionsParser_Surcharged : public LeafOptionsParser
+{
+ public:
+  using LeafOptionsParser::LeafOptionsParser;
 
-class LeafOptionsParser_Surcharged : public Leaf::LeafOptionsParser {
-public:
-    using Leaf::LeafOptionsParser::LeafOptionsParser;
-
-    [[nodiscard]] std::string matchEnvironmentVariableCallable(const std::string &envVar) const {
-        return this->matchEnvironmentVariable(envVar);
-    };
+  [[nodiscard]] std::string matchEnvironmentVariableCallable(const std::string &envVar) const
+  {
+    return this->matchEnvironmentVariable(envVar);
+  };
 };
 
-TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_a_good_variable) {
-    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
+TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_a_good_variable)
+{
+  LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
 
-    std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable(
-            Leaf::EnvOptions::SERVER_CONFIG_FILE);
+  std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable(leaf::env_options::SERVER_CONFIG_FILE);
 
-    ASSERT_EQ(matchedEnvVar, Leaf::EnvOptions::SERVER_CONFIG_FILE);
+  ASSERT_EQ(matchedEnvVar, env_options::SERVER_CONFIG_FILE);
 }
 
-TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_an_empty_string_on_var_not_found) {
+TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_an_empty_string_on_var_not_found)
+{
+  LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
 
-    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
+  std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable("LEAF_SOME_VAR");
 
-    std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable("LEAF_SOME_VAR");
-
-    ASSERT_EQ(matchedEnvVar, "");
+  ASSERT_EQ(matchedEnvVar, "");
 }
 
+TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_an_empty_string_on_var_not_right_prefixed)
+{
+  LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
 
-TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_an_empty_string_on_var_not_right_prefixed) {
-    LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
+  std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable("SOME_VAR");
 
-    std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable("SOME_VAR");
-
-    ASSERT_EQ(matchedEnvVar, "");
+  ASSERT_EQ(matchedEnvVar, "");
 }
 
-TEST_F(LeafServerOptionsParserTest, assert_that_display_help_does_not_throw_an_exception) {
-    Leaf::LeafOptionsParser leafOptionsParser(getServerOptions().get());
+TEST_F(LeafServerOptionsParserTest, assert_that_display_help_does_not_throw_an_exception)
+{
+  LeafOptionsParser leafOptionsParser(getServerOptions().get());
 
-    std::stringstream buffer;
-    std::streambuf *sbuf = std::cout.rdbuf();
-    std::cout.rdbuf(buffer.rdbuf());
+  std::stringstream buffer;
+  std::streambuf *sbuf = std::cout.rdbuf();
+  std::cout.rdbuf(buffer.rdbuf());
 
-    leafOptionsParser.displayHelp();
+  leafOptionsParser.displayHelp();
 
-    std::cout.rdbuf(sbuf);
+  std::cout.rdbuf(sbuf);
 
-    std::cout << buffer.view();
+  std::cout << buffer.view();
 
-    if (buffer.view().empty())
-    {
-        FAIL() << "displayHelp() method of Leaf::LeafOptionsParser does not write on standard output.";
-    }
+  if (buffer.view().empty()) { FAIL() << "displayHelp() method of LeafOptionsParser does not write on standard output."; }
 }
 
-
+}// namespace leaf::test

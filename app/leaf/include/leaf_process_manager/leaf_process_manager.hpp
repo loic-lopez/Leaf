@@ -5,47 +5,41 @@
 #ifndef LEAF_PROCESS_MANAGER_HPP
 #define LEAF_PROCESS_MANAGER_HPP
 
-#include "leaf_server/leaf_server.hpp"
-#include "leaf_process_manager/models/leaf_process_manager_configuration.hpp"
 #include "leaf_options_parser/leaf_options_parser.hpp"
+#include "leaf_process_manager_configuration.hpp"
+#include "leaf_server/leaf_server.hpp"
 
-namespace Leaf::LeafProcessManager {
-    class LeafProcessManager {
-    private:
-        void displayBanner() const;
+namespace leaf::process_manager
+{
+class LeafProcessManager
+{
+ private:
+  LeafProcessManager() = default;
 
-        void startServers() const;
+  void displayBanner() const;
+  void startServers() const;
+  void waitForServers() const;
 
-        void loadLeafConfiguration();
+  void loadLeafConfiguration();
 
-        void waitForServers() const;
+ public:
+  virtual ~LeafProcessManager() = default;
 
-        LeafProcessManager() = default;
+  void parseCommandLineArgs(int ac, const char **av) const;
+  void start();
 
-    public:
-        void parseCommandLineArgs(int ac, const char **av) const;
+  static LeafProcessManager &GetInstance();
 
-        void start();
+  LeafProcessManager(const LeafProcessManager &)          = delete;
+  LeafProcessManager &operator=(const LeafProcessManager) = delete;
+  LeafProcessManager(LeafProcessManager &&)               = delete;
+  LeafProcessManager &operator=(LeafProcessManager &&)    = delete;
 
-        virtual ~LeafProcessManager();
+ private:
+  std::unique_ptr<LeafProcessManagerOptions> _processManagerOptions = std::make_unique<LeafProcessManagerOptions>();
+  std::unique_ptr<LeafProcessManagerConfiguration> _processManagerConfiguration;
+  std::vector<std::shared_ptr<server::LeafServer>> _leafServers;
+};
+}// namespace leaf::process_manager
 
-        static LeafProcessManager &GetInstance();
-
-        LeafProcessManager(const LeafProcessManager &) = delete;
-
-        LeafProcessManager &operator=(const LeafProcessManager) = delete;
-
-        LeafProcessManager(LeafProcessManager &&) = delete;
-
-        LeafProcessManager &operator=(LeafProcessManager &&) = delete;
-
-    private:
-        std::unique_ptr<Models::LeafProcessManagerOptions> _processManagerOptions =
-                std::make_unique<Models::LeafProcessManagerOptions>();
-        std::unique_ptr<Models::LeafProcessManagerConfiguration> _processManagerConfiguration;
-        std::vector<std::shared_ptr<LeafServer::LeafServer>> _leafServers;
-    };
-}
-
-
-#endif //LEAF_PROCESS_MANAGER_HPP
+#endif// LEAF_PROCESS_MANAGER_HPP

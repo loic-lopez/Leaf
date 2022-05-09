@@ -7,10 +7,10 @@
 
 #include <string>
 
-namespace Leaf::Tests::Config {
-    const std::string LeafConfigRootDirectory = "@LEAF_CONFIG_ROOT_PATH@";
-    const std::string LeafTestsConfigDirectory = "@LEAF_TESTS_CONFIG_ROOT_PATH@";
-}
+namespace leaf::test::config
+{
+const std::string LeafConfigRootDirectory  = "@LEAF_CONFIG_ROOT_PATH@";
+const std::string LeafTestsConfigDirectory = "@LEAF_TESTS_CONFIG_ROOT_PATH@";
+}// namespace leaf::test::config
 
-
-#endif //LEAF_TESTS_UTILS
+#endif// LEAF_TESTS_UTILS

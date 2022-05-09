@@ -19,7 +19,7 @@ RUN rm *.zip
 
 FROM ghcr.io/loic-lopez/cmake_with_conan:v0.1.53
 
-LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
+LABEL org.opencontainers.image.source="https://github.com/loic-lopez/leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
 LABEL org.opencontainers.image.title="sonar_cloud_scanner"
 

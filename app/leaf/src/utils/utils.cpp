@@ -2,11 +2,19 @@
 // Created by LoicL on 23/12/2020.
 //
 
-#include <iostream>
+#include <string>
+
+#include <boost/format.hpp>
+
+#include "utils/leaf_build.hpp"
 #include "utils/utils.hpp"
 
-std::string Leaf::Utils::BuildInfo() {
-    return Leaf::Build::LeafVersion
-           + ", build type: " + Leaf::Build::LeafBuildType + " [" + Leaf::Build::Arch + "]"
-           + ", build date: " + Leaf::Build::LeafBuildDate;
+namespace leaf::utils
+{
+
+std::string BuildInfo()
+{
+  return build::LeafVersion + ", build type: " + build::LeafBuildType + " [" + build::Arch + "]" + ", build date: " + build::LeafBuildDate;
 }
+
+}// namespace leaf::utils

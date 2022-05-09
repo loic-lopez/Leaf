@@ -2,7 +2,7 @@ FROM debian:stable-slim
 
 ARG CONAN_VERSION=1.48.0
 
-LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
+LABEL org.opencontainers.image.source="https://github.com/loic-lopez/leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
 LABEL org.opencontainers.image.title="cmake_with_conan"
 
