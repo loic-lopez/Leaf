@@ -18,6 +18,8 @@ struct MimeType
   const std::string type;
 
   MimeType(std::string type, std::vector<std::string> extensions) : extensions(std::move(extensions)), type(std::move(type)) {}
+
+  ~MimeType() = default;
 };
 
 }// namespace leaf::mime_type

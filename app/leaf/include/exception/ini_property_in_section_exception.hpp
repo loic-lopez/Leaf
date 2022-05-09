@@ -12,7 +12,7 @@ namespace leaf::exception
 class IniPropertyInSectionException : public IniSectionNotFound
 {
  public:
-  enum IniPropertyInSectionExceptionType
+  enum class ExceptionType
   {
     DUPLICATED,
     MISSING
@@ -20,11 +20,11 @@ class IniPropertyInSectionException : public IniSectionNotFound
 
  private:
   std::string _property;
-  IniPropertyInSectionExceptionType _exceptionType;
+  ExceptionType _exceptionType;
 
  public:
-  explicit IniPropertyInSectionException(IniPropertyInSectionExceptionType exceptionType, const std::string &property,
-                                         const std::string &section, const std::string &configFilePath,
+  explicit IniPropertyInSectionException(ExceptionType exceptionType, const std::string_view &property,
+                                         const std::string_view &section, const std::string_view &configFilePath,
                                          const std::source_location &location);
 
  protected:

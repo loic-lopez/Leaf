@@ -7,6 +7,7 @@ set(LEAF_SOURCES
         # exceptions
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/mime_types_config_file_not_found.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/leaf_server_config_file_not_found.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/exception/leaf_server_config_dir_not_found.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/ini_section_not_found.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/ini_property_in_section_exception.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/config_file_not_found.cpp

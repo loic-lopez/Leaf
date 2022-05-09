@@ -4,33 +4,38 @@
 
 #include <utility>
 
+#include <boost/format.hpp>
+
 #include "exception/error_info.hpp"
 #include "exception/ini_property_in_section_exception.hpp"
 
 namespace leaf::exception
 {
 
-IniPropertyInSectionException::IniPropertyInSectionException(const IniPropertyInSectionExceptionType exceptionType,
-                                                             const std::string &property, const std::string &section,
-                                                             const std::string &configFilePath, const std::source_location &location)
+IniPropertyInSectionException::IniPropertyInSectionException(const ExceptionType exceptionType,
+                                                             const std::string_view &property, const std::string_view &section,
+                                                             const std::string_view &configFilePath, const std::source_location &location)
     : exception::IniSectionNotFound(section, configFilePath, location), _property(property), _exceptionType(exceptionType)
 {
-  IniPropertyInSectionException::buildStdExceptionMessage("IniPropertyInSectionNotFound");
-  *this << exception::error_info::errinfo_ini_property_in_section(property);
+  IniPropertyInSectionException::buildStdExceptionMessage(__FUNCTION__);
+  *this << exception::error_info::errinfo_ini_property_in_section(_property);
 }
 
 void IniPropertyInSectionException::buildStdExceptionMessage(const char *exceptionClassName)
 {
-  _msg = exceptionClassName;
-  _msg += " exception raised:\n";
-  _msg += "this means the leaf_server ini config file located at " + _configFilePath;
-  if (_exceptionType == IniPropertyInSectionExceptionType::MISSING)
+  boost::format exceptionFormat("%1% exception raised:\nthis means the leaf_server ini config file located at %2% %3%.");
+  exceptionFormat % exceptionClassName;
+  exceptionFormat % _configFilePath;
+  if (_exceptionType == ExceptionType::MISSING)
   {
-    _msg += " doesn't have a property ";
-    _msg += _property + " in section ";
-    _msg += _section + " while it is required.";
+    exceptionFormat % (" doesn't have a property " + _property + " in section " + _section + " while it is required.");
   }
-  else { _msg += " the property " + _property + " is declared multiple times in section " + _section + "."; }
+  else
+  {
+    exceptionFormat % (" the property " + _property + " is declared multiple times in section " + _section);
+  }
+
+  _msg = exceptionFormat.str();
 }
 
 }// namespace leaf::exception

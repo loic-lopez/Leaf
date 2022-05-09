@@ -13,7 +13,7 @@ namespace leaf::concepts
 {
 
 template<class LeafException>
-concept LeafExceptionClass = std::is_base_of<interface::IException, LeafException>::value;
+concept LeafExceptionClass = std::is_base_of_v<interface::IException, LeafException>;
 
 }
 

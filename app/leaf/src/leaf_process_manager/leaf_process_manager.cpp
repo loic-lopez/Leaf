@@ -3,12 +3,14 @@
 //
 
 #include <filesystem>
+#include <source_location>
 
 #include <boost/interprocess/detail/os_thread_functions.hpp>
 
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
 #include "utils/utils.hpp"
+#include "exception/leaf_server_config_dir_not_found.hpp"
 
 namespace leaf::process_manager
 {
@@ -31,10 +33,15 @@ void LeafProcessManager::displayBanner() const
 void LeafProcessManager::loadLeafConfiguration()
 {
   configuration_loader::LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
-  std::string configFilePath = _processManagerOptions->getServerConfigFilePath();
-  std::filesystem::current_path(std::filesystem::path(configFilePath).parent_path());
+  std::filesystem::path const configFilePath = _processManagerOptions->getServerConfigFilePath();
 
-  std::cout << "Loading leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
+  if (!std::filesystem::exists(configFilePath)) {
+    BOOST_THROW_EXCEPTION(exception::LeafServerConfigDirNotFound(configFilePath.string(), std::source_location::current()));
+  }
+
+  std::filesystem::current_path(configFilePath.parent_path());
+
+  std::cout << "Loading leaf_server configuration at: " + configFilePath.string() << ". {MOVE TO LOG}" << std::endl;
   _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePath);
 
   for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath()))
@@ -47,7 +54,7 @@ void LeafProcessManager::loadLeafConfiguration()
     }
   }
 
-  std::cout << "Successfully loaded leaf_server configuration at: " + configFilePath << ". {MOVE TO LOG}" << std::endl;
+  std::cout << "Successfully loaded leaf_server configuration at: " + configFilePath.string() << ". {MOVE TO LOG}" << std::endl;
 }
 
 void LeafProcessManager::startServers() const

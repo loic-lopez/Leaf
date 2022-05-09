@@ -16,7 +16,7 @@ class IniSectionNotFound : public exception::abstract::Exception
   std::string _configFilePath;
 
  public:
-  explicit IniSectionNotFound(const std::string &section, const std::string &configFilePath, const std::source_location &location);
+  explicit IniSectionNotFound(const std::string_view &section, const std::string_view &configFilePath, const std::source_location &location);
 
  protected:
   void buildStdExceptionMessage(const char *exceptionClassName) override;

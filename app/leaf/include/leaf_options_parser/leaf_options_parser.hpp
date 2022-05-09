@@ -17,14 +17,14 @@ namespace leaf
 
 namespace cli_options
 {
-inline static const char SERVER_CONFIG_FILE[] = "server-config-file";
-inline static const char HELP[]               = "help";
+constexpr static const char SERVER_CONFIG_FILE[] = "server-config-file";
+constexpr static const char HELP[]               = "help";
 }// namespace cli_options
 
 namespace env_options
 {
-inline static const char SERVER_CONFIG_FILE[] = "LEAF_SERVER_CONFIG_FILE";
-inline static const char ENV_PREFIX[]         = "LEAF_";
+constexpr static const char SERVER_CONFIG_FILE[] = "LEAF_SERVER_CONFIG_FILE";
+constexpr static const char ENV_PREFIX[]         = "LEAF_";
 }// namespace env_options
 
 using CallbackThatTriggersHelp = bool(const std::string &option, const boost::program_options::variables_map &commandLineArgs);
@@ -80,7 +80,7 @@ class LeafOptionsParser
 
   void parseEnvironment() const;
 
-  void displayHelp();
+  void displayHelp() const;
 };
 }// namespace leaf
 

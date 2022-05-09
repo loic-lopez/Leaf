@@ -31,6 +31,7 @@ class Exception : public interface::IException
 
  public:
   explicit Exception(const std::source_location &sourceLocation);
+  virtual ~Exception() = default;
 
   const char *what() const noexcept override;
 };

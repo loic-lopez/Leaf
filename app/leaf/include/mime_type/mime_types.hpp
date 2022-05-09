@@ -15,7 +15,7 @@ struct MimeTypes
 {
   const std::vector<MimeType> mimeTypes;
 
-  inline static const char DEFAULT[] = "text/plain";
+  constexpr static const char DEFAULT[] = "text/plain";
 
   [[nodiscard]] std::string extensionToType(const std::string &extension) const
   {
