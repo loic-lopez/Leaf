@@ -6,7 +6,7 @@ RUN mkdir /tools/
 
 WORKDIR /tools
 
-RUN apt-get update && apt-get install wget unzip -y
+RUN apt-get update && apt-get install wget unzip ca-certificates --no-install-recommends -y
 
 RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip \
     && unzip sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip \
@@ -23,9 +23,9 @@ LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
 LABEL org.opencontainers.image.title="sonar_cloud_scanner"
 
-RUN apt-get update && apt-get install git -y && apt-get clean
+RUN apt-get update && apt-get install git --no-install-recommends -y && apt-get clean
 
-RUN pip install gcovr==5.1 --no-cache-dir && gcovr --version
+RUN pip install gcovr==5.0 --no-cache-dir && gcovr --version
 
 RUN mkdir -p /sonar/build-wrapper-linux-x86
 RUN mkdir -p /sonar/sonar-scanner-cli
