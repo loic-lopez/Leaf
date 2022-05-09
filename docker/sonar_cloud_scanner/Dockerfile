@@ -1,6 +1,6 @@
-FROM debian:bookworm-slim as sonar_cloud_scanner_builder
+FROM debian:stable-slim as sonar_cloud_scanner_builder
 
-ARG SONAR_SCANNER_VERSION=4.6.2.2472
+ARG SONAR_SCANNER_VERSION=4.7.0.2747
 
 RUN mkdir /tools/
 
@@ -17,7 +17,7 @@ RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip \
 
 RUN rm *.zip
 
-FROM ghcr.io/loic-lopez/cmake_with_conan:v0.1.50
+FROM ghcr.io/loic-lopez/cmake_with_conan:v0.1.53
 
 LABEL org.opencontainers.image.source="https://github.com/loic-lopez/Leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
@@ -25,7 +25,7 @@ LABEL org.opencontainers.image.title="sonar_cloud_scanner"
 
 RUN apt-get update && apt-get install git -y && apt-get clean
 
-RUN pip install gcovr==5.0 && gcovr --version
+RUN pip install gcovr==5.1 --no-cache-dir && gcovr --version
 
 RUN mkdir -p /sonar/build-wrapper-linux-x86
 RUN mkdir -p /sonar/sonar-scanner-cli
@@ -35,12 +35,8 @@ COPY --from=sonar_cloud_scanner_builder /tools/build-wrapper-linux-x86 /sonar/bu
 
 COPY --from=sonar_cloud_scanner_builder /tools/sonar-scanner-cli /sonar/sonar-scanner-cli
 
-ENV PATH=$PATH:/sonar/build-wrapper-linux-x86
-
-ENV PATH=$PATH:/sonar/sonar-scanner-cli/bin
-
 COPY ./scripts/sonar_test_report_converter.py /sonar/bin/sonar_test_report_converter
 
 RUN chmod +x /sonar/bin/sonar_test_report_converter
 
-ENV PATH=$PATH:/sonar/bin
+ENV PATH=$PATH:/sonar/build-wrapper-linux-x86:/sonar/sonar-scanner-cli/bin:/sonar/bin
