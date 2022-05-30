@@ -11,15 +11,16 @@ namespace leaf::exception
 {
 class LeafServerConfigDirNotFound : public abstract::Exception
 {
- private:
-  std::string _configurationDirectory;
- public:
-  explicit LeafServerConfigDirNotFound(const std::string_view &configurationDirectory, const std::source_location &location);
-  virtual ~LeafServerConfigDirNotFound() = default;
+  public:
+    explicit LeafServerConfigDirNotFound(const std::string_view &configurationDirectory, const std::source_location &location);
+    virtual ~LeafServerConfigDirNotFound() = default;
 
- protected:
-  void buildStdExceptionMessage(const char *exceptionClassName) override;
+  protected:
+    void buildStdExceptionMessage(const char *exceptionClassName) override;
+
+  private:
+    std::string _configurationDirectory;
 };
-}
+}// namespace leaf::exception
 
 #endif// __LEAF_SERVER_CONF_DIR_NOT_FOUND_HPP__

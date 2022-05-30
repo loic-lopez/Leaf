@@ -11,8 +11,8 @@ namespace leaf::exception
 {
 class LeafServerConfigFileNotFound : public exception::abstract::ConfigFileNotFound
 {
- public:
-  explicit LeafServerConfigFileNotFound(const std::string &configFilePath, int _errno, const std::source_location &location);
+  public:
+    explicit LeafServerConfigFileNotFound(const std::string &configFilePath, int _errno, const std::source_location &location);
 };
 }// namespace leaf::exception
 

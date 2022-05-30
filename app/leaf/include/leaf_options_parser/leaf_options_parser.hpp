@@ -31,56 +31,56 @@ using CallbackThatTriggersHelp = bool(const std::string &option, const boost::pr
 
 class LeafOptionsParser
 {
- public:
-  enum class Status : unsigned int
-  {
-    SUCCESS,
-    NEED_DISPLAY_HELP,
-    REQUIRED_OPTIONS_NOT_PRESENT
-  };
+  public:
+    enum class Status : unsigned int
+    {
+      SUCCESS,
+      NEED_DISPLAY_HELP,
+      REQUIRED_OPTIONS_NOT_PRESENT
+    };
 
- private:
-  class CallbackReceiver
-  {
-   public:
-    std::function<CallbackThatTriggersHelp> optionVerifier;
-    Status statusWhenOptionVerifierMatched;
-  };
+  private:
+    class CallbackReceiver
+    {
+      public:
+        std::function<CallbackThatTriggersHelp> optionVerifier;
+        Status statusWhenOptionVerifierMatched;
+    };
 
-  class Notifier
-  {
-   private:
+    class Notifier
+    {
+      private:
+        process_manager::LeafProcessManagerOptions *const _leafProcessManagerOptions;
+
+      public:
+        explicit Notifier(process_manager::LeafProcessManagerOptions *leafServerOptions);
+
+        std::function<void(const std::string &)> makeServerConfigFileNotifier();
+    };
+
+    Notifier _notifier;
+
+    boost::program_options::options_description _cliRequiredOptionsDescription =
+      boost::program_options::options_description("Required arguments");
+    boost::program_options::options_description _cliOptionalOptionsDescription =
+      boost::program_options::options_description("Optional arguments");
+    boost::program_options::options_description _envOptionsDescription;
     process_manager::LeafProcessManagerOptions *const _leafProcessManagerOptions;
 
-   public:
-    explicit Notifier(process_manager::LeafProcessManagerOptions *leafServerOptions);
+    std::map<std::string, CallbackReceiver> _callbacksThatTriggersHelp;
+    boost::program_options::typed_value<std::string> *_configFileValue;
 
-    std::function<void(const std::string &)> makeServerConfigFileNotifier();
-  };
+  protected:
+    [[nodiscard]] std::string matchEnvironmentVariable(const std::string &envVar) const;
 
-  Notifier _notifier;
+  public:
+    explicit LeafOptionsParser(process_manager::LeafProcessManagerOptions *serverOptions);
 
-  boost::program_options::options_description _cliRequiredOptionsDescription =
-    boost::program_options::options_description("Required arguments");
-  boost::program_options::options_description _cliOptionalOptionsDescription =
-    boost::program_options::options_description("Optional arguments");
-  boost::program_options::options_description _envOptionsDescription;
-  process_manager::LeafProcessManagerOptions *const _leafProcessManagerOptions;
+    Status parseCommandLineArgs(int ac, const char **av);
 
-  std::map<std::string, CallbackReceiver> _callbacksThatTriggersHelp;
-  boost::program_options::typed_value<std::string> *_configFileValue;
+    void parseEnvironment() const;
 
- protected:
-  [[nodiscard]] std::string matchEnvironmentVariable(const std::string &envVar) const;
-
- public:
-  explicit LeafOptionsParser(process_manager::LeafProcessManagerOptions *serverOptions);
-
-  Status parseCommandLineArgs(int ac, const char **av);
-
-  void parseEnvironment() const;
-
-  void displayHelp() const;
+    void displayHelp() const;
 };
 }// namespace leaf
 

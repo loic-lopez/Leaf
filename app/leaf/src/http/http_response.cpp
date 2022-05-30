@@ -18,7 +18,7 @@ std::vector<boost::asio::const_buffer> HttpResponse::toBuffers()
 {
   std::vector<boost::asio::const_buffer> buffers;
 
-  buffers.push_back(ToAsioBuffer(status));
+  buffers.emplace_back(status_strings::ToAsioBuffer(status));
   for (auto &header : headers)
   {
     HttpHeader &h = header;
@@ -36,7 +36,7 @@ HttpResponse HttpResponse::StockReply(HttpResponse::Status status)
 {
   HttpResponse httpResponse;
   httpResponse.status  = status;
-  httpResponse.content = stock_replies::StatusToString(status);
+  httpResponse.content = stock_replies::StatusToStockReply(status);
   httpResponse.headers.resize(2);
   httpResponse.headers[0].name  = "Content-Length";
   httpResponse.headers[0].value = std::to_string(httpResponse.content.size());

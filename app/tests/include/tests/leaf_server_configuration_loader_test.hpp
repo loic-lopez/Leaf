@@ -13,15 +13,15 @@ namespace leaf::test
 {
 class LeafProcessManagerConfigurationLoaderTest : public ::testing::Test
 {
- protected:
-  void SetUp() override
-  {
-    Test::SetUp();
-    _processManagerConfiguration = nullptr;
-  }
+  protected:
+    void SetUp() override
+    {
+      Test::SetUp();
+      _processManagerConfiguration = nullptr;
+    }
 
- public:
-  std::unique_ptr<leaf::process_manager::LeafProcessManagerConfiguration> _processManagerConfiguration;
+  public:
+    std::unique_ptr<leaf::process_manager::LeafProcessManagerConfiguration> _processManagerConfiguration;
 };
 }// namespace leaf::test
 

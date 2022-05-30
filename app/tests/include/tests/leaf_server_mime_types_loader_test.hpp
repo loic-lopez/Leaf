@@ -13,15 +13,15 @@ namespace leaf::test
 {
 class LeafMimeTypesLoaderTest : public ::testing::Test
 {
- protected:
-  void SetUp() override
-  {
-    Test::SetUp();
-    _mimeTypes = nullptr;
-  }
+  protected:
+    void SetUp() override
+    {
+      Test::SetUp();
+      _mimeTypes = nullptr;
+    }
 
- public:
-  std::unique_ptr<mime_type::MimeTypes> _mimeTypes;
+  public:
+    std::unique_ptr<mime_type::MimeTypes> _mimeTypes;
 };
 }// namespace leaf::test
 

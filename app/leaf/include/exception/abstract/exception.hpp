@@ -22,19 +22,20 @@ namespace leaf::exception::abstract
 
 class Exception : public interface::IException
 {
- private:
-  std::source_location _sourceLocation;
+  public:
+    explicit Exception(const std::source_location &sourceLocation);
+    virtual ~Exception() = default;
 
- protected:
-  std::string _msg;
-  virtual void buildStdExceptionMessage(const char *exceptionClassName) = 0;
+    const char *what() const noexcept override;
 
- public:
-  explicit Exception(const std::source_location &sourceLocation);
-  virtual ~Exception() = default;
+  protected:
+    std::string _msg;
+    virtual void buildStdExceptionMessage(const char *exceptionClassName) = 0;
 
-  const char *what() const noexcept override;
+  private:
+    std::source_location _sourceLocation;
 };
+
 }// namespace leaf::exception::abstract
 
 #endif// LEAF_EXCEPTION_HPP

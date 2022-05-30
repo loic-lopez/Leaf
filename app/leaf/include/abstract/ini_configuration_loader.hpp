@@ -18,26 +18,26 @@ namespace leaf::abstract
 template<template<class> class stl_memory_container, class Model>
 class INIConfigurationLoader
 {
- protected:
-  struct IniSection
-  {
-    std::string name;
-    std::vector<std::string> properties;
-  };
+  public:
+    virtual stl_memory_container<Model> load(const std::string &configFilePath) = 0;
+    virtual ~INIConfigurationLoader()                                           = default;
 
-  const std::vector<IniSection> _sections;
+  protected:
+    struct IniSection
+    {
+        std::string name;
+        std::vector<std::string> properties;
+    };
 
-  template<leaf::concepts::LeafExceptionClass LeafException>
-  boost::property_tree::ptree initializeBoostPtree(const std::string &configFilePath);
+    explicit INIConfigurationLoader(std::vector<IniSection> sections);
 
-  virtual void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string &configFilePath);
-  explicit INIConfigurationLoader(std::vector<IniSection> sections);
+    const std::vector<IniSection> _sections;
 
- public:
-  virtual stl_memory_container<Model> load(const std::string &configFilePath) = 0;
-
-  virtual ~INIConfigurationLoader() = default;
+    template<leaf::concepts::LeafExceptionClass LeafException>
+    boost::property_tree::ptree initializeBoostPtree(const std::string &configFilePath);
+    virtual void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string &configFilePath);
 };
+
 }// namespace leaf::abstract
 
 #include "abstract/ini_configuration_loader.tcc"

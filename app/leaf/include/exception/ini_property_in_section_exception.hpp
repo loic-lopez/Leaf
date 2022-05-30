@@ -11,25 +11,26 @@ namespace leaf::exception
 {
 class IniPropertyInSectionException : public IniSectionNotFound
 {
- public:
-  enum class ExceptionType
-  {
-    DUPLICATED,
-    MISSING
-  };
+  public:
+    enum class ExceptionType
+    {
+      DUPLICATED,
+      MISSING
+    };
 
- private:
-  std::string _property;
-  ExceptionType _exceptionType;
+    explicit IniPropertyInSectionException(
+      ExceptionType exceptionType, const std::string_view &property, const std::string_view &section,
+      const std::string_view &configFilePath, const std::source_location &location
+    );
 
- public:
-  explicit IniPropertyInSectionException(ExceptionType exceptionType, const std::string_view &property,
-                                         const std::string_view &section, const std::string_view &configFilePath,
-                                         const std::source_location &location);
+  protected:
+    void buildStdExceptionMessage(const char *exceptionClassName) override;
 
- protected:
-  void buildStdExceptionMessage(const char *exceptionClassName) override;
+  private:
+    std::string _property;
+    ExceptionType _exceptionType;
 };
+
 }// namespace leaf::exception
 
 #endif// LEAF_INI_PROPERTY_IN_SECTION_EXCEPTION_HPP

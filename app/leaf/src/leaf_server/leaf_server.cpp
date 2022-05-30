@@ -114,7 +114,8 @@ void LeafServer::accept()
       }
 
       accept();
-    });
+    }
+  );
 }
 
 void LeafServer::registerSignalsAwaitStopCallback()

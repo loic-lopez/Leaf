@@ -14,12 +14,12 @@ namespace leaf::mime_type
 
 struct MimeType
 {
-  const std::vector<std::string> extensions;
-  const std::string type;
+    const std::vector<std::string> extensions;
+    const std::string type;
 
-  MimeType(std::string type, std::vector<std::string> extensions) : extensions(std::move(extensions)), type(std::move(type)) {}
+    MimeType(std::string type, std::vector<std::string> extensions) : extensions(std::move(extensions)), type(std::move(type)) {}
 
-  ~MimeType() = default;
+    ~MimeType() = default;
 };
 
 }// namespace leaf::mime_type
