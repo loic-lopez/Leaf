@@ -11,15 +11,16 @@ namespace leaf::exception
 {
 class IniSectionNotFound : public exception::abstract::Exception
 {
- protected:
-  std::string _section;
-  std::string _configFilePath;
+  public:
+    explicit IniSectionNotFound(
+      const std::string_view &section, const std::string_view &configFilePath, const std::source_location &location
+    );
 
- public:
-  explicit IniSectionNotFound(const std::string_view &section, const std::string_view &configFilePath, const std::source_location &location);
+  protected:
+    std::string _section;
+    std::string _configFilePath;
 
- protected:
-  void buildStdExceptionMessage(const char *exceptionClassName) override;
+    void buildStdExceptionMessage(const char *exceptionClassName) override;
 };
 }// namespace leaf::exception
 

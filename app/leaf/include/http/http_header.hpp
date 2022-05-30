@@ -12,9 +12,9 @@ namespace leaf::http
 
 class HttpHeader
 {
- public:
-  std::string name;
-  std::string value;
+  public:
+    std::string name;
+    std::string value;
 };
 
 }// namespace leaf::http

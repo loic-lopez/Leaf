@@ -12,8 +12,8 @@ namespace leaf::exception
 
 class MimeTypesConfigFileNotFound : public exception::abstract::ConfigFileNotFound
 {
- public:
-  explicit MimeTypesConfigFileNotFound(const std::string &configFilePath, int _errno, const std::source_location &location);
+  public:
+    explicit MimeTypesConfigFileNotFound(const std::string &configFilePath, int _errno, const std::source_location &location);
 };
 }// namespace leaf::exception
 

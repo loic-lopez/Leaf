@@ -32,7 +32,8 @@ LeafProcessManagerConfigurationLoader::LeafProcessManagerConfigurationLoader()
     : abstract::INIConfigurationLoader<std::unique_ptr, LeafProcessManagerConfiguration>(
       {{.name = LEAF_CONFIGURATION_SECTION, .properties = _leaf_configuration_section_properties},
        {.name = LEAF_SERVERS_SECTION, .properties = _leaf_servers_section_properties},
-       {.name = HTTP_CONFIGURATION_SECTION, .properties = _http_configuration_section_properties}})
+       {.name = HTTP_CONFIGURATION_SECTION, .properties = _http_configuration_section_properties}}
+    )
 {
 }
 

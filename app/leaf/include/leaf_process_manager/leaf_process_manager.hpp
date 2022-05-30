@@ -13,32 +13,32 @@ namespace leaf::process_manager
 {
 class LeafProcessManager
 {
- private:
-  LeafProcessManager() = default;
+  private:
+    LeafProcessManager() = default;
 
-  void displayBanner() const;
-  void startServers() const;
-  void waitForServers() const;
+    void displayBanner() const;
+    void startServers() const;
+    void waitForServers() const;
 
-  void loadLeafConfiguration();
+    void loadLeafConfiguration();
 
- public:
-  virtual ~LeafProcessManager() = default;
+  public:
+    virtual ~LeafProcessManager() = default;
 
-  void parseCommandLineArgs(int ac, const char **av) const;
-  void start();
+    void parseCommandLineArgs(int ac, const char **av) const;
+    void start();
 
-  static LeafProcessManager &GetInstance();
+    static LeafProcessManager &GetInstance();
 
-  LeafProcessManager(const LeafProcessManager &)          = delete;
-  LeafProcessManager &operator=(const LeafProcessManager) = delete;
-  LeafProcessManager(LeafProcessManager &&)               = delete;
-  LeafProcessManager &operator=(LeafProcessManager &&)    = delete;
+    LeafProcessManager(const LeafProcessManager &)          = delete;
+    LeafProcessManager &operator=(const LeafProcessManager) = delete;
+    LeafProcessManager(LeafProcessManager &&)               = delete;
+    LeafProcessManager &operator=(LeafProcessManager &&)    = delete;
 
- private:
-  std::unique_ptr<LeafProcessManagerOptions> _processManagerOptions = std::make_unique<LeafProcessManagerOptions>();
-  std::unique_ptr<LeafProcessManagerConfiguration> _processManagerConfiguration;
-  std::vector<std::shared_ptr<server::LeafServer>> _leafServers;
+  private:
+    std::unique_ptr<LeafProcessManagerOptions> _processManagerOptions = std::make_unique<LeafProcessManagerOptions>();
+    std::unique_ptr<LeafProcessManagerConfiguration> _processManagerConfiguration;
+    std::vector<std::shared_ptr<server::LeafServer>> _leafServers;
 };
 }// namespace leaf::process_manager
 

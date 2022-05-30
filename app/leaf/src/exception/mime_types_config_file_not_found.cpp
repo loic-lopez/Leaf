@@ -7,8 +7,9 @@
 namespace leaf::exception
 {
 
-MimeTypesConfigFileNotFound::MimeTypesConfigFileNotFound(const std::string &configFilePath, int _errno,
-                                                         const std::source_location &location)
+MimeTypesConfigFileNotFound::MimeTypesConfigFileNotFound(
+  const std::string &configFilePath, int _errno, const std::source_location &location
+)
     : ConfigFileNotFound(configFilePath, _errno, location)
 {
   ConfigFileNotFound::buildStdExceptionMessage(__FUNCTION__);

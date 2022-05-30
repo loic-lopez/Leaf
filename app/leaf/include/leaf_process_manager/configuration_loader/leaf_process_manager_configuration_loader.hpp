@@ -14,27 +14,27 @@ namespace leaf::process_manager::configuration_loader
 {
 class LeafProcessManagerConfigurationLoader : public abstract::INIConfigurationLoader<std::unique_ptr, LeafProcessManagerConfiguration>
 {
- private:
-  inline static const std::vector<std::string> _leaf_servers_section_properties = {
-    {"servers_root_path"},
-  };
+  private:
+    inline static const std::vector<std::string> _leaf_servers_section_properties = {
+      {"servers_root_path"},
+    };
 
-  inline static const std::vector<std::string> _leaf_configuration_section_properties = {
-    {"leaf_log_directory"},
-  };
+    inline static const std::vector<std::string> _leaf_configuration_section_properties = {
+      {"leaf_log_directory"},
+    };
 
-  inline static const std::vector<std::string> _http_configuration_section_properties = {
-    {"mime_types_config_file"},
-  };
+    inline static const std::vector<std::string> _http_configuration_section_properties = {
+      {"mime_types_config_file"},
+    };
 
- public:
-  inline static const std::string LEAF_SERVERS_SECTION       = "LeafServers";
-  inline static const std::string LEAF_CONFIGURATION_SECTION = "LeafConfiguration";
-  inline static const std::string HTTP_CONFIGURATION_SECTION = "HttpConfiguration";
+  public:
+    inline static const std::string LEAF_SERVERS_SECTION       = "LeafServers";
+    inline static const std::string LEAF_CONFIGURATION_SECTION = "LeafConfiguration";
+    inline static const std::string HTTP_CONFIGURATION_SECTION = "HttpConfiguration";
 
-  std::unique_ptr<LeafProcessManagerConfiguration> load(const std::string &configFilePath) override;
+    std::unique_ptr<LeafProcessManagerConfiguration> load(const std::string &configFilePath) override;
 
-  explicit LeafProcessManagerConfigurationLoader();
+    explicit LeafProcessManagerConfigurationLoader();
 };
 }// namespace leaf::process_manager::configuration_loader
 

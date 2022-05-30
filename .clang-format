@@ -1,7 +1,6 @@
 # Generated from CLion C/C++ Code Style settings
 BasedOnStyle: Google
-AccessModifierOffset: -1
-AlignAfterOpenBracket: Align
+AlignAfterOpenBracket: BlockIndent
 AlignConsecutiveAssignments: Consecutive
 AlignOperands: DontAlign
 AllowAllArgumentsOnNextLine: false
@@ -66,3 +65,6 @@ IncludeCategories:
 AllowShortLoopsOnASingleLine: false
 SeparateDefinitionBlocks: Always
 SortUsingDeclarations: true
+FixNamespaceComments: true
+IndentAccessModifiers: true
+Standard: c++20

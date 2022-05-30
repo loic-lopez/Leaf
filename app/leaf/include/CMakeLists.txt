@@ -7,6 +7,7 @@ set(LEAF_INCLUDES
 
         # Library
         ${CMAKE_CURRENT_SOURCE_DIR}/library/singleton.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/library/constexpr_map.hpp
 
         # mime_type
         ${CMAKE_CURRENT_SOURCE_DIR}/mime_type/mime_type.hpp

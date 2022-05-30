@@ -12,12 +12,12 @@ namespace leaf::server
 
 class LeafServerConfiguration
 {
- public:
-  const int port;
-  const std::string documentRootPath;
-  const std::string listenAddr;
+  public:
+    const int port;
+    const std::string documentRootPath;
+    const std::string listenAddr;
 
-  explicit LeafServerConfiguration(int port, std::string documentRootPath, std::string listenAddr);
+    explicit LeafServerConfiguration(int port, std::string documentRootPath, std::string listenAddr);
 };
 
 }// namespace leaf::server

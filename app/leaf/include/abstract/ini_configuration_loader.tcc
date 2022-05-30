@@ -34,12 +34,13 @@ boost::property_tree::ptree INIConfigurationLoader<stl_memory_container, Model>:
 }
 
 template<template<class> class stl_memory_container, class Model>
-void INIConfigurationLoader<stl_memory_container, Model>::checkForPtreeIntegrity(const boost::property_tree::ptree &pTree,
-                                                                                 const std::string &configFilePath)
+void INIConfigurationLoader<stl_memory_container, Model>::checkForPtreeIntegrity(
+  const boost::property_tree::ptree &pTree, const std::string &configFilePath
+)
 {
   for (const auto &section : _sections)
   {
-    std::string sectionName = section.name;
+    const std::string sectionName = section.name;
 
     if (pTree.find(sectionName) == pTree.not_found())
     {
@@ -50,8 +51,10 @@ void INIConfigurationLoader<stl_memory_container, Model>::checkForPtreeIntegrity
     {
       auto propertyCount = pTree.find(sectionName)->second.count(property);
       if (propertyCount == 0)
-        BOOST_THROW_EXCEPTION(exception::IniPropertyInSectionException(exception::IniPropertyInSectionException::ExceptionType::MISSING, property,
-                                                                       sectionName, configFilePath, std::source_location::current()));
+        BOOST_THROW_EXCEPTION(exception::IniPropertyInSectionException(
+          exception::IniPropertyInSectionException::ExceptionType::MISSING, property, sectionName, configFilePath,
+          std::source_location::current()
+        ));
     }
   }
 }

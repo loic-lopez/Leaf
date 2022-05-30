@@ -103,13 +103,13 @@ TEST_F(LeafServerOptionsParserTest, parseEnvironment_must_not_throw_an_exception
 
 class LeafOptionsParser_Surcharged : public LeafOptionsParser
 {
- public:
-  using LeafOptionsParser::LeafOptionsParser;
+  public:
+    using LeafOptionsParser::LeafOptionsParser;
 
-  [[nodiscard]] std::string matchEnvironmentVariableCallable(const std::string &envVar) const
-  {
-    return this->matchEnvironmentVariable(envVar);
-  };
+    [[nodiscard]] std::string matchEnvironmentVariableCallable(const std::string &envVar) const
+    {
+      return this->matchEnvironmentVariable(envVar);
+    };
 };
 
 TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_a_good_variable)

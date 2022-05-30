@@ -13,17 +13,17 @@ namespace leaf::test
 {
 class LeafServerOptionsParserTest : public ::testing::Test
 {
- private:
-  std::unique_ptr<process_manager::LeafProcessManagerOptions> _processManagerOptions;
+  private:
+    std::unique_ptr<process_manager::LeafProcessManagerOptions> _processManagerOptions;
 
-  void SetUp() override
-  {
-    Test::SetUp();
-    _processManagerOptions = std::make_unique<process_manager::LeafProcessManagerOptions>();
-  }
+    void SetUp() override
+    {
+      Test::SetUp();
+      _processManagerOptions = std::make_unique<process_manager::LeafProcessManagerOptions>();
+    }
 
- public:
-  std::unique_ptr<process_manager::LeafProcessManagerOptions> &getServerOptions() { return _processManagerOptions; }
+  public:
+    std::unique_ptr<process_manager::LeafProcessManagerOptions> &getServerOptions() { return _processManagerOptions; }
 };
 }// namespace leaf::test
 

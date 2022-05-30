@@ -7,10 +7,10 @@
 
 #include <boost/interprocess/detail/os_thread_functions.hpp>
 
+#include "exception/leaf_server_config_dir_not_found.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
 #include "utils/utils.hpp"
-#include "exception/leaf_server_config_dir_not_found.hpp"
 
 namespace leaf::process_manager
 {
@@ -35,7 +35,8 @@ void LeafProcessManager::loadLeafConfiguration()
   configuration_loader::LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
   std::filesystem::path const configFilePath = _processManagerOptions->getServerConfigFilePath();
 
-  if (!std::filesystem::exists(configFilePath)) {
+  if (!std::filesystem::exists(configFilePath))
+  {
     BOOST_THROW_EXCEPTION(exception::LeafServerConfigDirNotFound(configFilePath.string(), std::source_location::current()));
   }
 

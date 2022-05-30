@@ -14,8 +14,9 @@ TEST(LeafServerConfigurationLoaderTest, when_initialize_leaf_server_config_file_
   configuration_loader::LeafServerConfigurationLoader leafServerConfigurationLoader;
   std::shared_ptr<LeafServerConfiguration> leafServerConfiguration;
 
-  EXPECT_NO_THROW(
-    { leafServerConfiguration = leafServerConfigurationLoader.load(config::LeafConfigRootDirectory + "/servers/http_port_80.ini"); });
+  EXPECT_NO_THROW({
+    leafServerConfiguration = leafServerConfigurationLoader.load(config::LeafConfigRootDirectory + "/servers/http_port_80.ini");
+  });
 
   ASSERT_TRUE(leafServerConfiguration.get() != nullptr);
 }
@@ -43,25 +44,24 @@ TEST(LeafServerConfigurationLoaderTest, on_missing_section_ini_section_not_found
 {
   configuration_loader::LeafServerConfigurationLoader leafServerConfigurationLoader;
 
-  EXPECT_THROW({ leafServerConfigurationLoader.load(config::LeafTestsConfigDirectory + "/servers/http_port_8080_empty.ini"); },
-               leaf::exception::IniSectionNotFound);
+  EXPECT_THROW(
+    { leafServerConfigurationLoader.load(config::LeafTestsConfigDirectory + "/servers/http_port_8080_empty.ini"); },
+    leaf::exception::IniSectionNotFound
+  );
 }
 
 TEST(LeafServerConfigurationLoaderTest, on_missing_key_value_pair_an_exception_must_be_thrown)
 {
   configuration_loader::LeafServerConfigurationLoader leafServerConfigurationLoader;
 
-  EXPECT_THROW({ leafServerConfigurationLoader.load(config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_missing_port.ini"); },
-               boost::wrapexcept<class leaf::exception::IniPropertyInSectionException>);
+  EXPECT_THROW({ leafServerConfigurationLoader.load(config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_missing_port.ini"); }, boost::wrapexcept<class leaf::exception::IniPropertyInSectionException>);
 }
 
 TEST(LeafServerConfigurationLoaderTest, on_duplicated_key_value_pair_an_exception_must_be_thrown)
 {
   configuration_loader::LeafServerConfigurationLoader leafServerConfigurationLoader;
 
-  EXPECT_THROW(
-    { leafServerConfigurationLoader.load(config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_duplicated_port.ini"); },
-    boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error>);
+  EXPECT_THROW({ leafServerConfigurationLoader.load(config::LeafTestsConfigDirectory + "/servers/http_port_8080_with_duplicated_port.ini"); }, boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error>);
 }
 
 }// namespace leaf::test

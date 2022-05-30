@@ -18,14 +18,15 @@ namespace leaf::exception::abstract
 
 class ConfigFileNotFound : public ExceptionWithErrno
 {
- protected:
-  std::string _configFilePath;
+  public:
+    explicit ConfigFileNotFound(std::string configFilePath, int _errno, const std::source_location &location);
 
-  void buildStdExceptionMessage(const char *exceptionClassName) override;
+  protected:
+    std::string _configFilePath;
 
- public:
-  explicit ConfigFileNotFound(std::string configFilePath, int _errno, const std::source_location &location);
+    void buildStdExceptionMessage(const char *exceptionClassName) override;
 };
+
 }// namespace leaf::exception::abstract
 
 #endif// LEAF_CONFIG_FILE_NOT_FOUND_HPP

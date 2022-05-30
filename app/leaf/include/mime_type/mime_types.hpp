@@ -13,22 +13,22 @@ namespace leaf::mime_type
 {
 struct MimeTypes
 {
-  const std::vector<MimeType> mimeTypes;
+    const std::vector<MimeType> mimeTypes;
 
-  constexpr static const char DEFAULT[] = "text/plain";
+    constexpr static const char DEFAULT[] = "text/plain";
 
-  [[nodiscard]] std::string extensionToType(const std::string &extension) const
-  {
-    for (const MimeType &mimeType : mimeTypes)
+    [[nodiscard]] std::string extensionToType(const std::string &extension) const
     {
-      for (std::string_view ext : mimeType.extensions)
+      for (const MimeType &mimeType : mimeTypes)
       {
-        if (ext == extension) { return mimeType.type; }
+        for (std::string_view ext : mimeType.extensions)
+        {
+          if (ext == extension) { return mimeType.type; }
+        }
       }
-    }
 
-    return DEFAULT;
-  }
+      return DEFAULT;
+    }
 };
 }// namespace leaf::mime_type
 

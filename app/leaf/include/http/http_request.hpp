@@ -15,12 +15,12 @@ namespace leaf::http::request
 /// A request received from a client.
 class HttpRequest
 {
- public:
-  std::string method;
-  std::string uri;
-  int http_version_major;
-  int http_version_minor;
-  std::vector<HttpHeader> headers;
+  public:
+    std::string method;
+    std::string uri;
+    int http_version_major;
+    int http_version_minor;
+    std::vector<HttpHeader> headers;
 };
 
 }// namespace leaf::http::request

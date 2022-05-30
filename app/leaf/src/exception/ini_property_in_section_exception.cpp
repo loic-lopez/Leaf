@@ -12,9 +12,10 @@
 namespace leaf::exception
 {
 
-IniPropertyInSectionException::IniPropertyInSectionException(const ExceptionType exceptionType,
-                                                             const std::string_view &property, const std::string_view &section,
-                                                             const std::string_view &configFilePath, const std::source_location &location)
+IniPropertyInSectionException::IniPropertyInSectionException(
+  const ExceptionType exceptionType, const std::string_view &property, const std::string_view &section,
+  const std::string_view &configFilePath, const std::source_location &location
+)
     : exception::IniSectionNotFound(section, configFilePath, location), _property(property), _exceptionType(exceptionType)
 {
   IniPropertyInSectionException::buildStdExceptionMessage(__FUNCTION__);
@@ -30,10 +31,7 @@ void IniPropertyInSectionException::buildStdExceptionMessage(const char *excepti
   {
     exceptionFormat % (" doesn't have a property " + _property + " in section " + _section + " while it is required.");
   }
-  else
-  {
-    exceptionFormat % (" the property " + _property + " is declared multiple times in section " + _section);
-  }
+  else { exceptionFormat % (" the property " + _property + " is declared multiple times in section " + _section); }
 
   _msg = exceptionFormat.str();
 }

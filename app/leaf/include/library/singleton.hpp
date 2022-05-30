@@ -10,26 +10,26 @@ namespace leaf::library
 template<typename T>
 class Singleton
 {
- public:
-  static T &Instance()
-  {
-    static T instance;// load the first time // C++11
-    return instance;  // destruction = end of the program
-  }
+  public:
+    static T &Instance()
+    {
+      static T instance;// load the first time // C++11
+      return instance;  // destruction = end of the program
+    }
 
-  // C++11, here no copy and move
-  Singleton<T>(const Singleton &) = delete;
+    // C++11, here no copy and move
+    Singleton<T>(const Singleton &) = delete;
 
-  Singleton<T> &operator=(const Singleton) = delete;
+    Singleton<T> &operator=(const Singleton) = delete;
 
-  Singleton<T>(Singleton &&) = delete;
+    Singleton<T>(Singleton &&) = delete;
 
-  Singleton<T> &operator=(Singleton &&) = delete;
+    Singleton<T> &operator=(Singleton &&) = delete;
 
- protected:
-  Singleton() = default;
+  protected:
+    Singleton() = default;
 
-  virtual ~Singleton() = default;
+    virtual ~Singleton() = default;
 };
 }// namespace leaf::library
 

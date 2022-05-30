@@ -11,9 +11,9 @@
 namespace leaf::process_manager
 {
 
-LeafProcessManagerConfiguration::LeafProcessManagerConfiguration(const std::string &serversRootPath,
-                                                                 const std::string &leafLogDirectoryPath,
-                                                                 const std::string &mimeTypesConfigFilePath)
+LeafProcessManagerConfiguration::LeafProcessManagerConfiguration(
+  const std::string &serversRootPath, const std::string &leafLogDirectoryPath, const std::string &mimeTypesConfigFilePath
+)
     : serversRootPath(boost::filesystem::weakly_canonical(serversRootPath).string()),
       leafLogDirectoryPath(boost::filesystem::weakly_canonical(leafLogDirectoryPath).string()),
       mimeTypesConfigFilePath(boost::filesystem::weakly_canonical(mimeTypesConfigFilePath).string())

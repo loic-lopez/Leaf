@@ -12,20 +12,21 @@ namespace leaf::process_manager
 
 class LeafProcessManagerConfiguration
 {
- private:
-  const std::string serversRootPath;
-  const std::string leafLogDirectoryPath;
-  const std::string mimeTypesConfigFilePath;
+  private:
+    const std::string serversRootPath;
+    const std::string leafLogDirectoryPath;
+    const std::string mimeTypesConfigFilePath;
 
- public:
-  explicit LeafProcessManagerConfiguration(const std::string &serversRootPath, const std::string &leafLogDirectoryPath,
-                                           const std::string &mimeTypesConfigFilePath);
+  public:
+    explicit LeafProcessManagerConfiguration(
+      const std::string &serversRootPath, const std::string &leafLogDirectoryPath, const std::string &mimeTypesConfigFilePath
+    );
 
-  [[nodiscard]] const std::string &getServersRootPath() const;
+    [[nodiscard]] const std::string &getServersRootPath() const;
 
-  [[nodiscard]] const std::string &getLeafLogDirectoryPath() const;
+    [[nodiscard]] const std::string &getLeafLogDirectoryPath() const;
 
-  [[nodiscard]] const std::string &getMimeTypesConfigFilePath() const;
+    [[nodiscard]] const std::string &getMimeTypesConfigFilePath() const;
 };
 
 }// namespace leaf::process_manager

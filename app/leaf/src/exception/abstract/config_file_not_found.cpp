@@ -2,9 +2,9 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#include <boost/format.hpp>
-
 #include "exception/abstract/config_file_not_found.hpp"
+
+#include <boost/format.hpp>
 
 namespace leaf::exception::abstract
 {
