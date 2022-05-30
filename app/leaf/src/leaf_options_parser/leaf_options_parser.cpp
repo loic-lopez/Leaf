@@ -79,11 +79,11 @@ std::string LeafOptionsParser::matchEnvironmentVariable(const std::string &envVa
 {
   if (!boost::algorithm::contains(envVar, env_options::ENV_PREFIX)) return "";
 
-  bool matched = std::ranges::any_of(
+  const bool matched = std::ranges::any_of(
     this->_envOptionsDescription.options().cbegin(), this->_envOptionsDescription.options().cend(),
     [envVar](const boost::shared_ptr<boost::program_options::option_description> &opt) -> bool { return envVar == opt->long_name(); }
   );
-  return matched ? envVar : "";
+  return matched ? envVar : std::string("");
 }
 
 void LeafOptionsParser::displayHelp() const
