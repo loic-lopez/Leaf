@@ -35,7 +35,7 @@ class ConstexprMap
       return endItr;
     }
 
-    constexpr ConstexprMap(std::initializer_list<std::pair<Key, Value>> list) : data {BuildContainer(list)} {}
+    explicit constexpr ConstexprMap(std::initializer_list<std::pair<Key, Value>> list) : data {BuildContainer(list)} {}
 
   private:
     std::array<std::pair<Key, Value>, Size> data;
