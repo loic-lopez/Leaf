@@ -22,7 +22,7 @@ class RequestHandler
     explicit RequestHandler(std::string doc_root, mime_type::MimeTypes mimeTypes);
 
     /// Handle a request and produce a reply.
-    void handleRequest(const http::request::HttpRequest &httpRequest, http::response::HttpResponse &httpResponse);
+    void handleRequest(const http::request::HttpRequest &httpRequest, http::response::HttpResponse &httpResponse) const;
 
   private:
     /// The directory containing the files to be served.
@@ -33,6 +33,9 @@ class RequestHandler
     /// Perform URL-decoding on a string. Returns false if the encoding was
     /// invalid.
     static bool UrlDecode(const std::string &in, std::string &out);
+
+    static std::string GetFileContent(std::ifstream &is, const std::uintmax_t fileSize);
+    static bool CheckForBadRequest(const http::request::HttpRequest &httpRequest, std::string &requestPath);
 };
 }// namespace leaf::server
 
