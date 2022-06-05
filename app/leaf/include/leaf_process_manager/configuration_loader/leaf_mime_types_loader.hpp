@@ -10,14 +10,16 @@
 namespace leaf::process_manager::configuration_loader
 {
 
+// NOSONAR
+using namespace std::string_view_literals;
+
 class MimeTypesLoader : public abstract::INIConfigurationLoader<std::unique_ptr, mime_type::MimeTypes>
 {
   public:
+    constexpr static PropertyString MIME_TYPE_SECTION = "MimesTypes"sv;
+
     explicit MimeTypesLoader();
-
     std::unique_ptr<mime_type::MimeTypes> load(const std::string &configFilePath) override;
-
-    constexpr static const char MIME_TYPE_SECTION[] = "MimesTypes";
 };
 
 }// namespace leaf::process_manager::configuration_loader

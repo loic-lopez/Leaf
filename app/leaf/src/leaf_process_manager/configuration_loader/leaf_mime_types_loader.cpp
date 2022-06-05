@@ -17,7 +17,7 @@ std::unique_ptr<mime_type::MimeTypes> MimeTypesLoader::load(const std::string &c
   boost::property_tree::ptree pTree = this->initializeBoostPtree<exception::MimeTypesConfigFileNotFound>(configFilePath);
   std::vector<mime_type::MimeType> mimeTypes;
 
-  for (const auto &[first, second] : pTree.find(MimeTypesLoader::MIME_TYPE_SECTION)->second)
+  for (const auto &[first, second] : pTree.find(MIME_TYPE_SECTION.data())->second)
   {
     auto mimeTypeValues = second.get_value<std::string>();
     std::vector<std::string> parsedMimeTypes;

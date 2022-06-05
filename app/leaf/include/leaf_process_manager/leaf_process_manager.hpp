@@ -11,17 +11,9 @@
 
 namespace leaf::process_manager
 {
+
 class LeafProcessManager
 {
-  private:
-    LeafProcessManager() = default;
-
-    void displayBanner() const;
-    void startServers() const;
-    void waitForServers() const;
-
-    void loadLeafConfiguration();
-
   public:
     virtual ~LeafProcessManager() = default;
 
@@ -39,7 +31,14 @@ class LeafProcessManager
     std::unique_ptr<LeafProcessManagerOptions> _processManagerOptions = std::make_unique<LeafProcessManagerOptions>();
     std::unique_ptr<LeafProcessManagerConfiguration> _processManagerConfiguration;
     std::vector<std::shared_ptr<server::LeafServer>> _leafServers;
+
+    LeafProcessManager() = default;
+    void displayBanner() const;
+    void startServers() const;
+    void waitForServers() const;
+    void loadLeafConfiguration();
 };
+
 }// namespace leaf::process_manager
 
 #endif// LEAF_PROCESS_MANAGER_HPP

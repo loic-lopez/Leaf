@@ -31,11 +31,11 @@ LeafOptionsParser::LeafOptionsParser(process_manager::LeafProcessManagerOptions 
     .statusWhenOptionVerifierMatched = Status::NEED_DISPLAY_HELP};
 }
 
-LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, const char **av)
+LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, const char ** const av)
 {
   boost::program_options::variables_map optionalCommandLineArgs;
 
-  boost::program_options::basic_parsed_options<char> optionalOptions =
+  const boost::program_options::basic_parsed_options<char> optionalOptions =
     boost::program_options::command_line_parser(ac, av).options(_cliOptionalOptionsDescription).allow_unregistered().run();
 
   boost::program_options::store(optionalOptions, optionalCommandLineArgs);
@@ -53,7 +53,7 @@ LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, 
 
   boost::program_options::variables_map requiredCommandLineArgs;
 
-  boost::program_options::basic_parsed_options<char> requiredOptions =
+  const boost::program_options::basic_parsed_options<char> requiredOptions =
     boost::program_options::command_line_parser(ac, av).options(_cliRequiredOptionsDescription).allow_unregistered().run();
 
   boost::program_options::store(requiredOptions, requiredCommandLineArgs);

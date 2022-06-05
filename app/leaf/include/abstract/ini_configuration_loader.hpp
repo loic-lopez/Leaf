@@ -23,10 +23,13 @@ class INIConfigurationLoader
     virtual ~INIConfigurationLoader()                                           = default;
 
   protected:
+    using PropertyString = std::string_view;
+    using PropertiesContainer = std::vector<PropertyString>;
+
     struct IniSection
     {
-        std::string name;
-        std::vector<std::string> properties;
+        PropertyString name;
+        PropertiesContainer properties;
     };
 
     explicit INIConfigurationLoader(std::vector<IniSection> sections);

@@ -9,7 +9,7 @@
 
 namespace leaf::protocol
 {
-class https : public interface::IProtocol
+class Https : public interface::IProtocol
 {
 };
 }// namespace leaf::protocol

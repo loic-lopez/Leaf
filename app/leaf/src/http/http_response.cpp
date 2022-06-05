@@ -6,7 +6,7 @@
 
 namespace leaf::http::response
 {
-namespace MiscStrings
+namespace misc_strings
 {
 
 constexpr char name_value_separator[] = {':', ' '};
@@ -23,16 +23,16 @@ std::vector<boost::asio::const_buffer> HttpResponse::toBuffers()
   {
     HttpHeader &h = header;
     buffers.emplace_back(boost::asio::buffer(h.name));
-    buffers.emplace_back(boost::asio::buffer(MiscStrings::name_value_separator));
+    buffers.emplace_back(boost::asio::buffer(misc_strings::name_value_separator));
     buffers.emplace_back(boost::asio::buffer(h.value));
-    buffers.emplace_back(boost::asio::buffer(MiscStrings::crlf));
+    buffers.emplace_back(boost::asio::buffer(misc_strings::crlf));
   }
-  buffers.emplace_back(boost::asio::buffer(MiscStrings::crlf));
+  buffers.emplace_back(boost::asio::buffer(misc_strings::crlf));
   buffers.emplace_back(boost::asio::buffer(content));
   return buffers;
 }
 
-HttpResponse HttpResponse::StockReply(HttpResponse::Status status)
+HttpResponse HttpResponse::StockReply(const HttpResponse::Status status)
 {
   HttpResponse httpResponse;
   httpResponse.status  = status;

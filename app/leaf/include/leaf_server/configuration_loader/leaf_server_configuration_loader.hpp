@@ -10,19 +10,24 @@
 
 namespace leaf::server::configuration_loader
 {
+
+// NOSONAR
+using namespace std::string_view_literals;
+
 class LeafServerConfigurationLoader : public abstract::INIConfigurationLoader<std::shared_ptr, LeafServerConfiguration>
 {
-  private:
-    inline static const std::vector<std::string> _properties = {{"port"}, {"document_root_path"}, {"listen_addr"}};
-
   public:
-    constexpr static const char LEAF_SERVER_SECTION[] = "LeafServer";
+    constexpr static PropertyString LEAF_SERVER_SECTION = "LeafServer"sv;
 
     std::shared_ptr<LeafServerConfiguration> load(const std::string &configFilePath) override;
 
     explicit LeafServerConfigurationLoader();
     virtual ~LeafServerConfigurationLoader() = default;
+
+  private:
+    inline static const std::vector<std::string_view> _properties = {{"port"sv}, {"document_root_path"sv}, {"listen_addr"sv}};
 };
+
 }// namespace leaf::server::configuration_loader
 
 #endif// LEAF_LEAF_SERVER_CONFIGURATION_LOADER_HPP

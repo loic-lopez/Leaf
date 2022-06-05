@@ -17,9 +17,9 @@ class _synced_stream
     template<class T>
     std::osyncstream operator<<(const T &value) const
     {
-      std::osyncstream synced_stream(stream);
-      synced_stream << value;
-      return synced_stream;
+      std::osyncstream syncedStream(stream);
+      syncedStream << value;
+      return syncedStream;
     }
 };
 }// namespace leaf::stream

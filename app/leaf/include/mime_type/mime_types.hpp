@@ -21,7 +21,7 @@ struct MimeTypes
     {
       for (const MimeType &mimeType : mimeTypes)
       {
-        for (std::string_view ext : mimeType.extensions)
+        for (const std::string_view ext : mimeType.extensions)
         {
           if (ext == extension) { return mimeType.type; }
         }
