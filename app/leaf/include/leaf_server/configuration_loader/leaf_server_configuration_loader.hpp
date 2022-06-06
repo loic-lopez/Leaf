@@ -11,8 +11,7 @@
 namespace leaf::server::configuration_loader
 {
 
-// NOSONAR
-using namespace std::string_view_literals;
+using namespace std::string_view_literals; //NOSONAR
 
 class LeafServerConfigurationLoader : public abstract::INIConfigurationLoader<std::shared_ptr, LeafServerConfiguration>
 {

@@ -49,7 +49,7 @@ void INIConfigurationLoader<stl_memory_container, Model>::checkForPtreeIntegrity
 
     for (const PropertyString &property : section.properties)
     {
-      auto propertyCount = pTree.find(sectionName.data())->second.count(property.data());
+      const auto propertyCount = pTree.find(sectionName.data())->second.count(property.data());
       if (propertyCount == 0)
         BOOST_THROW_EXCEPTION(exception::IniPropertyInSectionException(
           exception::IniPropertyInSectionException::ExceptionType::MISSING, property, sectionName, configFilePath,

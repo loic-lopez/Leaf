@@ -10,8 +10,7 @@
 namespace leaf::process_manager::configuration_loader
 {
 
-// NOSONAR
-using namespace std::string_view_literals;
+using namespace std::string_view_literals; // NOSONAR
 
 class MimeTypesLoader : public abstract::INIConfigurationLoader<std::unique_ptr, mime_type::MimeTypes>
 {
