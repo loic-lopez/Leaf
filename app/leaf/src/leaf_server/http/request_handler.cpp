@@ -2,9 +2,9 @@
 // Created by LoicL on 24/12/2020.
 //
 
+#include <filesystem>
 #include <fstream>
 #include <iterator>
-#include <filesystem>
 #include <utility>
 
 #include "leaf_server/http/request_handler.hpp"
@@ -31,8 +31,8 @@ void RequestHandler::handleRequest(const http::request::HttpRequest &httpRequest
   if (requestPath[requestPath.size() - 1] == '/') { requestPath += "index.html"; }
 
   // Determine the file extension.
-  const std::size_t lastSlashPos   = requestPath.find_last_of('/');
-  const std::size_t lastDotPos     = requestPath.find_last_of('.');
+  const std::size_t lastSlashPos = requestPath.find_last_of('/');
+  const std::size_t lastDotPos   = requestPath.find_last_of('.');
   std::string extension;
   if (lastDotPos != std::string::npos && lastDotPos > lastSlashPos) { extension = requestPath.substr(lastDotPos + 1); }
 

@@ -2,8 +2,8 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#ifndef LEAF_EXCEPTION_HPP
-#define LEAF_EXCEPTION_HPP
+#ifndef __LEAF_ABSTRACT_EXCEPTION_HPP__
+#define __LEAF_ABSTRACT_EXCEPTION_HPP__
 
 #include <iostream>
 #include <source_location>
@@ -24,6 +24,7 @@ class Exception : public interface::IException
 {
   public:
     explicit Exception(const std::source_location &sourceLocation);
+    Exception()          = default;
     virtual ~Exception() = default;
 
     const char *what() const noexcept override;
@@ -38,4 +39,4 @@ class Exception : public interface::IException
 
 }// namespace leaf::exception::abstract
 
-#endif// LEAF_EXCEPTION_HPP
+#endif// __LEAF_ABSTRACT_EXCEPTION_HPP__

@@ -23,7 +23,7 @@ class INIConfigurationLoader
     virtual ~INIConfigurationLoader()                                           = default;
 
   protected:
-    using PropertyString = std::string_view;
+    using PropertyString      = std::string_view;
     using PropertiesContainer = std::vector<PropertyString>;
 
     struct IniSection

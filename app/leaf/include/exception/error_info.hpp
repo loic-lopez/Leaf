@@ -2,8 +2,8 @@
 // Created by LoicL on 06/12/2020.
 //
 
-#ifndef LEAF_ERROR_INFO_HPP
-#define LEAF_ERROR_INFO_HPP
+#ifndef __LEAF_ABSTRACT_ERROR_INFO_HPP__
+#define __LEAF_ABSTRACT_ERROR_INFO_HPP__
 
 #include <string>
 
@@ -17,4 +17,4 @@ using errinfo_ini_section                 = boost::error_info<struct errinfo_ini
 using errinfo_ini_property_in_section     = boost::error_info<struct errinfo_ini_property_in_section_, std::string>;
 }// namespace leaf::exception::error_info
 
-#endif// LEAF_ERROR_INFO_HPP
+#endif// __LEAF_ABSTRACT_ERROR_INFO_HPP__

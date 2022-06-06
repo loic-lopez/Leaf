@@ -14,12 +14,12 @@ namespace leaf::process_manager
 
 class LeafProcessManagerOptions
 {
- public:
-  [[nodiscard]] const std::string &getServerConfigFilePath() const;
-  void setServerConfigFilePath(const std::string &serverConfigFilePath);
+  public:
+    [[nodiscard]] const std::string &getServerConfigFilePath() const;
+    void setServerConfigFilePath(const std::string &serverConfigFilePath);
 
- private:
-  std::string _serverConfigFilePath;
+  private:
+    std::string _serverConfigFilePath;
 };
 
 }// namespace leaf::process_manager

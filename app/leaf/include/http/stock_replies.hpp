@@ -12,7 +12,7 @@
 namespace leaf::http::response::stock_replies
 {
 
-using namespace std::string_view_literals; //NOSONAR
+using namespace std::string_view_literals;// NOSONAR
 
 static constexpr library::ConstexprMap<HttpResponse::Status, std::string_view, 16> MappedStatus {
   {HttpResponse::Status::ok, ""sv},

@@ -13,7 +13,7 @@
 namespace leaf::process_manager::configuration_loader
 {
 
-using namespace std::string_view_literals; // NOSONAR
+using namespace std::string_view_literals;// NOSONAR
 
 class LeafProcessManagerConfigurationLoader : public abstract::INIConfigurationLoader<std::unique_ptr, LeafProcessManagerConfiguration>
 {

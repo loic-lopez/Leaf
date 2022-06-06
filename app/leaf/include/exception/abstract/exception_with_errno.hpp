@@ -2,8 +2,8 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#ifndef LEAF_EXCEPTION_WITH_ERRNO_HPP
-#define LEAF_EXCEPTION_WITH_ERRNO_HPP
+#ifndef __LEAF_ABSTRACT_EXCEPTION_WITH_ERRNO_HPP__
+#define __LEAF_ABSTRACT_EXCEPTION_WITH_ERRNO_HPP__
 
 #include "exception/abstract/exception.hpp"
 
@@ -21,4 +21,4 @@ class ExceptionWithErrno : public Exception
 
 }// namespace leaf::exception::abstract
 
-#endif// LEAF_EXCEPTION_WITH_ERRNO_HPP
+#endif// __LEAF_ABSTRACT_EXCEPTION_WITH_ERRNO_HPP__

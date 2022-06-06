@@ -12,7 +12,7 @@ namespace misc_strings
 constexpr char name_value_separator[] = {':', ' '};
 constexpr char crlf[]                 = {'\r', '\n'};
 
-}// namespace MiscStrings
+}// namespace misc_strings
 
 std::vector<boost::asio::const_buffer> HttpResponse::toBuffers()
 {

@@ -26,12 +26,14 @@ set(LEAF_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/mime_types_config_file_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/leaf_server_config_file_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/leaf_server_config_dir_not_found.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/exception/leaf_exit_to_main.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/error_info.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/ini_section_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/ini_property_in_section_exception.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/config_file_not_found.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/exception.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/exception_with_errno.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/exception_with_exit_status.hpp
 
 
         # Leaf Main Server (master process)
