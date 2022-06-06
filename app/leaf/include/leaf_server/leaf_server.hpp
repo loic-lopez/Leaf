@@ -18,6 +18,14 @@ namespace leaf::server
 {
 class LeafServer
 {
+  public:
+    LeafServer(const LeafServer &leafServer) = delete;
+    explicit LeafServer(std::string serverIniPath);
+
+    void join();
+    void terminate();
+    void start();
+
   private:// initializer list
     std::jthread _thread;
     const std::string _serverIniPath;
@@ -28,15 +36,6 @@ class LeafServer
     /// Acceptor used to listen for incoming connections.
     boost::asio::ip::tcp::acceptor _acceptor;
 
-  public:
-    LeafServer(const LeafServer &leafServer) = delete;
-    explicit LeafServer(std::string serverIniPath);
-
-    void join();
-    void terminate();
-    void start();
-
-  private:
     std::shared_ptr<LeafServerConfiguration> _serverConfiguration;
 
     void initialize();

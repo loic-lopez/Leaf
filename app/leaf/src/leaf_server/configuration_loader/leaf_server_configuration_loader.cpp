@@ -12,9 +12,9 @@ std::shared_ptr<LeafServerConfiguration> configuration_loader::LeafServerConfigu
 {
   boost::property_tree::ptree pTree = this->initializeBoostPtree<exception::LeafServerConfigFileNotFound>(configFilePath);
 
-  int port              = pTree.get_child(LEAF_SERVER_SECTION).get_child("port").get_value<int>();
-  auto documentRootPath = pTree.get_child(LEAF_SERVER_SECTION).get_child("document_root_path").get_value<std::string>();
-  auto listenAddr       = pTree.get_child(LEAF_SERVER_SECTION).get_child("listen_addr").get_value<std::string>();
+  int port              = pTree.get_child(LEAF_SERVER_SECTION.data()).get_child("port").get_value<int>();
+  auto documentRootPath = pTree.get_child(LEAF_SERVER_SECTION.data()).get_child("document_root_path").get_value<std::string>();
+  auto listenAddr       = pTree.get_child(LEAF_SERVER_SECTION.data()).get_child("listen_addr").get_value<std::string>();
 
   return std::make_shared<LeafServerConfiguration>(port, documentRootPath, listenAddr);
 }

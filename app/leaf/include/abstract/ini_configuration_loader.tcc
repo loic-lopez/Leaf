@@ -40,16 +40,16 @@ void INIConfigurationLoader<stl_memory_container, Model>::checkForPtreeIntegrity
 {
   for (const auto &section : _sections)
   {
-    const std::string sectionName = section.name;
+    const PropertyString sectionName = section.name;
 
-    if (pTree.find(sectionName) == pTree.not_found())
+    if (pTree.find(sectionName.data()) == pTree.not_found())
     {
       BOOST_THROW_EXCEPTION(exception::IniSectionNotFound(sectionName, configFilePath, std::source_location::current()));
     }
 
-    for (const auto &property : section.properties)
+    for (const PropertyString &property : section.properties)
     {
-      auto propertyCount = pTree.find(sectionName)->second.count(property);
+      const auto propertyCount = pTree.find(sectionName.data())->second.count(property.data());
       if (propertyCount == 0)
         BOOST_THROW_EXCEPTION(exception::IniPropertyInSectionException(
           exception::IniPropertyInSectionException::ExceptionType::MISSING, property, sectionName, configFilePath,
@@ -64,6 +64,7 @@ INIConfigurationLoader<stl_memory_container, Model>::INIConfigurationLoader(std:
     : _sections(std::move(sections))
 {
 }
+
 }// namespace leaf::abstract
 
 #endif// LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP

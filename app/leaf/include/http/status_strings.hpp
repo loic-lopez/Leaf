@@ -14,7 +14,7 @@
 namespace leaf::http::response::status_strings
 {
 
-using namespace std::string_view_literals;
+using namespace std::string_view_literals; //NOSONAR
 
 static constexpr library::ConstexprMap<HttpResponse::Status, std::string_view, 16> MappedStatus {
   {HttpResponse::Status::ok, "HTTP/1.0 200 OK\r\n"sv},

@@ -33,7 +33,7 @@ void LeafServer::initialize()
                       << std::endl;
 
   boost::asio::ip::tcp::resolver resolver(_ioContext);
-  boost::asio::ip::tcp::endpoint endpoint =
+  const boost::asio::ip::tcp::endpoint endpoint =
     *resolver.resolve(_serverConfiguration->listenAddr, std::to_string(_serverConfiguration->port)).begin();
   _acceptor.open(endpoint.protocol());
   _acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(false));
@@ -68,10 +68,10 @@ void LeafServer::serve()
     initialize();
     run();
   }
-  catch (const boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error> &ini_parser_error)
+  catch (const boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error> &iniParserError)
   {
     stream::synced_cerr << "Leaf thread encountered an error:" << std::endl;
-    stream::synced_cerr << ini_parser_error.what() << std::endl;
+    stream::synced_cerr << iniParserError.what() << std::endl;
   }
   catch (...)
   {
@@ -101,7 +101,7 @@ void LeafServer::run()
 void LeafServer::accept()
 {
   _acceptor.async_accept(
-    [this](boost::system::error_code ec, boost::asio::ip::tcp::socket)
+    [this](const boost::system::error_code ec, const boost::asio::ip::tcp::socket)
     {
       // Check whether the server was stopped by a signal before this
       // completion handler had a chance to run.
@@ -120,7 +120,7 @@ void LeafServer::accept()
 
 void LeafServer::registerSignalsAwaitStopCallback()
 {
-  _signals.async_wait([this](boost::system::error_code, int) { stop(); });
+  _signals.async_wait([this](const boost::system::error_code, const int) { stop(); });
 }
 
 void LeafServer::terminate() { _ioContext.stop(); }

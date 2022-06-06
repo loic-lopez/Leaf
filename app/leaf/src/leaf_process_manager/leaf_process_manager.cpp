@@ -70,7 +70,7 @@ void LeafProcessManager::waitForServers() const
     leafServer->join();
 }
 
-void LeafProcessManager::parseCommandLineArgs(int ac, const char **av) const
+void LeafProcessManager::parseCommandLineArgs(const int ac, const char ** const av) const
 {
   LeafOptionsParser optionsParser(_processManagerOptions.get());
 

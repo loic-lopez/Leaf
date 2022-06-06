@@ -9,13 +9,12 @@ namespace leaf::interface
 {
 class IProtocol
 {
-  protected:
-    virtual void initializeContext() = 0;
-
   public:
     virtual void initialize() = 0;
+    virtual ~IProtocol()      = default;
 
-    virtual ~IProtocol() = default;
+  protected:
+    virtual void initializeContext() = 0;
 };
 }// namespace leaf::interface
 
