@@ -8,6 +8,7 @@ using namespace leaf;
 int main(const int argc, const char **argv)
 {
   process_manager::LeafProcessManager &leafProcessManager = process_manager::LeafProcessManager::GetInstance();
+  int exitCode = 0;
 
   try
   {
@@ -16,8 +17,8 @@ int main(const int argc, const char **argv)
   }
   catch (const exception::LeafExceptionWithExitStatus &leafExceptionWithExitStatus)
   {
-    return leafExceptionWithExitStatus.getExitCode();
+    exitCode = leafExceptionWithExitStatus.getExitCode();
   }
 
-  return 0;
+  return exitCode;
 }
