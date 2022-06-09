@@ -2,8 +2,8 @@
 // Created by LoicL on 23/12/2020.
 //
 
-#ifndef LEAF_INI_SECTION_NOT_FOUND_HPP
-#define LEAF_INI_SECTION_NOT_FOUND_HPP
+#ifndef __LEAF_ABSTRACT_INI_SECTION_NOT_FOUND_HPP__
+#define __LEAF_ABSTRACT_INI_SECTION_NOT_FOUND_HPP__
 
 #include "exception/abstract/exception.hpp"
 
@@ -24,4 +24,4 @@ class IniSectionNotFound : public exception::abstract::Exception
 };
 }// namespace leaf::exception
 
-#endif// LEAF_INI_SECTION_NOT_FOUND_HPP
+#endif// __LEAF_ABSTRACT_INI_SECTION_NOT_FOUND_HPP__

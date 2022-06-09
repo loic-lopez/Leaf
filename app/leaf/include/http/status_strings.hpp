@@ -14,7 +14,7 @@
 namespace leaf::http::response::status_strings
 {
 
-using namespace std::string_view_literals; //NOSONAR
+using namespace std::string_view_literals;// NOSONAR
 
 static constexpr library::ConstexprMap<HttpResponse::Status, std::string_view, 16> MappedStatus {
   {HttpResponse::Status::ok, "HTTP/1.0 200 OK\r\n"sv},
@@ -46,6 +46,6 @@ boost::asio::const_buffer ToAsioBuffer(const HttpResponse::Status status)
   return boost::asio::buffer(value->second);
 }
 
-}// namespace leaf::http::response
+}// namespace leaf::http::response::status_strings
 
 #endif// LEAF_STATUS_STRINGS_HPP

@@ -2,8 +2,8 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#ifndef LEAF_CONFIG_FILE_NOT_FOUND_HPP
-#define LEAF_CONFIG_FILE_NOT_FOUND_HPP
+#ifndef __LEAF_ABSTRACT_CONFIG_FILE_NOT_FOUND_HPP__
+#define __LEAF_ABSTRACT_CONFIG_FILE_NOT_FOUND_HPP__
 
 #include <string>
 #include <utility>
@@ -29,4 +29,4 @@ class ConfigFileNotFound : public ExceptionWithErrno
 
 }// namespace leaf::exception::abstract
 
-#endif// LEAF_CONFIG_FILE_NOT_FOUND_HPP
+#endif// __LEAF_ABSTRACT_CONFIG_FILE_NOT_FOUND_HPP__

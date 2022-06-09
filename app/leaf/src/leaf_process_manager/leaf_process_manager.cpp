@@ -7,6 +7,7 @@
 
 #include <boost/interprocess/detail/os_thread_functions.hpp>
 
+#include "exception/leaf_exit_to_main.hpp"
 #include "exception/leaf_server_config_dir_not_found.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
@@ -70,7 +71,7 @@ void LeafProcessManager::waitForServers() const
     leafServer->join();
 }
 
-void LeafProcessManager::parseCommandLineArgs(const int ac, const char ** const av) const
+void LeafProcessManager::parseCommandLineArgs(const int ac, const char **const av) const
 {
   LeafOptionsParser optionsParser(_processManagerOptions.get());
 
@@ -90,7 +91,7 @@ void LeafProcessManager::parseCommandLineArgs(const int ac, const char ** const 
   if (optionParserStatus != LeafOptionsParser::Status::SUCCESS)
   {
     optionsParser.displayHelp();
-    std::exit(1);
+    throw exception::LeafExceptionWithExitStatus(1);
   }
 }
 
@@ -104,7 +105,7 @@ void LeafProcessManager::start()
   {
     std::cerr << "Leaf main thread encountered an error:" << std::endl;
     std::cerr << exception.what() << std::endl;
-    std::exit(1);
+    throw exception::LeafExceptionWithExitStatus(1);
   }
 
   displayBanner();

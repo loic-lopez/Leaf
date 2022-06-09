@@ -31,7 +31,7 @@ LeafOptionsParser::LeafOptionsParser(process_manager::LeafProcessManagerOptions 
     .statusWhenOptionVerifierMatched = Status::NEED_DISPLAY_HELP};
 }
 
-LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, const char ** const av)
+LeafOptionsParser::Status LeafOptionsParser::parseCommandLineArgs(const int ac, const char **const av)
 {
   boost::program_options::variables_map optionalCommandLineArgs;
 

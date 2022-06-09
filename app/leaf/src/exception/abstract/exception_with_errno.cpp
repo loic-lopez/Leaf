@@ -7,7 +7,8 @@
 namespace leaf::exception::abstract
 {
 
-ExceptionWithErrno::ExceptionWithErrno(const std::source_location &sourceLocation, const int errnoValue) : Exception(sourceLocation), _errno(errnoValue)
+ExceptionWithErrno::ExceptionWithErrno(const std::source_location &sourceLocation, const int errnoValue)
+    : Exception(sourceLocation), _errno(errnoValue)
 {
   *this << boost::errinfo_errno(this->_errno);
 }

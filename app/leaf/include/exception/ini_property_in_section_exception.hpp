@@ -2,8 +2,8 @@
 // Created by LoicL on 23/12/2020.
 //
 
-#ifndef LEAF_INI_PROPERTY_IN_SECTION_EXCEPTION_HPP
-#define LEAF_INI_PROPERTY_IN_SECTION_EXCEPTION_HPP
+#ifndef __LEAF_ABSTRACT_INI_PROPERTY_IN_SECTION_EXCEPTION_HPP__
+#define __LEAF_ABSTRACT_INI_PROPERTY_IN_SECTION_EXCEPTION_HPP__
 
 #include "exception/ini_section_not_found.hpp"
 
@@ -33,4 +33,4 @@ class IniPropertyInSectionException : public IniSectionNotFound
 
 }// namespace leaf::exception
 
-#endif// LEAF_INI_PROPERTY_IN_SECTION_EXCEPTION_HPP
+#endif// __LEAF_ABSTRACT_INI_PROPERTY_IN_SECTION_EXCEPTION_HPP__

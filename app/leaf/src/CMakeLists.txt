@@ -13,6 +13,7 @@ set(LEAF_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/config_file_not_found.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/exception.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/exception_with_errno.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/exception/abstract/exception_with_exit_status.cpp
 
 
         ${CMAKE_CURRENT_SOURCE_DIR}/https/https.cpp

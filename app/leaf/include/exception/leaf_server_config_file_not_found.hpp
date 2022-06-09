@@ -2,8 +2,8 @@
 // Created by LoicL on 29/11/2020.
 //
 
-#ifndef LEAF_SERVER_CONFIG_FILE_NOT_FOUND_HPP
-#define LEAF_SERVER_CONFIG_FILE_NOT_FOUND_HPP
+#ifndef __LEAF_ABSTRACT_SERVER_CONFIG_FILE_NOT_FOUND_HPP__
+#define __LEAF_ABSTRACT_SERVER_CONFIG_FILE_NOT_FOUND_HPP__
 
 #include "exception/abstract/config_file_not_found.hpp"
 
@@ -16,4 +16,4 @@ class LeafServerConfigFileNotFound : public exception::abstract::ConfigFileNotFo
 };
 }// namespace leaf::exception
 
-#endif// LEAF_SERVER_CONFIG_FILE_NOT_FOUND_HPP
+#endif// __LEAF_ABSTRACT_SERVER_CONFIG_FILE_NOT_FOUND_HPP__
