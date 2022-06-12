@@ -18,7 +18,7 @@ IniSectionNotFound::IniSectionNotFound(
     : Exception(location), _section(section), _configFilePath(configFilePath)
 {
   IniSectionNotFound::buildStdExceptionMessage(__FUNCTION__);
-  *this << exception::error_info::errinfo_ini_section(_section);
+  *this << error_info::errinfo_ini_section(_section);
 }
 
 void IniSectionNotFound::buildStdExceptionMessage(const char *exceptionClassName)
