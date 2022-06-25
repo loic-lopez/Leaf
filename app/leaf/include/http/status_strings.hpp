@@ -35,7 +35,7 @@ static constexpr library::ConstexprMap<HttpResponse::Status, std::string_view, 1
   {HttpResponse::Status::service_unavailable, "HTTP/1.0 503 Service Unavailable\r\n"sv},
 };
 
-boost::asio::const_buffer ToAsioBuffer(const HttpResponse::Status status)
+static inline boost::asio::const_buffer ToAsioBuffer(const HttpResponse::Status status)
 {
   constexpr auto mappedStatusEnd     = status_strings::MappedStatus.end();
   constexpr auto internalServerError = status_strings::MappedStatus.at(HttpResponse::Status::internal_server_error);

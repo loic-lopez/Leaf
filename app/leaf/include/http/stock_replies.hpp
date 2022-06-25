@@ -93,7 +93,7 @@ static constexpr library::ConstexprMap<HttpResponse::Status, std::string_view, 1
    "</html>"sv},
 };
 
-std::string_view StatusToStockReply(const HttpResponse::Status status)
+static inline std::string_view StatusToStockReply(const HttpResponse::Status status)
 {
   constexpr auto mappedStatusEnd     = MappedStatus.end();
   constexpr auto internalServerError = MappedStatus.at(HttpResponse::Status::internal_server_error);
