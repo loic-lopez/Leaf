@@ -5,9 +5,9 @@
 #ifndef __LEAF_ABSTRACT_ERROR_INFO_HPP__
 #define __LEAF_ABSTRACT_ERROR_INFO_HPP__
 
-#include <string>
-
 #include <boost/exception/error_info.hpp>
+
+#include <string>
 
 namespace leaf::exception::error_info
 {

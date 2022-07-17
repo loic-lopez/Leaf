@@ -2,14 +2,14 @@
 // Created by loicl on 6/19/2021.
 //
 
-#include <chrono>
-#include <thread>
-
-#include <gtest/gtest.h>
-
 #include "generated/leaf_tests_config.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_server/leaf_server.hpp"
+
+#include <gtest/gtest.h>
+
+#include <chrono>
+#include <thread>
 
 namespace leaf::test
 {

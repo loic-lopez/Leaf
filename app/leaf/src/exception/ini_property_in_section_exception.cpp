@@ -2,12 +2,12 @@
 // Created by LoicL on 23/12/2020.
 //
 
-#include <utility>
+#include "exception/error_info.hpp"
+#include "exception/ini_property_in_section_exception.hpp"
 
 #include <boost/format.hpp>
 
-#include "exception/error_info.hpp"
-#include "exception/ini_property_in_section_exception.hpp"
+#include <utility>
 
 namespace leaf::exception
 {

@@ -5,9 +5,9 @@
 #ifndef LEAF_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP
 #define LEAF_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP
 
-#include <gtest/gtest.h>
-
 #include "leaf_process_manager/leaf_process_manager_configuration.hpp"
+
+#include <gtest/gtest.h>
 
 namespace leaf::test
 {

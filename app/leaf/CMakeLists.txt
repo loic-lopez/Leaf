@@ -15,7 +15,7 @@ configure_file(${PROJECT_INCLUDE_ROOT_PATH}/utils/leaf_build.hpp.in ${LEAF_GENER
 
 find_package(fmt REQUIRED)
 
-set(SPDLOG_LIBS  ${CONAN_PKG_LIBS_SPDLOG} fmt::fmt)
+set(SPDLOG_LIBS ${CONAN_PKG_LIBS_SPDLOG} fmt::fmt)
 
 # Construct Leaf library
 add_library(${LEAF_PROJECT_LIBRARY} ${LEAF_INCLUDES} ${LEAF_SOURCES})
@@ -27,4 +27,4 @@ add_executable(
         ${LEAF_PROJECT_BINARY}
         src/main.cpp
 )
-target_link_libraries(${LEAF_PROJECT_BINARY} ${LEAF_PROJECT_LIBRARY} )
+target_link_libraries(${LEAF_PROJECT_BINARY} ${LEAF_PROJECT_LIBRARY})

@@ -5,9 +5,9 @@
 #ifndef LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP
 #define LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP
 
-#include <gtest/gtest.h>
-
 #include "mime_type/mime_types.hpp"
+
+#include <gtest/gtest.h>
 
 namespace leaf::test
 {

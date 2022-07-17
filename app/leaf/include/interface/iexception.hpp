@@ -5,10 +5,10 @@
 #ifndef LEAF_IEXCEPTION_HPP
 #define LEAF_IEXCEPTION_HPP
 
-#include <exception>
-
 #include <boost/exception/diagnostic_information.hpp>
 #include <boost/exception/exception.hpp>
+
+#include <exception>
 
 namespace leaf::interface
 {

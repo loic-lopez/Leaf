@@ -5,14 +5,14 @@
 #ifndef LEAF_LEAF_SERVER_HPP
 #define LEAF_LEAF_SERVER_HPP
 
-#include <iostream>
-#include <thread>
+#include "leaf_server_configuration.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/signal_set.hpp>
 
-#include "leaf_server_configuration.hpp"
+#include <iostream>
+#include <thread>
 
 namespace leaf::server
 {

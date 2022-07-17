@@ -5,9 +5,9 @@
 #ifndef LEAF_MAIN_SERVER_OPTIONS_HPP
 #define LEAF_MAIN_SERVER_OPTIONS_HPP
 
-#include <string>
-
 #include <boost/filesystem/path.hpp>
+
+#include <string>
 
 namespace leaf::process_manager
 {

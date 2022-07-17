@@ -2,9 +2,8 @@
 // Created by LoicL on 06/03/2021.
 //
 
-#include "leaf_server/configuration_loader/leaf_server_configuration_loader.hpp"
-
 #include "exception/leaf_server_config_file_not_found.hpp"
+#include "leaf_server/configuration_loader/leaf_server_configuration_loader.hpp"
 
 namespace leaf::server
 {

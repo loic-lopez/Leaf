@@ -5,9 +5,9 @@
 #ifndef LEAF_HTTP_REQUEST_HPP
 #define LEAF_HTTP_REQUEST_HPP
 
-#include <vector>
-
 #include "http_header.hpp"
+
+#include <vector>
 
 namespace leaf::http::request
 {

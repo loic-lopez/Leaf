@@ -5,9 +5,9 @@
 #ifndef LEAF_MIME_TYPES_HPP
 #define LEAF_MIME_TYPES_HPP
 
-#include <vector>
-
 #include "mime_type/mime_type.hpp"
+
+#include <vector>
 
 namespace leaf::mime_type
 {

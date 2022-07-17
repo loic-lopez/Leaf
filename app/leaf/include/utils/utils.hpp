@@ -10,6 +10,21 @@
 namespace leaf::utils
 {
 extern std::string BuildInfo();
+constexpr std::string_view LeafBanner()
+{
+  using namespace std::string_view_literals;
+
+  return
+    R"(
+     .\^/.                                            .\^/.
+   . |`|/| .                                        . |`|/| .
+   |\|\|'|/|       _                       __       |\|\|'|/|
+.--'-\`|/-''--.   | |       ___    __ _   / _|   .--'-\`|/-''--.
+ \`-._\|./.-'/    | |      / _ \  / _` | | |_     \`-._\|./.-'/
+  >`-._|/.-'<     | |___  |  __/ | (_| | |  _|     >`-._|/.-'<
+ '~|/~~|~~\|~'    |_____|  \___|  \__,_| |_|      '~|/~~|~~\|~'
+       |                                                |)"sv;
 }
+}// namespace leaf::utils
 
 #endif// LEAF_UTILS_HPP

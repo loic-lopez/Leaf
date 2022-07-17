@@ -5,9 +5,9 @@
 #ifndef LEAF_CONCEPTS_HPP
 #define LEAF_CONCEPTS_HPP
 
-#include <concepts>
-
 #include "interface/iexception.hpp"
+
+#include <concepts>
 
 namespace leaf::concepts
 {

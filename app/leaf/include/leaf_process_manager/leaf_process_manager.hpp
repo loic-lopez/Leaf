@@ -17,26 +17,34 @@ class LeafProcessManager
   public:
     virtual ~LeafProcessManager() = default;
 
-    void parseCommandLineArgs(int ac, const char **av) const;
-    void start();
-
-    static LeafProcessManager &GetInstance();
-
+    // constructors
     LeafProcessManager(const LeafProcessManager &)          = delete;
     LeafProcessManager &operator=(const LeafProcessManager) = delete;
     LeafProcessManager(LeafProcessManager &&)               = delete;
     LeafProcessManager &operator=(LeafProcessManager &&)    = delete;
+
+    // methods
+    void parseCommandLineArgs(int ac, const char **av) const;
+    void start();
+
+    // static
+    static LeafProcessManager &GetInstance();
 
   private:
     std::unique_ptr<LeafProcessManagerOptions> _processManagerOptions = std::make_unique<LeafProcessManagerOptions>();
     std::unique_ptr<LeafProcessManagerConfiguration> _processManagerConfiguration;
     std::vector<std::shared_ptr<server::LeafServer>> _leafServers;
 
-    LeafProcessManager() = default;
-    void displayBanner() const;
+    // constructors
+    explicit LeafProcessManager() = default;
+
+    // methods
     void startServers() const;
     void waitForServers() const;
     void loadLeafConfiguration();
+
+    // static
+    static void displayBanner();
 };
 
 }// namespace leaf::process_manager

@@ -2,19 +2,21 @@
 // Created by LoicL on 23/12/2020.
 //
 
-#include <string>
+#include "utils/leaf_build.hpp"
+#include "utils/utils.hpp"
 
 #include <boost/format.hpp>
 
-#include "utils/leaf_build.hpp"
-#include "utils/utils.hpp"
+#include <string_view>
 
 namespace leaf::utils
 {
 
 std::string BuildInfo()
 {
-  return build::LeafVersion + ", build type: " + build::LeafBuildType + " [" + build::Arch + "]" + ", build date: " + build::LeafBuildDate;
+  boost::format buildInfo = boost::format("%1%: %2%, build type: %3% [%4%], build date: %5%") % build::LeafProjectName % build::LeafVersion
+    % build::LeafBuildType % build::Arch % build::LeafBuildDate;
+  return buildInfo.str();
 }
 
 }// namespace leaf::utils

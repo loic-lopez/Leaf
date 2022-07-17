@@ -2,11 +2,11 @@
 // Created by LoicL on 19/12/2020.
 //
 
-#include <utility>
+#include "leaf_process_manager/leaf_process_manager_configuration.hpp"
 
 #include <boost/filesystem/operations.hpp>
 
-#include "leaf_process_manager/leaf_process_manager_configuration.hpp"
+#include <utility>
 
 namespace leaf::process_manager
 {

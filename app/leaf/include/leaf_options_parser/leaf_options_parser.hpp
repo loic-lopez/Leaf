@@ -5,12 +5,12 @@
 #ifndef LEAF_OPTIONS_PARSER_HPP
 #define LEAF_OPTIONS_PARSER_HPP
 
-#include <string>
+#include "leaf_process_manager/leaf_process_manager_options.hpp"
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-#include "leaf_process_manager/leaf_process_manager_options.hpp"
+#include <string>
 
 namespace leaf
 {

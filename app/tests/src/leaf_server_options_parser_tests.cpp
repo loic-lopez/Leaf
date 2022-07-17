@@ -2,10 +2,10 @@
 // Created by LoicL on 17/12/2020.
 //
 
-#include <cstdlib>
-
 #include "leaf_process_manager/leaf_process_manager.hpp"
 #include "tests/leaf_server_options_parser_test.hpp"
+
+#include <cstdlib>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 

@@ -5,12 +5,12 @@
 #ifndef LEAF_INI_CONFIGURATION_LOADER_HPP
 #define LEAF_INI_CONFIGURATION_LOADER_HPP
 
-#include <string>
+#include "concept/leaf_concepts.hpp"
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 
-#include "concept/leaf_concepts.hpp"
+#include <string>
 
 namespace leaf::abstract
 {

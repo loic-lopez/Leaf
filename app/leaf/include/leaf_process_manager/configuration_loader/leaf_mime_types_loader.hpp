@@ -2,10 +2,10 @@
 #ifndef LEAF_LEAF_MIME_TYPES_LOADER_HPP
 #define LEAF_LEAF_MIME_TYPES_LOADER_HPP
 
-#include <vector>
-
 #include "abstract/ini_configuration_loader.hpp"
 #include "mime_type/mime_types.hpp"
+
+#include <vector>
 
 namespace leaf::process_manager::configuration_loader
 {

@@ -5,9 +5,9 @@
 #ifndef LEAF_STOCK_REPLIES_HPP
 #define LEAF_STOCK_REPLIES_HPP
 
-#include <string_view>
-
 #include "library/constexpr_map.hpp"
+
+#include <string_view>
 
 namespace leaf::http::response::stock_replies
 {

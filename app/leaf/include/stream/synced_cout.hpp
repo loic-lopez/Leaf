@@ -5,9 +5,9 @@
 #ifndef LEAF_SYNCED_COUT_HPP
 #define LEAF_SYNCED_COUT_HPP
 
-#include <iostream>
-
 #include "stream/synced_stream.hpp"
+
+#include <iostream>
 
 namespace leaf::stream
 {

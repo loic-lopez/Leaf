@@ -1,9 +1,9 @@
-#include <gtest/gtest.h>
-
 #include "exception/leaf_server_config_file_not_found.hpp"
 #include "generated/leaf_tests_config.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "tests/leaf_server_configuration_loader_test.hpp"
+
+#include <gtest/gtest.h>
 
 namespace leaf::test
 {

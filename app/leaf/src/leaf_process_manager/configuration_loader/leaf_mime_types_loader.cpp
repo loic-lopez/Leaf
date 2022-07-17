@@ -2,13 +2,13 @@
 // Created by LoicL on 28/11/2020.
 //
 
-#include <iostream>
+#include "exception/mime_types_config_file_not_found.hpp"
+#include "leaf_process_manager/configuration_loader/leaf_mime_types_loader.hpp"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/property_tree/ptree.hpp>
 
-#include "exception/mime_types_config_file_not_found.hpp"
-#include "leaf_process_manager/configuration_loader/leaf_mime_types_loader.hpp"
+#include <iostream>
 
 namespace leaf::process_manager::configuration_loader
 {

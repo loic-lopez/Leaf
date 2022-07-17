@@ -2,12 +2,12 @@
 // Created by LoicL on 24/12/2020.
 //
 
+#include "leaf_server/http/request_handler.hpp"
+
 #include <filesystem>
 #include <fstream>
 #include <iterator>
 #include <utility>
-
-#include "leaf_server/http/request_handler.hpp"
 
 namespace leaf::server
 {

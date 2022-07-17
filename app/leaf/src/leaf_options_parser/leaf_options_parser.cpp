@@ -3,12 +3,12 @@
 //
 
 #include "leaf_options_parser/leaf_options_parser.hpp"
-#include <iostream>
+#include "utils/utils.hpp"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/program_options/parsers.hpp>
 
-#include "utils/utils.hpp"
+#include <iostream>
 
 namespace leaf
 {

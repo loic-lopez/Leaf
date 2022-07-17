@@ -5,9 +5,9 @@
 #ifndef LEAF_LEAFSERVEROPTIONSPARSERTEST_HPP
 #define LEAF_LEAFSERVEROPTIONSPARSERTEST_HPP
 
-#include <gtest/gtest.h>
-
 #include "leaf_process_manager/leaf_process_manager_options.hpp"
+
+#include <gtest/gtest.h>
 
 namespace leaf::test
 {

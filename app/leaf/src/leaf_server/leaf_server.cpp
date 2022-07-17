@@ -2,13 +2,13 @@
 // Created by LoicL on 23/11/2020.
 //
 
-#include <syncstream>
-#include <utility>
-
 #include "leaf_server/configuration_loader/leaf_server_configuration_loader.hpp"
 #include "leaf_server/leaf_server.hpp"
 #include "stream/synced_cerr.hpp"
 #include "stream/synced_cout.hpp"
+
+#include <syncstream>
+#include <utility>
 
 namespace leaf::server
 {

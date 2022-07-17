@@ -5,10 +5,10 @@
 #ifndef LEAF_LEAF_PROCESS_MANAGER_CONFIGURATION_LOADER_HPP
 #define LEAF_LEAF_PROCESS_MANAGER_CONFIGURATION_LOADER_HPP
 
-#include <string>
-
 #include "abstract/ini_configuration_loader.hpp"
 #include "leaf_process_manager/leaf_process_manager_configuration.hpp"
+
+#include <string>
 
 namespace leaf::process_manager::configuration_loader
 {

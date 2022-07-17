@@ -55,13 +55,13 @@ IncludeBlocks: Regroup
 IncludeCategories:
   # Headers in <> without extension.
   - Regex:           '<([A-Za-z0-9\Q/-_\E])+>'
-    Priority:        0
+    Priority:        4
   # Headers in <> from specific external libraries.
   - Regex:           '<(boost|catch2|gtest)\/([A-Za-z0-9.\/-_])+>'
     Priority:        1
   # Headers in "" with extension.
   - Regex:           '"([A-Za-z0-9.\Q/-_\E])+"'
-    Priority:        4
+    Priority:        0
 AllowShortLoopsOnASingleLine: false
 SeparateDefinitionBlocks: Always
 SortUsingDeclarations: true

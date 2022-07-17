@@ -2,11 +2,10 @@
 // Created by LoicL on 29/11/2020.
 //
 
+#include "exception/leaf_server_config_file_not_found.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 
 #include <boost/property_tree/ptree.hpp>
-
-#include "exception/leaf_server_config_file_not_found.hpp"
 
 namespace leaf::process_manager::configuration_loader
 {

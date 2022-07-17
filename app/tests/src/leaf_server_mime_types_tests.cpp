@@ -1,9 +1,9 @@
-#include <gtest/gtest.h>
-
 #include "exception/mime_types_config_file_not_found.hpp"
 #include "generated/leaf_tests_config.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_mime_types_loader.hpp"
 #include "tests/leaf_server_mime_types_loader_test.hpp"
+
+#include <gtest/gtest.h>
 
 namespace leaf::test
 {

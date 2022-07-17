@@ -2,40 +2,31 @@
 // Created by LoicL on 13/12/2020.
 //
 
-#include <filesystem>
-#include <source_location>
-
-#include <boost/interprocess/detail/os_thread_functions.hpp>
-
 #include "exception/leaf_exit_to_main.hpp"
 #include "exception/leaf_server_config_dir_not_found.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
 #include "utils/utils.hpp"
 
+#include <boost/interprocess/detail/os_thread_functions.hpp>
+
+#include <filesystem>
+#include <source_location>
+
 namespace leaf::process_manager
 {
 
-void LeafProcessManager::displayBanner() const
+void LeafProcessManager::displayBanner()
 {
-  std::cout << "Leaf: " << utils::BuildInfo() << std::endl << std::endl;
-
-  std::cout << R"(     .\^/.                                            .\^/.
-   . |`|/| .                                        . |`|/| .
-   |\|\|'|/|       _                       __       |\|\|'|/|
-.--'-\`|/-''--.   | |       ___    __ _   / _|   .--'-\`|/-''--.
- \`-._\|./.-'/    | |      / _ \  / _` | | |_     \`-._\|./.-'/
-  >`-._|/.-'<     | |___  |  __/ | (_| | |  _|     >`-._|/.-'<
- '~|/~~|~~\|~'    |_____|  \___|  \__,_| |_|      '~|/~~|~~\|~'
-       |                                                |)"
-            << std::endl;
+  std::cout << utils::BuildInfo() << std::endl;
+  std::cout << utils::LeafBanner() << std::endl << std::endl;
 }
 
 void LeafProcessManager::loadLeafConfiguration()
 {
   configuration_loader::LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
   std::filesystem::path const configFilePath = _processManagerOptions->getServerConfigFilePath();
-  const std::string configFilePathString = configFilePath.string();
+  const std::string configFilePathString     = configFilePath.string();
 
   if (!std::filesystem::exists(configFilePath))
   {
@@ -98,6 +89,8 @@ void LeafProcessManager::parseCommandLineArgs(const int ac, const char **const a
 
 void LeafProcessManager::start()
 {
+  displayBanner();
+
   try
   {
     loadLeafConfiguration();
@@ -108,8 +101,6 @@ void LeafProcessManager::start()
     std::cerr << exception.what() << std::endl;
     throw exception::LeafExceptionWithExitStatus(1);
   }
-
-  displayBanner();
 
   std::cout << "Started Leaf with PID " << boost::interprocess::ipcdetail::get_current_process_id() << " {MOVE TO LOG}" << std::endl;
 
