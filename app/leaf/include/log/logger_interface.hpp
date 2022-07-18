@@ -42,10 +42,10 @@ class LoggerInterface
       snakeCaseStr.reserve(className.size());
 
       int i = 0;
-      for (const char c : className)
+      for (const unsigned char c : className)
       {
         // Converting space to underscore
-        if (i != 0 && std::isupper(c)) snakeCaseStr += '_';
+        if (i != 0 && static_cast<bool>(std::isupper(c))) snakeCaseStr += '_';
 
         snakeCaseStr += static_cast<char>(std::tolower(c));
         i++;
