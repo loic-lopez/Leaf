@@ -13,7 +13,7 @@ namespace leaf::server
 {
 
 LeafServer::LeafServer(
-  std::string serverIniPath, std::string leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles
+  std::string serverIniPath, std::string leafLogDirectoryPath, const std::size_t leafLogMaxFileSize, const std::size_t leafLogMaxFiles
 )
     : log::LoggerInterface(BOOST_CURRENT_FUNCTION),
       _serverIniPath(std::move(serverIniPath)),
@@ -91,16 +91,19 @@ void LeafServer::loadConfiguration()
 
   _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
 
-  {
-    const boost::format httpServerName = boost::format("%1%_http_%2%") % _loggerName % _serverConfiguration->port;
-    const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath % httpServerName;
-    const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath % httpServerName;
-
-    _stdout = log::LoggerFactory::CreateStdoutLogger(httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
-    _stderr = log::LoggerFactory::CreateStderrLogger(httpServerName.str(), stderrFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
-  }
+  initializeLoggers();
 
   _stdout->info("Leaf thread successfully loaded configuration file: {0}", _serverIniPath);
+}
+
+void LeafServer::initializeLoggers()
+{
+  const boost::format httpServerName = boost::format("%1%_http_%2%") % _loggerName % _serverConfiguration->port;
+  const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath % httpServerName;
+  const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath % httpServerName;
+
+  _stdout = log::LoggerFactory::CreateStdoutLogger(httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
+  _stderr = log::LoggerFactory::CreateStderrLogger(httpServerName.str(), stderrFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
 }
 
 void LeafServer::run()

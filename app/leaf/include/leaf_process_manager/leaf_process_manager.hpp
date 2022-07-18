@@ -43,6 +43,7 @@ class LeafProcessManager : public log::LoggerInterface
     void startServers() const;
     void waitForServers() const;
     void loadLeafConfiguration();
+    void initializeLoggers();
 
     // static
     static void displayBanner();

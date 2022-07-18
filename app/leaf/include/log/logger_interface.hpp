@@ -32,10 +32,10 @@ class LoggerInterface
     std::string _loggerName;
 
   private:
-    static std::string ToSnakeCase(const std::string &str)
+    static std::string ToSnakeCase(const std::string_view &str)
     {
       const std::regex captureClassName(R"((?!\:\:)\w+(?=\())");
-      const std::sregex_iterator match = std::sregex_iterator(str.begin(), str.end(), captureClassName);
+      const auto match = std::regex_iterator(str.begin(), str.end(), captureClassName);
 
       const std::string className(match->str());
       std::string snakeCaseStr;

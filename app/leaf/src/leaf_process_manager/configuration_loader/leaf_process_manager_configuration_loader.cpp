@@ -13,7 +13,7 @@ namespace leaf::process_manager::configuration_loader
 
 std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfigurationLoader::load(const std::string &configFilePath)
 {
-  auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("process_manager_configuration_loader (Main Thread)");
+  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("process_manager_configuration_loader (Main Thread)");
 
   boost::property_tree::ptree pTree = this->initializeBoostPtree<exception::LeafServerConfigFileNotFound>(configFilePath);
   std::string serversRootPath;

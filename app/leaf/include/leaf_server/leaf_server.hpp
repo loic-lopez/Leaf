@@ -55,6 +55,7 @@ class LeafServer : public log::LoggerInterface
     void registerSignalsAwaitStopCallback();
     void accept();
     void stop();
+    void initializeLoggers();
 };
 
 }// namespace leaf::server

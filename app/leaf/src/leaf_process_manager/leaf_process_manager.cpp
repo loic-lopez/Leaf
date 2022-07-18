@@ -29,8 +29,6 @@ void LeafProcessManager::displayBanner()
 
 void LeafProcessManager::loadLeafConfiguration()
 {
-  auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger(_loggerName);
-
   configuration_loader::LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
   std::filesystem::path const configFilePath = _processManagerOptions->getServerConfigFilePath();
   const std::string configFilePathString     = configFilePath.string();
@@ -44,23 +42,7 @@ void LeafProcessManager::loadLeafConfiguration()
 
   _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePathString);
 
-  {
-    const boost::format stdoutFileName =
-      boost::format("%1%/%2%.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
-    const boost::format stderrFileName =
-      boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
-    const boost::format loggerName = boost::format("%1% (Main Thread)") % _loggerName;
-
-    _stdout = log::LoggerFactory::CreateStdoutLogger(
-      loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
-      _processManagerConfiguration->getLeafLogMaxFiles()
-    );
-
-    _stderr = log::LoggerFactory::CreateStderrLogger(
-      loggerName.str(), stderrFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
-      _processManagerConfiguration->getLeafLogMaxFiles()
-    );
-  }
+  initializeLoggers();
 
   _stdout->info("Loading leaf_server configuration at: {0}", configFilePathString);
 
@@ -78,6 +60,25 @@ void LeafProcessManager::loadLeafConfiguration()
   }
 
   _stdout->info("Successfully loaded leaf_server configuration at: {0}", configFilePath.string());
+}
+
+void LeafProcessManager::initializeLoggers()
+{
+  const boost::format stdoutFileName =
+    boost::format("%1%/%2%.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
+  const boost::format stderrFileName =
+    boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
+  const boost::format loggerName = boost::format("%1% (Main Thread)") % _loggerName;
+
+  _stdout = log::LoggerFactory::CreateStdoutLogger(
+    loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
+    _processManagerConfiguration->getLeafLogMaxFiles()
+  );
+
+  _stderr = log::LoggerFactory::CreateStderrLogger(
+    loggerName.str(), stderrFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
+    _processManagerConfiguration->getLeafLogMaxFiles()
+  );
 }
 
 void LeafProcessManager::startServers() const
@@ -106,7 +107,7 @@ void LeafProcessManager::parseCommandLineArgs(const int ac, const char **const a
   }
   catch (const std::exception &exception)
   {
-    auto stderrLogger = log::LoggerFactory::BasicStderrLogger(_loggerName);
+    const auto stderrLogger = log::LoggerFactory::BasicStderrLogger(_loggerName);
     stderrLogger->error(exception.what());
     std::cout << "Displaying help: " << std::endl << std::endl;
   }
@@ -128,7 +129,7 @@ void LeafProcessManager::start()
   }
   catch (const std::exception &exception)
   {
-    auto stderrLogger = log::LoggerFactory::BasicStderrLogger(_loggerName);
+    const auto stderrLogger = log::LoggerFactory::BasicStderrLogger(_loggerName);
     stderrLogger->error("Leaf main thread encountered an error:");
     stderrLogger->error(exception.what());
     throw exception::LeafExceptionWithExitStatus(1);
