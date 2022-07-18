@@ -5,7 +5,6 @@
 #include "generated/leaf_tests_config.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_server/leaf_server.hpp"
-
 #include "log/logger_factory.hpp"
 
 #include <gtest/gtest.h>

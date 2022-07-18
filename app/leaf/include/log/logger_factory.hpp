@@ -37,12 +37,16 @@ class LoggerFactory
 
     static Logger BasicStdoutLogger(const std::string &loggerName);
     static Logger BasicStderrLogger(const std::string &loggerName);
-    static Logger CreateStdoutLogger(const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles);
-    static Logger CreateStderrLogger(const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles);
+    static Logger CreateStdoutLogger(
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
+    );
+    static Logger CreateStderrLogger(
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
+    );
 
   private:
     inline static const std::string ColorsLoggingPattern = "[%H:%M:%S %T] [thread %t] [%n] [%^%l%$] %v";
-    inline static const std::string BasicLoggingPattern = "[%H:%M:%S %T] [thread %t] [%n] [%l] %v";
+    inline static const std::string BasicLoggingPattern  = "[%H:%M:%S %T] [thread %t] [%n] [%l] %v";
     inline static StderrSink _stderrSink;
     inline static StdoutSink _stdoutSink;
 

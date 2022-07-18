@@ -21,8 +21,9 @@ class LeafServer : public log::LoggerInterface
 {
   public:
     LeafServer(const LeafServer &leafServer) = delete;
-    explicit LeafServer(std::string serverIniPath, std::string leafLogDirectoryPath, std::size_t leafLogMaxFileSize,
-                        std::size_t leafLogMaxFiles);
+    explicit LeafServer(
+      std::string serverIniPath, std::string leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles
+    );
     virtual ~LeafServer() = default;
 
     void join();

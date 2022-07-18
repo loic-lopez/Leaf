@@ -4,8 +4,8 @@
 
 #include "log/logger_factory.hpp"
 
-#include <spdlog/cfg/env.h>
 #include <spdlog/cfg/argv.h>
+#include <spdlog/cfg/env.h>
 
 #include <cstddef>
 
@@ -31,8 +31,9 @@ void LoggerFactory::InitializeFactory()
 
 RotatingFileSink LoggerFactory::CreateRotatingFileSink(const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles)
 {
-  auto rotatingFileSink =
-    std::make_shared<spdlog::sinks::rotating_file_sink_mt>(logFile.str(), static_cast<std::size_t>(1024 * 1024) * maxFileSize /* conversion to MB */, maxFiles);
+  auto rotatingFileSink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
+    logFile.str(), static_cast<std::size_t>(1024 * 1024) * maxFileSize /* conversion to MB */, maxFiles
+  );
   rotatingFileSink->set_pattern(BasicLoggingPattern);
 
   return rotatingFileSink;
@@ -54,7 +55,9 @@ Logger LoggerFactory::BasicStderrLogger(const std::string &loggerName)
   return stderrLogger;
 }
 
-Logger LoggerFactory::CreateStdoutLogger(const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles)
+Logger LoggerFactory::CreateStdoutLogger(
+  const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
+)
 {
   std::vector<spdlog::sink_ptr> sinks {_stdoutSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
   auto logger = std::make_shared<spdlog::async_logger>(loggerName, sinks.begin(), sinks.end(), spdlog::thread_pool());
@@ -63,7 +66,9 @@ Logger LoggerFactory::CreateStdoutLogger(const std::string &loggerName, const bo
   return logger;
 }
 
-Logger LoggerFactory::CreateStderrLogger(const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles)
+Logger LoggerFactory::CreateStderrLogger(
+  const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
+)
 {
   std::vector<spdlog::sink_ptr> sinks {_stderrSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
   auto logger = std::make_shared<spdlog::async_logger>(loggerName + "_stderr", sinks.begin(), sinks.end(), spdlog::thread_pool());
@@ -72,9 +77,6 @@ Logger LoggerFactory::CreateStderrLogger(const std::string &loggerName, const bo
   return logger;
 }
 
-void LoggerFactory::Shutdown()
-{
-  spdlog::shutdown();
-}
+void LoggerFactory::Shutdown() { spdlog::shutdown(); }
 
 }// namespace leaf::log

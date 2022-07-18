@@ -13,7 +13,6 @@ using namespace process_manager::configuration_loader;
 
 TEST_F(LeafProcessManagerConfigurationLoaderTest, when_initialize_leaf_process_manager_config_file_should_be_loaded)
 {
-
   LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
 
   EXPECT_NO_THROW(processManagerConfigurationLoader.load(config::LeafConfigRootDirectory + "/leaf.ini"));

@@ -52,11 +52,13 @@ void LeafProcessManager::loadLeafConfiguration()
     const boost::format loggerName = boost::format("%1% (Main Thread)") % _loggerName;
 
     _stdout = log::LoggerFactory::CreateStdoutLogger(
-      loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(), _processManagerConfiguration->getLeafLogMaxFiles()
+      loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
+      _processManagerConfiguration->getLeafLogMaxFiles()
     );
 
     _stderr = log::LoggerFactory::CreateStderrLogger(
-      loggerName.str(), stderrFileName, _processManagerConfiguration->getLeafLogMaxFileSize(), _processManagerConfiguration->getLeafLogMaxFiles()
+      loggerName.str(), stderrFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
+      _processManagerConfiguration->getLeafLogMaxFiles()
     );
   }
 
