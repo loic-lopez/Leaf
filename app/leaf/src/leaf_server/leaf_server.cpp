@@ -4,8 +4,7 @@
 
 #include "leaf_server/configuration_loader/leaf_server_configuration_loader.hpp"
 #include "leaf_server/leaf_server.hpp"
-#include "stream/synced_cerr.hpp"
-#include "stream/synced_cout.hpp"
+#include "log/logger_factory.hpp"
 
 #include <syncstream>
 #include <utility>
@@ -13,7 +12,16 @@
 namespace leaf::server
 {
 
-LeafServer::LeafServer(std::string serverIniPath) : _serverIniPath(std::move(serverIniPath)), _signals(_ioContext), _acceptor(_ioContext)
+LeafServer::LeafServer(
+  std::string serverIniPath, std::string leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles
+)
+    : log::LoggerInterface(BOOST_CURRENT_FUNCTION),
+      _serverIniPath(std::move(serverIniPath)),
+      _leafLogDirectoryPath(std::move(leafLogDirectoryPath)),
+      _leafLogMaxFileSize(leafLogMaxFileSize),
+      _leafLogMaxFiles(leafLogMaxFiles),
+      _signals(_ioContext),
+      _acceptor(_ioContext)
 {
   // Register to handle the signals that indicate when the server should exit.
   // It is safe to register for the same signal multiple times in a program,
@@ -29,8 +37,7 @@ LeafServer::LeafServer(std::string serverIniPath) : _serverIniPath(std::move(ser
 
 void LeafServer::initialize()
 {
-  stream::synced_cout << "Starting Leaf thread listening on: " << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port
-                      << std::endl;
+  _stdout->info("Starting Leaf thread listening on: {0}:{1}", _serverConfiguration->listenAddr, _serverConfiguration->port);
 
   boost::asio::ip::tcp::resolver resolver(_ioContext);
   const boost::asio::ip::tcp::endpoint endpoint =
@@ -45,12 +52,10 @@ void LeafServer::initialize()
 
 void LeafServer::stop()
 {
-  stream::synced_cout << "Shutting down Leaf thread listening on: " << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port
-                      << std::endl;
+  _stdout->info("Shutting down Leaf thread listening on: {0}:{1}", _serverConfiguration->listenAddr, _serverConfiguration->port);
   _acceptor.close();
+  log::LoggerFactory::Shutdown();
   // connection_manager_.stop_all(); TODO:
-  stream::synced_cout << "Successfully shutdown Leaf thread listening on: " << _serverConfiguration->listenAddr << ":"
-                      << _serverConfiguration->port << std::endl;
 }
 
 void LeafServer::join()
@@ -70,13 +75,13 @@ void LeafServer::serve()
   }
   catch (const boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error> &iniParserError)
   {
-    stream::synced_cerr << "Leaf thread encountered an error:" << std::endl;
-    stream::synced_cerr << iniParserError.what() << std::endl;
+    _stderr->error("Leaf thread encountered an error:");
+    _stderr->error(iniParserError.what());
   }
   catch (...)
   {
-    stream::synced_cerr << "Leaf thread encountered an unknown error:" << std::endl;
-    stream::synced_cerr << boost::current_exception_diagnostic_information() << std::endl;
+    _stderr->error("Leaf thread encountered an unknown error:");
+    _stderr->error(boost::current_exception_diagnostic_information());
   }
 }
 
@@ -84,17 +89,23 @@ void LeafServer::loadConfiguration()
 {
   configuration_loader::LeafServerConfigurationLoader serverConfigurationLoader;
 
-  stream::synced_cout << "Leaf thread loading configuration file: " << _serverIniPath << std::endl;
-
   _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
 
-  stream::synced_cout << "Leaf thread successfully loaded configuration file: " << _serverIniPath << std::endl;
+  {
+    const boost::format httpServerName = boost::format("%1%_http_%2%") % _loggerName % _serverConfiguration->port;
+    const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath % httpServerName;
+    const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath % httpServerName;
+
+    _stdout = log::LoggerFactory::CreateStdoutLogger(httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
+    _stderr = log::LoggerFactory::CreateStderrLogger(httpServerName.str(), stderrFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
+  }
+
+  _stdout->info("Leaf thread successfully loaded configuration file: {0}", _serverIniPath);
 }
 
 void LeafServer::run()
 {
-  stream::synced_cout << "Running Leaf thread listening on: " << _serverConfiguration->listenAddr << ":" << _serverConfiguration->port
-                      << std::endl;
+  _stdout->info("Started Leaf thread listening on: {0}:{1}", _serverConfiguration->listenAddr, _serverConfiguration->port);
   _ioContext.run();
 }
 

@@ -32,6 +32,9 @@ set(LEAF_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_process_manager/leaf_process_manager_configuration.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/leaf_process_manager/configuration_loader/leaf_mime_types_loader.cpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/log/logger_factory.cpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/utils/utils.cpp
 
         PARENT_SCOPE

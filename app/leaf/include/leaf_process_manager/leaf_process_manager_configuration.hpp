@@ -14,17 +14,24 @@ class LeafProcessManagerConfiguration
 {
   public:
     explicit LeafProcessManagerConfiguration(
-      const std::string &serversRootPath, const std::string &leafLogDirectoryPath, const std::string &mimeTypesConfigFilePath
+      const std::string &serversRootPath, const std::string &leafLogDirectoryPath, std::size_t leafLogMaxFileSize,
+      std::size_t leafLogMaxFiles, const std::string &mimeTypesConfigFilePath
     );
 
     [[nodiscard]] const std::string &getServersRootPath() const;
+
     [[nodiscard]] const std::string &getLeafLogDirectoryPath() const;
+    [[nodiscard]] std::size_t getLeafLogMaxFileSize() const;
+    [[nodiscard]] std::size_t getLeafLogMaxFiles() const;
+
     [[nodiscard]] const std::string &getMimeTypesConfigFilePath() const;
 
   private:
-    const std::string serversRootPath;
-    const std::string leafLogDirectoryPath;
-    const std::string mimeTypesConfigFilePath;
+    const std::string _serversRootPath;
+    const std::string _leafLogDirectoryPath;
+    const std::size_t _leafLogMaxFileSize;
+    const std::size_t _leafLogMaxFiles;
+    const std::string _mimeTypesConfigFilePath;
 };
 
 }// namespace leaf::process_manager

@@ -8,11 +8,12 @@
 #include "leaf_options_parser/leaf_options_parser.hpp"
 #include "leaf_process_manager_configuration.hpp"
 #include "leaf_server/leaf_server.hpp"
+#include "log/logger_interface.hpp"
 
 namespace leaf::process_manager
 {
 
-class LeafProcessManager
+class LeafProcessManager : public log::LoggerInterface
 {
   public:
     virtual ~LeafProcessManager() = default;
@@ -36,7 +37,7 @@ class LeafProcessManager
     std::vector<std::shared_ptr<server::LeafServer>> _leafServers;
 
     // constructors
-    explicit LeafProcessManager() = default;
+    explicit LeafProcessManager();
 
     // methods
     void startServers() const;
