@@ -6,6 +6,7 @@
 #define LEAF_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP
 
 #include "leaf_process_manager/leaf_process_manager_configuration.hpp"
+#include "log/logger_factory.hpp"
 
 #include <gtest/gtest.h>
 
@@ -17,6 +18,7 @@ class LeafProcessManagerConfigurationLoaderTest : public ::testing::Test
     void SetUp() override
     {
       Test::SetUp();
+      log::LoggerFactory::InitializeFactory();
       _processManagerConfiguration = nullptr;
     }
 

@@ -4,6 +4,7 @@
 
 #include "exception/leaf_server_config_file_not_found.hpp"
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
+#include "log/logger_factory.hpp"
 
 #include <boost/property_tree/ptree.hpp>
 
@@ -12,19 +13,35 @@ namespace leaf::process_manager::configuration_loader
 
 std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfigurationLoader::load(const std::string &configFilePath)
 {
+  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("process_manager_configuration_loader (Main Thread)");
+
   boost::property_tree::ptree pTree = this->initializeBoostPtree<exception::LeafServerConfigFileNotFound>(configFilePath);
   std::string serversRootPath;
   std::string leafLogDirectory;
+  std::size_t leafLogMaxFileSize;
+  std::size_t leafLogMaxFiles;
   std::string mimeTypesConfigFile;
 
-  serversRootPath     = pTree.get_child(LEAF_SERVERS_SECTION.data()).get_child("servers_root_path").get_value<std::string>();
-  leafLogDirectory    = pTree.get_child(LEAF_CONFIGURATION_SECTION.data()).get_child("leaf_log_directory").get_value<std::string>();
-  mimeTypesConfigFile = pTree.get_child(HTTP_CONFIGURATION_SECTION.data()).get_child("mime_types_config_file").get_value<std::string>();
+  const auto leafServersSection       = pTree.get_child(LEAF_SERVERS_SECTION.data());
+  const auto leafConfigurationSection = pTree.get_child(LEAF_CONFIGURATION_SECTION.data());
+  const auto httpConfigurationSection = pTree.get_child(HTTP_CONFIGURATION_SECTION.data());
 
-  std::cout << configFilePath << " successfully loaded."
-            << " {MOVE TO LOG}" << std::endl;
+  // server section
+  serversRootPath = leafServersSection.get_child("servers_root_path").get_value<decltype(serversRootPath)>();
 
-  return std::make_unique<process_manager::LeafProcessManagerConfiguration>(serversRootPath, leafLogDirectory, mimeTypesConfigFile);
+  // log section
+  leafLogDirectory   = leafConfigurationSection.get_child("leaf_log_directory").get_value<decltype(leafLogDirectory)>();
+  leafLogMaxFileSize = leafConfigurationSection.get_child("leaf_log_max_file_size").get_value<decltype(leafLogMaxFileSize)>();
+  leafLogMaxFiles    = leafConfigurationSection.get_child("leaf_log_max_files").get_value<decltype(leafLogMaxFileSize)>();
+
+  // http section
+  mimeTypesConfigFile = httpConfigurationSection.get_child("mime_types_config_file").get_value<decltype(mimeTypesConfigFile)>();
+
+  stdoutLogger->info("{0} successfully loaded.", configFilePath);
+
+  return std::make_unique<process_manager::LeafProcessManagerConfiguration>(
+    serversRootPath, leafLogDirectory, leafLogMaxFileSize, leafLogMaxFiles, mimeTypesConfigFile
+  );
 }
 
 LeafProcessManagerConfigurationLoader::LeafProcessManagerConfigurationLoader()
