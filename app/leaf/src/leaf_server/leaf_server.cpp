@@ -68,6 +68,11 @@ void LeafServer::serve()
     stderrLogger->error("Leaf thread encountered an error:");
     stderrLogger->error(iniParserError.what());
   }
+  catch (const boost::wrapexcept<boost::system::system_error> &systemError)
+  {
+    _stderr->error("Leaf thread encountered an error:");
+    _stderr->error(systemError.what());
+  }
   catch (...)
   {
     const auto stderrLogger = log::LoggerFactory::BasicStderrLogger(_loggerName);

@@ -42,7 +42,7 @@ RotatingFileSink LoggerFactory::CreateRotatingFileSink(
 }
 
 Logger LoggerFactory::CreateLogger(
-  const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, bool mustRegisterLogger = true
+  const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const bool mustRegisterLogger = true
 )
 {
   auto logger = std::make_shared<spdlog::async_logger>(loggerName, sinks.begin(), sinks.end(), spdlog::thread_pool());
@@ -57,14 +57,14 @@ Logger LoggerFactory::CreateLogger(
 
 Logger LoggerFactory::BasicStdoutLogger(const std::string &loggerName)
 {
-  std::vector<spdlog::sink_ptr> sinks {_stdoutSink};
+  const std::vector<spdlog::sink_ptr> sinks {_stdoutSink};
 
   return CreateLogger(loggerName, sinks, false);
 }
 
 Logger LoggerFactory::BasicStderrLogger(const std::string &loggerName)
 {
-  std::vector<spdlog::sink_ptr> sinks {_stderrSink};
+  const std::vector<spdlog::sink_ptr> sinks {_stderrSink};
 
   return CreateLogger(loggerName + "_stderr", sinks, false);
 }
@@ -73,7 +73,7 @@ Logger LoggerFactory::CreateStdoutLogger(
   const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles
 )
 {
-  std::vector<spdlog::sink_ptr> sinks {_stdoutSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
+  const std::vector<spdlog::sink_ptr> sinks {_stdoutSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
 
   return CreateLogger(loggerName, sinks);
 }
@@ -82,7 +82,7 @@ Logger LoggerFactory::CreateStderrLogger(
   const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles
 )
 {
-  std::vector<spdlog::sink_ptr> sinks {_stderrSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
+  const std::vector<spdlog::sink_ptr> sinks {_stderrSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
 
   return CreateLogger(loggerName + "_stderr", sinks);
 }
