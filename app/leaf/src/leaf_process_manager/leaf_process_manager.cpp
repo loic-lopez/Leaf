@@ -162,7 +162,7 @@ void LeafProcessManager::RegisterSignalHandlers()
   }
 }
 
-void LeafProcessManager::SignalHandler(int signal)
+void LeafProcessManager::SignalHandler(const int signal)
 {
   using namespace std::string_view_literals;
   constexpr library::ConstexprMap<decltype(SIGINT), std::string_view, 3> signals
@@ -173,11 +173,10 @@ void LeafProcessManager::SignalHandler(int signal)
 #endif// defined(SIGQUIT)
   };
 
-  LeafProcessManager &leafProcessManager = GetInstance();
+  const LeafProcessManager &leafProcessManager = GetInstance();
 
   std::string signalName("unknown signal code ");
-  auto signalIt = signals.at(signal);
-  if (signalIt == signals.end()) signalName += std::to_string(signal);
+  if (const auto signalIt = signals.at(signal); signalIt == signals.end()) signalName += std::to_string(signal);
   else
     signalName = signalIt->second;
 
