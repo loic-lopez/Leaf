@@ -46,25 +46,22 @@ void LeafProcessManager::loadLeafConfiguration()
   std::filesystem::current_path(configFilePath.parent_path());
 
   _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePathString);
-
   initializeLoggers();
 
-  _stdout->info("Loading leaf_server configuration at: {0}", configFilePathString);
+  _stdout->debug("Successfully loaded main configuration at: {0}", configFilePath.string());
 
   for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath()))
   {
     if (p.is_regular_file())
     {
       std::string pathString = p.path().string();
-      _stdout->info("Creating LeafServer with config: {0}", pathString);
+      _stdout->debug("Creating LeafServer with config: {0}", pathString);
       _leafServers.emplace_back(std::make_shared<server::LeafServer>(
         pathString, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
         _processManagerConfiguration->getLeafLogMaxFiles()
       ));
     }
   }
-
-  _stdout->info("Successfully loaded leaf_server configuration at: {0}", configFilePath.string());
 }
 
 void LeafProcessManager::initializeLoggers()

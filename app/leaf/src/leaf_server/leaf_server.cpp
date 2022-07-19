@@ -26,7 +26,7 @@ LeafServer::LeafServer(
 
 void LeafServer::initialize()
 {
-  _stdout->info("Starting Leaf thread listening on: {0}:{1}", _serverConfiguration->listenAddr, _serverConfiguration->port);
+  _stdout->debug("Starting Leaf thread listening on: {0}:{1}", _serverConfiguration->listenAddr, _serverConfiguration->port);
 
   boost::asio::ip::tcp::resolver resolver(_ioContext);
   const boost::asio::ip::tcp::endpoint endpoint =
@@ -64,13 +64,15 @@ void LeafServer::serve()
   }
   catch (const boost::wrapexcept<class boost::property_tree::ini_parser::ini_parser_error> &iniParserError)
   {
-    _stderr->error("Leaf thread encountered an error:");
-    _stderr->error(iniParserError.what());
+    const auto stderrLogger = log::LoggerFactory::BasicStderrLogger(_loggerName);
+    stderrLogger->error("Leaf thread encountered an error:");
+    stderrLogger->error(iniParserError.what());
   }
   catch (...)
   {
-    _stderr->error("Leaf thread encountered an unknown error:");
-    _stderr->error(boost::current_exception_diagnostic_information());
+    const auto stderrLogger = log::LoggerFactory::BasicStderrLogger(_loggerName);
+    stderrLogger->error("Leaf thread encountered an unknown error:");
+    stderrLogger->error(boost::current_exception_diagnostic_information());
   }
 }
 
@@ -79,10 +81,10 @@ void LeafServer::loadConfiguration()
   configuration_loader::LeafServerConfigurationLoader serverConfigurationLoader;
 
   _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
-
   initializeLoggers();
 
-  _stdout->info("Leaf thread successfully loaded configuration file: {0}", _serverIniPath);
+
+  _stdout->debug("Leaf thread successfully loaded configuration file: {0}", _serverIniPath);
 }
 
 void LeafServer::initializeLoggers()

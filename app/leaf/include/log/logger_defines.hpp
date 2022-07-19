@@ -19,8 +19,6 @@ using RotatingFileSink = std::shared_ptr<spdlog::sinks::rotating_file_sink_mt>;
 using StderrSink       = std::shared_ptr<spdlog::sinks::stderr_color_sink_mt>;
 using StdoutSink       = std::shared_ptr<spdlog::sinks::stdout_color_sink_mt>;
 
-#define class_name(_class) #_class
-
 }// namespace leaf::log
 
 #endif// __LEAF_LOG_LOGGER_DEFINES_HPP__

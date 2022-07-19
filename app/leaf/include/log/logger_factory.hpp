@@ -51,6 +51,7 @@ class LoggerFactory
     inline static StdoutSink _stdoutSink;
 
     static RotatingFileSink CreateRotatingFileSink(const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles);
+    static Logger CreateLogger(const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, bool mustRegisterLogger);
 };
 
 }// namespace leaf::log

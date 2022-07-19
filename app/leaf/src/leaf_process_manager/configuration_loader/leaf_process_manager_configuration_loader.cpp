@@ -37,7 +37,7 @@ std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfiguration
   // http section
   mimeTypesConfigFile = httpConfigurationSection.get_child("mime_types_config_file").get_value<decltype(mimeTypesConfigFile)>();
 
-  stdoutLogger->info("{0} successfully loaded.", configFilePath);
+  stdoutLogger->debug("{0} successfully loaded.", configFilePath);
 
   return std::make_unique<process_manager::LeafProcessManagerConfiguration>(
     serversRootPath, leafLogDirectory, leafLogMaxFileSize, leafLogMaxFiles, mimeTypesConfigFile
