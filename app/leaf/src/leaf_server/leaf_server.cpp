@@ -20,19 +20,8 @@ LeafServer::LeafServer(
       _leafLogDirectoryPath(std::move(leafLogDirectoryPath)),
       _leafLogMaxFileSize(leafLogMaxFileSize),
       _leafLogMaxFiles(leafLogMaxFiles),
-      _signals(_ioContext),
       _acceptor(_ioContext)
 {
-  // Register to handle the signals that indicate when the server should exit.
-  // It is safe to register for the same signal multiple times in a program,
-  // provided all registration for the specified signal is made through Asio.
-  _signals.add(SIGINT);
-  _signals.add(SIGTERM);
-#if defined(SIGQUIT)
-  _signals.add(SIGQUIT);
-#endif// defined(SIGQUIT)
-
-  registerSignalsAwaitStopCallback();
 }
 
 void LeafServer::initialize()
@@ -54,7 +43,7 @@ void LeafServer::stop()
 {
   _stdout->info("Shutting down Leaf thread listening on: {0}:{1}", _serverConfiguration->listenAddr, _serverConfiguration->port);
   _acceptor.close();
-  log::LoggerFactory::Shutdown();
+  _ioContext.stop();
   // connection_manager_.stop_all(); TODO:
 }
 
@@ -131,12 +120,5 @@ void LeafServer::accept()
     }
   );
 }
-
-void LeafServer::registerSignalsAwaitStopCallback()
-{
-  _signals.async_wait([this](const boost::system::error_code, const int) { stop(); });
-}
-
-void LeafServer::terminate() { _ioContext.stop(); }
 
 }// namespace leaf::server

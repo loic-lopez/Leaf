@@ -11,24 +11,19 @@ template<typename T>
 class Singleton
 {
   public:
-    static T &Instance()
+    inline static T &GetInstance()
     {
-      static T instance;// load the first time // C++11
+      static T instance;// load the first time
       return instance;  // destruction = end of the program
     }
 
-    // C++11, here no copy and move
-    Singleton<T>(const Singleton &) = delete;
-
-    Singleton<T> &operator=(const Singleton) = delete;
-
-    Singleton<T>(Singleton &&) = delete;
-
-    Singleton<T> &operator=(Singleton &&) = delete;
+    Singleton(const Singleton<T> &)             = delete;
+    Singleton<T> &operator=(const Singleton<T>) = delete;
+    Singleton<T> &operator=(Singleton<T> &&)    = delete;
+    Singleton(Singleton<T> &&)                  = delete;
 
   protected:
-    Singleton() = default;
-
+    Singleton()          = default;
     virtual ~Singleton() = default;
 };
 }// namespace leaf::library

@@ -34,7 +34,7 @@ TEST(LeafServerTests, test_for_server_thread_bind)
       leafServer.start();
       std::this_thread::sleep_for(5000ms);
     }
-    leafServer.terminate();
+    leafServer.stop();
     leafServer.join();
   });
 }

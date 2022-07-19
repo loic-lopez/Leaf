@@ -29,7 +29,9 @@ void LoggerFactory::InitializeFactory()
   _stdoutSink->set_pattern(ColorsLoggingPattern);
 }
 
-RotatingFileSink LoggerFactory::CreateRotatingFileSink(const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles)
+RotatingFileSink LoggerFactory::CreateRotatingFileSink(
+  const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles
+)
 {
   auto rotatingFileSink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
     logFile.str(), static_cast<std::size_t>(1024 * 1024) * maxFileSize /* conversion to MB */, maxFiles
