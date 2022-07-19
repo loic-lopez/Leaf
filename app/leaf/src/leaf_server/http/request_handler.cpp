@@ -64,7 +64,7 @@ std::string RequestHandler::GetFileContent(std::ifstream &is, const std::uintmax
   std::vector<char> bytes(fileSize);
   is.read(bytes.data(), static_cast<std::streamsize>(fileSize));
 
-  return std::string(bytes.data(), fileSize);
+  return {bytes.data(), fileSize};
 }
 
 bool RequestHandler::UrlDecode(const std::string &in, std::string &out)

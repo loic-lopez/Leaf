@@ -16,7 +16,7 @@ namespace leaf::process_manager
 class LeafProcessManager : public log::LoggerInterface
 {
   public:
-    virtual ~LeafProcessManager() = default;
+    virtual ~LeafProcessManager();
 
     // constructors
     LeafProcessManager(const LeafProcessManager &)          = delete;
@@ -44,9 +44,11 @@ class LeafProcessManager : public log::LoggerInterface
     void waitForServers() const;
     void loadLeafConfiguration();
     void initializeLoggers();
+    static void RegisterSignalHandlers();
 
     // static
-    static void displayBanner();
+    static void DisplayBanner();
+    static void SignalHandler(int signal);
 };
 
 }// namespace leaf::process_manager

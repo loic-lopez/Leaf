@@ -27,7 +27,7 @@ class LeafServer : public log::LoggerInterface
     virtual ~LeafServer() = default;
 
     void join();
-    void terminate();
+    void stop();
     void start();
 
   private:
@@ -39,8 +39,6 @@ class LeafServer : public log::LoggerInterface
 
     /// The io_context used to perform asynchronous operations.
     boost::asio::io_context _ioContext = boost::asio::io_context(1);
-    /// The signal_set is used to register for process termination notifications.
-    boost::asio::signal_set _signals;
     /// Acceptor used to listen for incoming connections.
     boost::asio::ip::tcp::acceptor _acceptor;
 
@@ -52,9 +50,7 @@ class LeafServer : public log::LoggerInterface
     void loadConfiguration();
     void serve();
     void run();
-    void registerSignalsAwaitStopCallback();
     void accept();
-    void stop();
     void initializeLoggers();
 };
 
