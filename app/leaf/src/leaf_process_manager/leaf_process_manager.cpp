@@ -2,10 +2,13 @@
 // Created by LoicL on 13/12/2020.
 //
 
+// exceptions includes
 #include "exception/leaf_exit_to_main.hpp"
 #include "exception/leaf_server_config_dir_not_found.hpp"
+// process manager includes
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
+// library includes
 #include "library/constexpr_map.hpp"
 #include "log/logger_factory.hpp"
 #include "utils/utils.hpp"
@@ -143,15 +146,10 @@ void LeafProcessManager::start()
   waitForServers();
 }
 
-LeafProcessManager &LeafProcessManager::GetInstance()
-{
-  static LeafProcessManager leafProcessManager;
-  return leafProcessManager;
-}
-
 void LeafProcessManager::RegisterSignalHandlers()
 {
-  constexpr std::array<decltype(SIGINT), 3> signals {
+  constexpr std::array<decltype(SIGINT), 3> signals
+  {
     SIGINT, SIGTERM,
 #if defined(SIGQUIT)
       SIGQUIT,

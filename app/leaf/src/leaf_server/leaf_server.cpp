@@ -22,7 +22,6 @@ LeafServer::LeafServer(
       _leafLogMaxFiles(leafLogMaxFiles),
       _acceptor(_ioContext)
 {
-
 }
 
 void LeafServer::initialize()

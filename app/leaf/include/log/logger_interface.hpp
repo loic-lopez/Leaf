@@ -24,12 +24,11 @@ class LoggerInterface
 
     explicit LoggerInterface(const std::string &loggerName) : _loggerName(ToSnakeCase(loggerName)) {}
 
-    virtual ~LoggerInterface() = default;
-
   protected:
     Logger _stdout;
     Logger _stderr;
     std::string _loggerName;
+    virtual ~LoggerInterface() = default;
 
   private:
     static std::string ToSnakeCase(const std::string_view &str)

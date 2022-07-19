@@ -6,30 +6,23 @@
 #define LEAF_PROCESS_MANAGER_HPP
 
 #include "leaf_options_parser/leaf_options_parser.hpp"
-#include "leaf_process_manager_configuration.hpp"
+#include "leaf_process_manager/leaf_process_manager_configuration.hpp"
 #include "leaf_server/leaf_server.hpp"
+#include "library/singleton.hpp"
 #include "log/logger_interface.hpp"
 
 namespace leaf::process_manager
 {
 
-class LeafProcessManager : public log::LoggerInterface
+class LeafProcessManager final : public log::LoggerInterface, public library::Singleton<LeafProcessManager>
 {
   public:
+    friend class library::Singleton<LeafProcessManager>;// allow library::Singleton to create static instance of LeafProcessManager
     virtual ~LeafProcessManager();
-
-    // constructors
-    LeafProcessManager(const LeafProcessManager &)          = delete;
-    LeafProcessManager &operator=(const LeafProcessManager) = delete;
-    LeafProcessManager(LeafProcessManager &&)               = delete;
-    LeafProcessManager &operator=(LeafProcessManager &&)    = delete;
 
     // methods
     void parseCommandLineArgs(int ac, const char **av) const;
     void start();
-
-    // static
-    static LeafProcessManager &GetInstance();
 
   private:
     std::unique_ptr<LeafProcessManagerOptions> _processManagerOptions = std::make_unique<LeafProcessManagerOptions>();
