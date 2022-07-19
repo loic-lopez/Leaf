@@ -36,10 +36,17 @@ if (WIN32)
 endif ()
 
 if (MSVC)
-    add_compile_options(/W4 /WX)
+    add_compile_options(/W4 /WX /arch:AVX2)
 elseif (CMAKE_COMPILER_IS_GNUCXX)
     # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
+    add_definitions(-D_FORTIFY_SOURCE=2)
+    add_compile_options(
+        -Wall -Wextra -pedantic -Werror
+        -fexceptions # Enable table-based thread cancellation
+        -fpie -Wl,-pie -fstack-protector-strong -Wl,-z,defs # ASLR
+        -march=native -mavx -ftree-vectorize # AVX and SSE
+        -fno-math-errno -ffast-math
+        )
 endif ()
 
 if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -54,6 +61,11 @@ if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
             "${CMAKE_BINARY_DIR}/conan.cmake"
             TLS_VERIFY ON)
 endif ()
+
+
+## Set variables for libraries
+# as for now std::format is not available
+# add_definitions(-DSPDLOG_USE_STD_FORMAT)
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 conan_cmake_run(
