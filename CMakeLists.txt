@@ -46,7 +46,7 @@ elseif (CMAKE_COMPILER_IS_GNUCXX)
         -fpie -Wl,-pie -fstack-protector-strong -Wl,-z,defs # ASLR
         -march=native -mavx -ftree-vectorize # AVX and SSE
         -fno-math-errno -ffast-math
-        -ftrivial-auto-var-init=zero # fill variables with 0x00
+        # -ftrivial-auto-var-init=zero # fill variables with 0x00
         )
 endif ()
 
