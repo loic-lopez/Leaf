@@ -9,12 +9,6 @@
 namespace leaf::exception
 {
 
-template<typename T>
-constexpr const char* GetTypeName()
-{
-  return typeid(T).name();
-}
-
 LeafServerConfigDirNotFound::LeafServerConfigDirNotFound(
   const std::string_view& configurationDirectory, const std::source_location& location
 )

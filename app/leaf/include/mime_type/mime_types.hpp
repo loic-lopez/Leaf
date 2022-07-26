@@ -11,11 +11,16 @@
 
 namespace leaf::mime_type
 {
+
+namespace defaults
+{
+using namespace std::string_view_literals;
+inline static constinit const std::string_view DEFAULT = "text/plain"sv;
+}// namespace defaults
+
 struct MimeTypes
 {
     const std::vector<MimeType> mimeTypes;
-
-    constexpr static const char DEFAULT[] = "text/plain";
 
     [[nodiscard]] std::string extensionToType(const std::string &extension) const
     {
@@ -27,7 +32,7 @@ struct MimeTypes
         }
       }
 
-      return DEFAULT;
+      return defaults::DEFAULT.data();
     }
 };
 }// namespace leaf::mime_type

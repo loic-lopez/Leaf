@@ -18,9 +18,9 @@ using namespace std::string_view_literals;// NOSONAR
 class LeafProcessManagerConfigurationLoader : public abstract::INIConfigurationLoader<std::unique_ptr, LeafProcessManagerConfiguration>
 {
   public:
-    inline static const std::string_view LEAF_SERVERS_SECTION       = "LeafServers"sv;
-    inline static const std::string_view LEAF_CONFIGURATION_SECTION = "LeafConfiguration"sv;
-    inline static const std::string_view HTTP_CONFIGURATION_SECTION = "HttpConfiguration"sv;
+    inline static constinit const std::string_view LEAF_SERVERS_SECTION       = "LeafServers"sv;
+    inline static constinit const std::string_view LEAF_CONFIGURATION_SECTION = "LeafConfiguration"sv;
+    inline static constinit const std::string_view HTTP_CONFIGURATION_SECTION = "HttpConfiguration"sv;
 
     std::unique_ptr<LeafProcessManagerConfiguration> load(const std::string &configFilePath) override;
     explicit LeafProcessManagerConfigurationLoader();

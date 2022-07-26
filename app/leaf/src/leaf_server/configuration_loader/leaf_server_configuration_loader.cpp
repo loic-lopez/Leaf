@@ -10,7 +10,7 @@ namespace leaf::server
 {
 std::shared_ptr<LeafServerConfiguration> configuration_loader::LeafServerConfigurationLoader::load(const std::string &configFilePath)
 {
-  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_server_configuration_loader");
+  const auto stdoutLogger           = log::LoggerFactory::BasicStdoutLogger("leaf_server_configuration_loader");
   boost::property_tree::ptree pTree = this->initializeBoostPtree<exception::LeafServerConfigFileNotFound>(configFilePath);
 
   const auto leafServerSectionData = pTree.get_child(LEAF_SERVER_SECTION.data());

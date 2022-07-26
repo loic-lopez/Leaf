@@ -89,4 +89,9 @@ Logger LoggerFactory::CreateStderrLogger(
 
 void LoggerFactory::Shutdown() { spdlog::shutdown(); }
 
+Logger LoggerFactory::BasicStdoutLoggerWithoutFormatting(const std::string &loggerName) {
+  auto logger = BasicStdoutLogger(loggerName);
+  return logger;
+}
+
 }// namespace leaf::log

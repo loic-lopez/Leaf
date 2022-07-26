@@ -4,7 +4,7 @@
 
 // exceptions includes
 #include "exception/leaf_exit_to_main.hpp"
-#include "exception/leaf_server_config_dir_not_found.hpp"
+#include "exception/leaf_server_config_file_not_found.hpp"
 // process manager includes
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
@@ -28,8 +28,9 @@ namespace leaf::process_manager
 
 void LeafProcessManager::DisplayBanner()
 {
-  std::cout << utils::BuildInfo() << std::endl;
-  std::cout << utils::LeafBanner() << std::endl;
+  auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_process_manager (Main Thread)");
+  stdoutLogger->info(utils::BuildInfo());
+  stdoutLogger->info(utils::LeafBanner());
 }
 
 void LeafProcessManager::loadLeafConfiguration()
@@ -40,7 +41,7 @@ void LeafProcessManager::loadLeafConfiguration()
 
   if (!std::filesystem::exists(configFilePath))
   {
-    BOOST_THROW_EXCEPTION(exception::LeafServerConfigDirNotFound(configFilePathString, std::source_location::current()));
+    BOOST_THROW_EXCEPTION(exception::LeafServerConfigFileNotFound(configFilePathString, errno, std::source_location::current()));
   }
 
   std::filesystem::current_path(configFilePath.parent_path());

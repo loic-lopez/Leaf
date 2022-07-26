@@ -16,7 +16,7 @@ using namespace std::string_view_literals;// NOSONAR
 class LeafServerConfigurationLoader : public abstract::INIConfigurationLoader<std::shared_ptr, LeafServerConfiguration>
 {
   public:
-    constexpr static PropertyString LEAF_SERVER_SECTION = "LeafServer"sv;
+    inline static constinit PropertyString LEAF_SERVER_SECTION = "LeafServer"sv;
 
     std::shared_ptr<LeafServerConfiguration> load(const std::string &configFilePath) override;
 

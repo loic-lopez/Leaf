@@ -12,10 +12,11 @@ namespace leaf::exception
 class IniPropertyInSectionException : public IniSectionNotFound
 {
   public:
-    enum class ExceptionType
+    enum class ExceptionType : unsigned int
     {
       DUPLICATED,
-      MISSING
+      MISSING,
+      VALUE_MISSING_OR_INVALID
     };
 
     explicit IniPropertyInSectionException(

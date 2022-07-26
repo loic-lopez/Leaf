@@ -37,11 +37,11 @@ class LeafProcessManager final : public log::LoggerInterface, public library::Si
     void waitForServers() const;
     void loadLeafConfiguration();
     void initializeLoggers();
-    static void RegisterSignalHandlers();
 
     // static
     static void DisplayBanner();
     static void SignalHandler(int signal);
+    static void RegisterSignalHandlers();
 };
 
 }// namespace leaf::process_manager

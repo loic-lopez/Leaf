@@ -9,8 +9,8 @@ namespace leaf::http::response
 namespace misc_strings
 {
 
-constexpr char name_value_separator[] = {':', ' '};
-constexpr char crlf[]                 = {'\r', '\n'};
+inline static constinit const char name_value_separator[] = {':', ' '};
+inline static constinit const char crlf[]                 = {'\r', '\n'};
 
 }// namespace misc_strings
 

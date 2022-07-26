@@ -88,7 +88,6 @@ void LeafServer::loadConfiguration()
   _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
   initializeLoggers();
 
-
   _stdout->debug("Leaf thread successfully loaded configuration file: {0}", _serverIniPath);
 }
 

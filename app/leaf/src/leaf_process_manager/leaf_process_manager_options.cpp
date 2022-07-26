@@ -4,7 +4,7 @@
 
 #include "leaf_process_manager/leaf_process_manager_options.hpp"
 
-#include <boost/filesystem/operations.hpp>
+#include <filesystem>
 
 namespace leaf::process_manager
 {
@@ -12,6 +12,6 @@ const std::string &LeafProcessManagerOptions::getServerConfigFilePath() const { 
 
 void LeafProcessManagerOptions::setServerConfigFilePath(const std::string &serverConfigFilePath)
 {
-  _serverConfigFilePath = boost::filesystem::weakly_canonical(serverConfigFilePath).string();
+  _serverConfigFilePath = std::filesystem::weakly_canonical(serverConfigFilePath).string();
 }
 }// namespace leaf::process_manager

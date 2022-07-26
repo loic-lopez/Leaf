@@ -6,21 +6,22 @@
 #define LEAF_INI_CONFIGURATION_LOADER_HPP
 
 #include "concept/leaf_concepts.hpp"
+#include "log/logger_defines.hpp"
 
-#include <boost/filesystem/operations.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 
+#include <filesystem>
 #include <string>
 
 namespace leaf::abstract
 {
 
-template<template<class> class stl_memory_container, class Model>
+template<template<class> class StlMemoryContainer, class Model>
 class INIConfigurationLoader
 {
   public:
-    virtual stl_memory_container<Model> load(const std::string &configFilePath) = 0;
-    virtual ~INIConfigurationLoader()                                           = default;
+    virtual StlMemoryContainer<Model> load(const std::string &configFilePath) = 0;
+    virtual ~INIConfigurationLoader()                                         = default;
 
   protected:
     using PropertyString      = std::string_view;
@@ -38,7 +39,17 @@ class INIConfigurationLoader
 
     template<leaf::concepts::LeafExceptionClass LeafException>
     boost::property_tree::ptree initializeBoostPtree(const std::string &configFilePath);
-    virtual void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string &configFilePath);
+
+    void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string &configFilePath);
+
+    static void checkValue(
+      const std::string_view &sectionName, const std::string &property, const std::string &configFilePath,
+      const std::function<bool()> &toCheck
+    );
+    static void checkValue(
+      const std::string_view &sectionName, const std::string &property, const std::string &configFilePath, std::size_t &actualValue,
+      std::size_t defaultValue, const log::Logger &logger
+    );
 };
 
 }// namespace leaf::abstract

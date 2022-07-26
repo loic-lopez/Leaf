@@ -11,7 +11,7 @@ namespace leaf::utils
 {
 extern std::string BuildInfo();
 
-constexpr std::string_view LeafBanner()
+consteval std::string_view LeafBanner()
 {
   using namespace std::string_view_literals;
 

@@ -17,14 +17,18 @@ namespace leaf
 
 namespace cli_options
 {
-constexpr static const char SERVER_CONFIG_FILE[] = "server-config-file";
-constexpr static const char HELP[]               = "help";
+using namespace std::string_view_literals;
+
+inline static constinit const std::string_view SERVER_CONFIG_FILE = "server-config-file"sv;
+inline static constinit const std::string_view HELP               = "help"sv;
 }// namespace cli_options
 
 namespace env_options
 {
-constexpr static const char SERVER_CONFIG_FILE[] = "LEAF_SERVER_CONFIG_FILE";
-constexpr static const char ENV_PREFIX[]         = "LEAF_";
+using namespace std::string_view_literals;
+
+inline static constinit const std::string_view SERVER_CONFIG_FILE = "LEAF_SERVER_CONFIG_FILE"sv;
+inline static constinit const std::string_view ENV_PREFIX         = "LEAF_"sv;
 }// namespace env_options
 
 using CallbackThatTriggersHelp = bool(const std::string &option, const boost::program_options::variables_map &commandLineArgs);

@@ -24,14 +24,29 @@ IniPropertyInSectionException::IniPropertyInSectionException(
 
 void IniPropertyInSectionException::buildStdExceptionMessage(const char *exceptionClassName)
 {
-  boost::format exceptionFormat("%1% exception raised:\nthis means the leaf_server ini config file located at %2% %3%.");
+  boost::format exceptionFormat("%1% exception raised:\nthis means the ini config file located at %2% %3%.");
   exceptionFormat % exceptionClassName;
   exceptionFormat % _configFilePath;
+
+  boost::format sectionNameFormat(boost::format("[%1%]") % _section);
+  boost::format explanationExceptionFormat;
+
   if (_exceptionType == ExceptionType::MISSING)
   {
-    exceptionFormat % (" doesn't have a property " + _property + " in section " + _section + " while it is required.");
+    explanationExceptionFormat =
+      boost::format("doesn't have a property %1% in section %2% while it is required") % _property % sectionNameFormat;
   }
-  else { exceptionFormat % (" the property " + _property + " is declared multiple times in section " + _section); }
+  else if (_exceptionType == ExceptionType::VALUE_MISSING_OR_INVALID)
+  {
+    explanationExceptionFormat = boost::format("in section %1% value of property %2% is empty or invalid") % sectionNameFormat % _property;
+  }
+  else
+  {
+    explanationExceptionFormat =
+      boost::format("the property %1% is declared multiple times in section %2%") % _property % sectionNameFormat;
+  }
+
+  exceptionFormat % explanationExceptionFormat;
 
   _msg = exceptionFormat.str();
 }

@@ -36,6 +36,7 @@ class LoggerFactory
     static void Shutdown();
 
     static Logger BasicStdoutLogger(const std::string &loggerName);
+    static Logger BasicStdoutLoggerWithoutFormatting(const std::string &loggerName);
     static Logger BasicStderrLogger(const std::string &loggerName);
     static Logger CreateStdoutLogger(
       const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles

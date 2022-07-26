@@ -14,7 +14,7 @@ namespace leaf::utils
 
 std::string BuildInfo()
 {
-  const boost::format buildInfo = boost::format("%1%: %2%, build type: %3% [%4%], build date: %5%") % build::LeafProjectName
+  const boost::format buildInfo = boost::format("\n%1% version: %2%, build type: %3% [%4%], build date: %5%") % build::LeafProjectName
     % build::LeafVersion % build::LeafBuildType % build::Arch % build::LeafBuildDate;
   return buildInfo.str();
 }

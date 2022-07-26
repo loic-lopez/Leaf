@@ -18,14 +18,15 @@ LeafOptionsParser::LeafOptionsParser(process_manager::LeafProcessManagerOptions 
   _configFileValue = boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier());
 
   _cliRequiredOptionsDescription.add_options(
-  )(cli_options::SERVER_CONFIG_FILE, _configFileValue, "set the config .ini file path for the leaf server.");
+  )(cli_options::SERVER_CONFIG_FILE.data(), _configFileValue, "set the config .ini file path for the leaf server.");
 
-  _cliOptionalOptionsDescription.add_options()(cli_options::HELP, "display this help message");
+  _cliOptionalOptionsDescription.add_options()(cli_options::HELP.data(), "display this help message");
 
-  _envOptionsDescription.add_options(
-  )(env_options::SERVER_CONFIG_FILE, boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier()));
+  _envOptionsDescription.add_options()(
+    env_options::SERVER_CONFIG_FILE.data(), boost::program_options::value<std::string>()->notifier(_notifier.makeServerConfigFileNotifier())
+  );
 
-  _callbacksThatTriggersHelp[cli_options::HELP] = CallbackReceiver {
+  _callbacksThatTriggersHelp[cli_options::HELP.data()] = CallbackReceiver {
     .optionVerifier = [](const std::string &option, const boost::program_options::variables_map &commandLineArgs) -> bool
     { return commandLineArgs.contains(option); },
     .statusWhenOptionVerifierMatched = Status::NEED_DISPLAY_HELP};

@@ -116,7 +116,7 @@ TEST_F(LeafServerOptionsParserTest, matchEnvironmentVariable_must_return_a_good_
 {
   LeafOptionsParser_Surcharged leafOptionsParser(getServerOptions().get());
 
-  std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable(leaf::env_options::SERVER_CONFIG_FILE);
+  std::string matchedEnvVar = leafOptionsParser.matchEnvironmentVariableCallable(leaf::env_options::SERVER_CONFIG_FILE.data());
 
   ASSERT_EQ(matchedEnvVar, env_options::SERVER_CONFIG_FILE);
 }
