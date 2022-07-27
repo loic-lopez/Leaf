@@ -39,17 +39,17 @@ class INIConfigurationLoader
     const std::vector<IniSection> _sections;
 
     template<leaf::concepts::LeafExceptionClass LeafException>
-    boost::property_tree::ptree initializeBoostPtree(const std::string &configFilePath);
+    boost::property_tree::ptree initializeBoostPtree(std::filesystem::path configFilePath);
 
-    void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string &configFilePath);
+    void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string_view &configFilePath) const;
 
+    template<class Callable>
     static void checkValue(
-      const std::string_view &sectionName, const std::string &property, const std::string &configFilePath,
-      const std::function<bool()> &toCheck
+      const PropertyString &sectionName, const PropertyString &property, const std::string_view &configFilePath, const Callable &toCheck
     );
     static void checkValue(
-      const std::string_view &sectionName, const std::string &property, const std::string &configFilePath, std::size_t &actualValue,
-      const size_t defaultValue, const log::LoggerWrapperPtr &logger
+      const PropertyString &sectionName, const PropertyString &property, const std::string_view &configFilePath, std::size_t &actualValue,
+      size_t defaultValue, const log::LoggerWrapperPtr &logger
     );
 };
 

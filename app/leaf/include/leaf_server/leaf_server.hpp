@@ -22,7 +22,8 @@ class LeafServer : public log::LoggerInterface
   public:
     LeafServer(const LeafServer &leafServer) = delete;
     explicit LeafServer(
-      std::string serverIniPath, std::string leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles
+      std::string serverIniPath, std::string leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles,
+      const std::size_t leafLogThreadsPerLeafServer
     );
     virtual ~LeafServer() = default;
 
@@ -36,6 +37,7 @@ class LeafServer : public log::LoggerInterface
     const std::string _leafLogDirectoryPath;
     const std::size_t _leafLogMaxFileSize;
     const std::size_t _leafLogMaxFiles;
+    const std::size_t _leafLogThreadsPerLeafServer;
 
     /// The io_context used to perform asynchronous operations.
     boost::asio::io_context _ioContext = boost::asio::io_context(1);

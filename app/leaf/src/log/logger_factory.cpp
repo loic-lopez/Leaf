@@ -41,8 +41,7 @@ RotatingFileSink LoggerFactory::CreateRotatingFileSink(
 }
 
 LoggerWrapperPtr LoggerFactory::CreateLogger(
-  const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const ThreadPool &threadPool,
-  bool mustRegisterLogger = true
+  const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const ThreadPool &threadPool, bool mustRegisterLogger = true
 )
 {
   auto logger = std::make_shared<spdlog::async_logger>(loggerName, sinks.begin(), sinks.end(), threadPool);
@@ -70,7 +69,8 @@ LoggerWrapperPtr LoggerFactory::BasicStderrLogger(const std::string &loggerName)
 }
 
 LoggerWrapperPtr LoggerFactory::CreateStdoutLogger(
-  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles, const ThreadPool &threadPool
+  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles,
+  const ThreadPool &threadPool
 )
 {
   const std::vector<spdlog::sink_ptr> sinks {_stdoutSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
@@ -79,7 +79,8 @@ LoggerWrapperPtr LoggerFactory::CreateStdoutLogger(
 }
 
 LoggerWrapperPtr LoggerFactory::CreateStderrLogger(
-  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles, const ThreadPool &threadPool
+  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles,
+  const ThreadPool &threadPool
 )
 {
   const std::vector<spdlog::sink_ptr> sinks {_stderrSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
@@ -90,11 +91,24 @@ LoggerWrapperPtr LoggerFactory::CreateStderrLogger(
 void LoggerFactory::ShutdownGlobalThreadPool() { spdlog::shutdown(); }
 
 StandardLoggers LoggerFactory::CreateStdLoggers(
+  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles,
+  const std::size_t leafLogThreadsPerLeafServer
+)
+{
+  StandardLoggers standardLoggers;
+  auto threadPool              = std::make_shared<spdlog::details::thread_pool>(threadPoolQueueSize, leafLogThreadsPerLeafServer);
+  standardLoggers.stdoutLogger = CreateStdoutLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
+  standardLoggers.stderrLogger = CreateStderrLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
+
+  return standardLoggers;
+}
+
+StandardLoggers LoggerFactory::CreateStdLoggers(
   const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles
 )
 {
   StandardLoggers standardLoggers;
-  auto threadPool = std::make_shared<spdlog::details::thread_pool>(threadPoolQueueSize, 4);
+  auto threadPool              = spdlog::thread_pool();
   standardLoggers.stdoutLogger = CreateStdoutLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
   standardLoggers.stderrLogger = CreateStderrLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
 

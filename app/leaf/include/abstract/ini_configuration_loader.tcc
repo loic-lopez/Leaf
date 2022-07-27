@@ -25,26 +25,29 @@ INIConfigurationLoader<StlMemoryContainer, Model>::INIConfigurationLoader(std::v
 
 template<template<class> class StlMemoryContainer, class Model>
 template<leaf::concepts::LeafExceptionClass LeafException>
-boost::property_tree::ptree INIConfigurationLoader<StlMemoryContainer, Model>::initializeBoostPtree(const std::string &configFilePath)
+boost::property_tree::ptree INIConfigurationLoader<StlMemoryContainer, Model>::initializeBoostPtree(
+  const std::filesystem::path configFilePath
+)
 {
   if (!std::filesystem::exists(configFilePath) || std::filesystem::is_directory(configFilePath))
   {
-    BOOST_THROW_EXCEPTION(LeafException(configFilePath, errno, std::source_location::current()));
+    BOOST_THROW_EXCEPTION(LeafException(configFilePath.string(), errno, std::source_location::current()));
   }
 
   boost::property_tree::ptree pTree;
+  const std::string configFilePathString = configFilePath.string();
 
-  boost::property_tree::ini_parser::read_ini(configFilePath, pTree);
+  boost::property_tree::ini_parser::read_ini(configFilePathString, pTree);
 
-  checkForPtreeIntegrity(pTree, configFilePath);
+  checkForPtreeIntegrity(pTree, configFilePathString);
 
   return pTree;
 }
 
 template<template<class> class StlMemoryContainer, class Model>
 void INIConfigurationLoader<StlMemoryContainer, Model>::checkForPtreeIntegrity(
-  const boost::property_tree::ptree &pTree, const std::string &configFilePath
-)
+  const boost::property_tree::ptree &pTree, const std::string_view &configFilePath
+) const
 {
   for (const auto &section : _sections)
   {
@@ -67,8 +70,9 @@ void INIConfigurationLoader<StlMemoryContainer, Model>::checkForPtreeIntegrity(
 }
 
 template<template<class> class StlMemoryContainer, class Model>
+template<class Callable>
 void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
-  const std::string_view &sectionName, const std::string &property, const std::string &configFilePath, const std::function<bool()> &toCheck
+  const PropertyString &sectionName, const PropertyString &property, const std::string_view &configFilePath, const Callable &toCheck
 )
 {
   if (toCheck())
@@ -82,7 +86,7 @@ void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
 
 template<template<class> class StlMemoryContainer, class Model>
 void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
-  const std::string_view &sectionName, const std::string &property, const std::string &configFilePath, std::size_t &actualValue,
+  const PropertyString &sectionName, const PropertyString &property, const std::string_view &configFilePath, std::size_t &actualValue,
   const std::size_t defaultValue, const log::LoggerWrapperPtr &logger
 )
 {

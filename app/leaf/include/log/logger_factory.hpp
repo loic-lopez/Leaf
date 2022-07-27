@@ -40,6 +40,10 @@ class LoggerFactory
     static LoggerWrapperPtr BasicStderrLogger(const std::string &loggerName);
 
     static StandardLoggers CreateStdLoggers(
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles,
+      std::size_t leafLogThreadsPerLeafServer
+    );
+    static StandardLoggers CreateStdLoggers(
       const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
     );
 
@@ -51,15 +55,16 @@ class LoggerFactory
 
     static RotatingFileSink CreateRotatingFileSink(const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles);
     static LoggerWrapperPtr CreateLogger(
-      const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const ThreadPool &threadPool,
-      bool mustRegisterLogger
+      const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const ThreadPool &threadPool, bool mustRegisterLogger
     );
 
     static LoggerWrapperPtr CreateStdoutLogger(
-      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles, const ThreadPool &threadPool
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles,
+      const ThreadPool &threadPool
     );
     static LoggerWrapperPtr CreateStderrLogger(
-      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles, const ThreadPool &threadPool
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles,
+      const ThreadPool &threadPool
     );
 };
 

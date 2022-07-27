@@ -13,13 +13,15 @@ namespace leaf::server
 {
 
 LeafServer::LeafServer(
-  std::string serverIniPath, std::string leafLogDirectoryPath, const std::size_t leafLogMaxFileSize, const std::size_t leafLogMaxFiles
+  std::string serverIniPath, std::string leafLogDirectoryPath, const std::size_t leafLogMaxFileSize, const std::size_t leafLogMaxFiles,
+  const std::size_t leafLogThreadsPerLeafServer
 )
     : log::LoggerInterface(BOOST_CURRENT_FUNCTION),
       _serverIniPath(std::move(serverIniPath)),
       _leafLogDirectoryPath(std::move(leafLogDirectoryPath)),
       _leafLogMaxFileSize(leafLogMaxFileSize),
       _leafLogMaxFiles(leafLogMaxFiles),
+      _leafLogThreadsPerLeafServer(leafLogThreadsPerLeafServer),
       _acceptor(_ioContext)
 {
 }
@@ -97,7 +99,9 @@ void LeafServer::initializeLoggers()
   const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath % httpServerName;
   const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath % httpServerName;
 
-  auto standardLoggers = log::LoggerFactory::CreateStdLoggers(httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
+  const auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
+    httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles, _leafLogThreadsPerLeafServer
+  );
   _stdout = standardLoggers.stdoutLogger;
   _stderr = standardLoggers.stderrLogger;
 }

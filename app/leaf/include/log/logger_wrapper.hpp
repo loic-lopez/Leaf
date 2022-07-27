@@ -14,7 +14,7 @@
 
 namespace leaf::log
 {
-class LoggerWrapper : std::enable_shared_from_this<LoggerWrapper>
+class LoggerWrapper : public std::enable_shared_from_this<LoggerWrapper>
 {
   public:
     explicit LoggerWrapper(

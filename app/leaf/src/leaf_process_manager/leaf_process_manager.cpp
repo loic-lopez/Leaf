@@ -28,7 +28,7 @@ namespace leaf::process_manager
 
 void LeafProcessManager::DisplayBanner()
 {
-  auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_process_manager (Main Thread)");
+  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_process_manager (Main Thread)");
   stdoutLogger->info(utils::BuildInfo());
   stdoutLogger->info(utils::LeafBanner());
 }
@@ -60,13 +60,15 @@ void LeafProcessManager::loadLeafConfiguration()
       _stdout->debug("Creating LeafServer with config: {0}", pathString);
       _leafServers.emplace_back(std::make_shared<server::LeafServer>(
         pathString, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
-        _processManagerConfiguration->getLeafLogMaxFiles()
+        _processManagerConfiguration->getLeafLogMaxFiles(), _processManagerConfiguration->getLeafLogThreadsPerLeafServer()
       ));
       leafServersCount++;
     }
   }
 
-  //_stdout->debug("logging thread pool scaled up to {0} threads", loggerThreadPoolSize);
+  _stdout->info(
+    "logging thread pool scaled up to {0} threads per leaf server.", _processManagerConfiguration->getLeafLogThreadsPerLeafServer()
+  );
 }
 
 void LeafProcessManager::initializeLoggers()
@@ -76,7 +78,7 @@ void LeafProcessManager::initializeLoggers()
     boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
   const boost::format loggerName = boost::format("%1% (Main Thread)") % _loggerName;
 
-  auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
+  const auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
     loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
     _processManagerConfiguration->getLeafLogMaxFiles()
   );
