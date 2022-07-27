@@ -2,8 +2,8 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#ifndef LEAF_VERSIONING_HPP
-#define LEAF_VERSIONING_HPP
+#ifndef __LEAF_VERSIONING_HPP__
+#define __LEAF_VERSIONING_HPP__
 
 #include <string>
 #include <string_view>
@@ -11,7 +11,7 @@
 namespace leaf::utils::build
 {
 
-using namespace std::string_view_literals;
+using std::string_view_literals::operator""sv;
 
 inline static constinit const std::string_view LeafProjectName = "@LEAF_PROJECT@"sv;
 inline static constinit const std::string_view LeafBuildDate   = "@BUILD_DATE@"sv;
@@ -23,4 +23,4 @@ static const std::string Arch = std::to_string(ArchValue) + "-bit";
 
 }// namespace leaf::utils::build
 
-#endif// LEAF_VERSIONING_HPP
+#endif// __LEAF_VERSIONING_HPP__

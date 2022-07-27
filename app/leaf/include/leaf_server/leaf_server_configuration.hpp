@@ -2,8 +2,8 @@
 // Created by LoicL on 19/12/2020.
 //
 
-#ifndef LEAF_LEAF_SERVER_CONFIGURATION_HPP
-#define LEAF_LEAF_SERVER_CONFIGURATION_HPP
+#ifndef __LEAF_LEAF_SERVER_CONFIGURATION_HPP__
+#define __LEAF_LEAF_SERVER_CONFIGURATION_HPP__
 
 #include <string>
 
@@ -22,4 +22,4 @@ class LeafServerConfiguration
 
 }// namespace leaf::server
 
-#endif// LEAF_LEAF_SERVER_CONFIGURATION_HPP
+#endif// __LEAF_LEAF_SERVER_CONFIGURATION_HPP__

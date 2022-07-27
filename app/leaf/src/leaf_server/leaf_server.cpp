@@ -97,8 +97,9 @@ void LeafServer::initializeLoggers()
   const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath % httpServerName;
   const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath % httpServerName;
 
-  _stdout = log::LoggerFactory::CreateStdoutLogger(httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
-  _stderr = log::LoggerFactory::CreateStderrLogger(httpServerName.str(), stderrFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
+  auto standardLoggers = log::LoggerFactory::CreateStdLoggers(httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
+  _stdout = standardLoggers.stdoutLogger;
+  _stderr = standardLoggers.stderrLogger;
 }
 
 void LeafServer::run()

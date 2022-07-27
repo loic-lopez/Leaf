@@ -2,8 +2,8 @@
 // Created by LoicL on 29/11/2020.
 //
 
-#ifndef LEAF_CONCEPTS_HPP
-#define LEAF_CONCEPTS_HPP
+#ifndef __LEAF_CONCEPTS_HPP__
+#define __LEAF_CONCEPTS_HPP__
 
 #include "interface/iexception.hpp"
 
@@ -17,4 +17,4 @@ concept LeafExceptionClass = std::is_base_of_v<interface::IException, LeafExcept
 
 }
 
-#endif// LEAF_CONCEPTS_HPP
+#endif// __LEAF_CONCEPTS_HPP__

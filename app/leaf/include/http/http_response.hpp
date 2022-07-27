@@ -2,8 +2,8 @@
 // Created by LoicL on 24/12/2020.
 //
 
-#ifndef LEAF_HTTP_RESPONSE_HPP
-#define LEAF_HTTP_RESPONSE_HPP
+#ifndef __LEAF_HTTP_RESPONSE_HPP__
+#define __LEAF_HTTP_RESPONSE_HPP__
 
 #include "http_header.hpp"
 
@@ -60,4 +60,4 @@ class HttpResponse
 #include "http/status_strings.hpp"
 #include "http/stock_replies.hpp"
 
-#endif// LEAF_HTTP_RESPONSE_HPP
+#endif// __LEAF_HTTP_RESPONSE_HPP__

@@ -2,8 +2,8 @@
 // Created by LoicL on 28/11/2020.
 //
 
-#ifndef LEAF_IPROTOCOL_HPP
-#define LEAF_IPROTOCOL_HPP
+#ifndef __LEAF_IPROTOCOL_HPP__
+#define __LEAF_IPROTOCOL_HPP__
 
 namespace leaf::interface
 {
@@ -18,4 +18,4 @@ class IProtocol
 };
 }// namespace leaf::interface
 
-#endif// LEAF_IPROTOCOL_HPP
+#endif// __LEAF_IPROTOCOL_HPP__

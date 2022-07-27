@@ -8,18 +8,17 @@
 #include <spdlog/cfg/env.h>
 
 #include <iostream>
+#include <vector>
 
 namespace leaf::log
 {
 
+static constinit const std::size_t threadPoolQueueSize = 8192;
+
 void LoggerFactory::InitializeFactory()
 {
-  const auto processorCount = std::thread::hardware_concurrency();
-  auto spdlogThreads        = processorCount / 4;
-  if (spdlogThreads <= 0) spdlogThreads = 2;
-
   spdlog::cfg::load_env_levels();
-  spdlog::init_thread_pool(8192, spdlogThreads);
+  spdlog::init_thread_pool(threadPoolQueueSize, 1);// init basic default global thread pool
   spdlog::flush_every(std::chrono::seconds(3));
 
   _stderrSink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
@@ -41,57 +40,65 @@ RotatingFileSink LoggerFactory::CreateRotatingFileSink(
   return rotatingFileSink;
 }
 
-Logger LoggerFactory::CreateLogger(
-  const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const bool mustRegisterLogger = true
+LoggerWrapperPtr LoggerFactory::CreateLogger(
+  const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const ThreadPool &threadPool,
+  bool mustRegisterLogger = true
 )
 {
-  auto logger = std::make_shared<spdlog::async_logger>(loggerName, sinks.begin(), sinks.end(), spdlog::thread_pool());
+  auto logger = std::make_shared<spdlog::async_logger>(loggerName, sinks.begin(), sinks.end(), threadPool);
 
 #ifndef NDEBUG
   logger->set_level(spdlog::level::trace);
 #endif
 
   if (mustRegisterLogger) spdlog::register_logger(logger);
-  return logger;
+  return std::make_shared<LoggerWrapper>(threadPool, logger, loggerName);
 }
 
-Logger LoggerFactory::BasicStdoutLogger(const std::string &loggerName)
+LoggerWrapperPtr LoggerFactory::BasicStdoutLogger(const std::string &loggerName)
 {
   const std::vector<spdlog::sink_ptr> sinks {_stdoutSink};
 
-  return CreateLogger(loggerName, sinks, false);
+  return CreateLogger(loggerName, sinks, spdlog::thread_pool(), false);
 }
 
-Logger LoggerFactory::BasicStderrLogger(const std::string &loggerName)
+LoggerWrapperPtr LoggerFactory::BasicStderrLogger(const std::string &loggerName)
 {
   const std::vector<spdlog::sink_ptr> sinks {_stderrSink};
 
-  return CreateLogger(loggerName + "_stderr", sinks, false);
+  return CreateLogger(loggerName + "_stderr", sinks, spdlog::thread_pool(), false);
 }
 
-Logger LoggerFactory::CreateStdoutLogger(
-  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles
+LoggerWrapperPtr LoggerFactory::CreateStdoutLogger(
+  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles, const ThreadPool &threadPool
 )
 {
   const std::vector<spdlog::sink_ptr> sinks {_stdoutSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
 
-  return CreateLogger(loggerName, sinks);
+  return CreateLogger(loggerName, sinks, threadPool);
 }
 
-Logger LoggerFactory::CreateStderrLogger(
-  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles
+LoggerWrapperPtr LoggerFactory::CreateStderrLogger(
+  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles, const ThreadPool &threadPool
 )
 {
   const std::vector<spdlog::sink_ptr> sinks {_stderrSink, CreateRotatingFileSink(logFile, maxFileSize, maxFiles)};
 
-  return CreateLogger(loggerName + "_stderr", sinks);
+  return CreateLogger(loggerName + "_stderr", sinks, threadPool);
 }
 
-void LoggerFactory::Shutdown() { spdlog::shutdown(); }
+void LoggerFactory::ShutdownGlobalThreadPool() { spdlog::shutdown(); }
 
-Logger LoggerFactory::BasicStdoutLoggerWithoutFormatting(const std::string &loggerName) {
-  auto logger = BasicStdoutLogger(loggerName);
-  return logger;
+StandardLoggers LoggerFactory::CreateStdLoggers(
+  const std::string &loggerName, const boost::format &logFile, const std::size_t maxFileSize, const std::size_t maxFiles
+)
+{
+  StandardLoggers standardLoggers;
+  auto threadPool = std::make_shared<spdlog::details::thread_pool>(threadPoolQueueSize, 4);
+  standardLoggers.stdoutLogger = CreateStdoutLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
+  standardLoggers.stderrLogger = CreateStderrLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
+
+  return standardLoggers;
 }
 
 }// namespace leaf::log

@@ -51,6 +51,7 @@ void LeafProcessManager::loadLeafConfiguration()
 
   _stdout->debug("Successfully loaded main configuration at: {0}", configFilePath.string());
 
+  std::size_t leafServersCount = 0;
   for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath()))
   {
     if (p.is_regular_file())
@@ -61,8 +62,11 @@ void LeafProcessManager::loadLeafConfiguration()
         pathString, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
         _processManagerConfiguration->getLeafLogMaxFiles()
       ));
+      leafServersCount++;
     }
   }
+
+  //_stdout->debug("logging thread pool scaled up to {0} threads", loggerThreadPoolSize);
 }
 
 void LeafProcessManager::initializeLoggers()
@@ -72,15 +76,13 @@ void LeafProcessManager::initializeLoggers()
     boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
   const boost::format loggerName = boost::format("%1% (Main Thread)") % _loggerName;
 
-  _stdout = log::LoggerFactory::CreateStdoutLogger(
+  auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
     loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
     _processManagerConfiguration->getLeafLogMaxFiles()
   );
 
-  _stderr = log::LoggerFactory::CreateStderrLogger(
-    loggerName.str(), stderrFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
-    _processManagerConfiguration->getLeafLogMaxFiles()
-  );
+  _stdout = standardLoggers.stdoutLogger;
+  _stderr = standardLoggers.stderrLogger;
 }
 
 void LeafProcessManager::startServers() const
@@ -162,7 +164,7 @@ void LeafProcessManager::RegisterSignalHandlers()
 
 void LeafProcessManager::SignalHandler(const int signal)
 {
-  using namespace std::string_view_literals;
+  using std::string_view_literals::operator""sv;
   constexpr library::ConstexprMap<decltype(SIGINT), std::string_view, 3> signals
   {
     {SIGINT, "SIGINT"sv}, {SIGTERM, "SIGTERM"sv},
@@ -191,6 +193,6 @@ LeafProcessManager::LeafProcessManager() : log::LoggerInterface(BOOST_CURRENT_FU
   RegisterSignalHandlers();
 }
 
-LeafProcessManager::~LeafProcessManager() { log::LoggerFactory::Shutdown(); }
+LeafProcessManager::~LeafProcessManager() { log::LoggerFactory::ShutdownGlobalThreadPool(); }
 
 }// namespace leaf::process_manager

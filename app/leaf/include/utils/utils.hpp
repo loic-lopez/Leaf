@@ -2,8 +2,8 @@
 // Created by LoicL on 23/12/2020.
 //
 
-#ifndef LEAF_UTILS_HPP
-#define LEAF_UTILS_HPP
+#ifndef __LEAF_UTILS_HPP__
+#define __LEAF_UTILS_HPP__
 
 #include <string>
 
@@ -13,7 +13,7 @@ extern std::string BuildInfo();
 
 consteval std::string_view LeafBanner()
 {
-  using namespace std::string_view_literals;
+  using std::string_view_literals::operator""sv;
 
   return
     R"(
@@ -29,4 +29,4 @@ consteval std::string_view LeafBanner()
 }
 }// namespace leaf::utils
 
-#endif// LEAF_UTILS_HPP
+#endif// __LEAF_UTILS_HPP__

@@ -19,7 +19,7 @@ namespace leaf::exception::abstract
 class ConfigFileNotFound : public ExceptionWithErrno
 {
   public:
-    explicit ConfigFileNotFound(std::string configFilePath, int _errno, const std::source_location &location);
+    explicit ConfigFileNotFound(std::string configFilePath, int errnoValue, const std::source_location &location);
 
   protected:
     std::string _configFilePath;

@@ -1,6 +1,9 @@
+//
+// Created by LoicL on 29/11/2020.
+//
 
-#ifndef LEAF_LEAF_MIME_TYPES_LOADER_HPP
-#define LEAF_LEAF_MIME_TYPES_LOADER_HPP
+#ifndef __LEAF_LEAF_MIME_TYPES_LOADER_HPP__
+#define __LEAF_LEAF_MIME_TYPES_LOADER_HPP__
 
 #include "abstract/ini_configuration_loader.hpp"
 #include "mime_type/mime_types.hpp"
@@ -10,7 +13,7 @@
 namespace leaf::process_manager::configuration_loader
 {
 
-using namespace std::string_view_literals;// NOSONAR
+using std::string_view_literals::operator""sv;
 
 class MimeTypesLoader : public abstract::INIConfigurationLoader<std::unique_ptr, mime_type::MimeTypes>
 {
@@ -18,9 +21,11 @@ class MimeTypesLoader : public abstract::INIConfigurationLoader<std::unique_ptr,
     inline static constinit const PropertyString MIME_TYPE_SECTION = "MimesTypes"sv;
 
     explicit MimeTypesLoader();
+    virtual ~MimeTypesLoader() = default;
+
     std::unique_ptr<mime_type::MimeTypes> load(const std::string &configFilePath) override;
 };
 
 }// namespace leaf::process_manager::configuration_loader
 
-#endif// LEAF_LEAF_MIME_TYPES_LOADER_HPP
+#endif// __LEAF_LEAF_MIME_TYPES_LOADER_HPP__

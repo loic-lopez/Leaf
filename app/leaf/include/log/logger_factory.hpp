@@ -6,6 +6,7 @@
 #define __LEAF_LOG_LOGGER_FACTORY_HPP__
 
 #include "log/logger_defines.hpp"
+#include "log/logger_wrapper.hpp"
 
 #include <boost/format.hpp>
 
@@ -20,7 +21,7 @@
 namespace leaf::log
 {
 
-using namespace std::string_view_literals;
+using std::string_view_literals::operator""sv;
 
 class LoggerFactory
 {
@@ -33,15 +34,12 @@ class LoggerFactory
     LoggerFactory()                               = delete;
 
     static void InitializeFactory();
-    static void Shutdown();
+    static void ShutdownGlobalThreadPool();
 
-    static Logger BasicStdoutLogger(const std::string &loggerName);
-    static Logger BasicStdoutLoggerWithoutFormatting(const std::string &loggerName);
-    static Logger BasicStderrLogger(const std::string &loggerName);
-    static Logger CreateStdoutLogger(
-      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
-    );
-    static Logger CreateStderrLogger(
+    static LoggerWrapperPtr BasicStdoutLogger(const std::string &loggerName);
+    static LoggerWrapperPtr BasicStderrLogger(const std::string &loggerName);
+
+    static StandardLoggers CreateStdLoggers(
       const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
     );
 
@@ -52,7 +50,17 @@ class LoggerFactory
     inline static StdoutSink _stdoutSink;
 
     static RotatingFileSink CreateRotatingFileSink(const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles);
-    static Logger CreateLogger(const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, bool mustRegisterLogger);
+    static LoggerWrapperPtr CreateLogger(
+      const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const ThreadPool &threadPool,
+      bool mustRegisterLogger
+    );
+
+    static LoggerWrapperPtr CreateStdoutLogger(
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles, const ThreadPool &threadPool
+    );
+    static LoggerWrapperPtr CreateStderrLogger(
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles, const ThreadPool &threadPool
+    );
 };
 
 }// namespace leaf::log

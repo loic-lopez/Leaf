@@ -7,6 +7,7 @@
 
 #include "concept/leaf_concepts.hpp"
 #include "log/logger_defines.hpp"
+#include "log/logger_wrapper.hpp"
 
 #include <boost/property_tree/ini_parser.hpp>
 
@@ -48,7 +49,7 @@ class INIConfigurationLoader
     );
     static void checkValue(
       const std::string_view &sectionName, const std::string &property, const std::string &configFilePath, std::size_t &actualValue,
-      std::size_t defaultValue, const log::Logger &logger
+      const size_t defaultValue, const log::LoggerWrapperPtr &logger
     );
 };
 

@@ -11,7 +11,7 @@
 namespace leaf::server::configuration_loader
 {
 
-using namespace std::string_view_literals;// NOSONAR
+using std::string_view_literals::operator""sv;
 
 class LeafServerConfigurationLoader : public abstract::INIConfigurationLoader<std::shared_ptr, LeafServerConfiguration>
 {
@@ -24,7 +24,7 @@ class LeafServerConfigurationLoader : public abstract::INIConfigurationLoader<st
     virtual ~LeafServerConfigurationLoader() = default;
 
   private:
-    inline static const std::vector<std::string_view> _properties = {{"port"sv}, {"document_root_path"sv}, {"listen_addr"sv}};
+    inline static const PropertiesContainer _properties = {{"port"sv}, {"document_root_path"sv}, {"listen_addr"sv}};
 };
 
 }// namespace leaf::server::configuration_loader

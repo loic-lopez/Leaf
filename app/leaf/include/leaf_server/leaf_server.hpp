@@ -2,8 +2,8 @@
 // Created by LoicL on 23/11/2020.
 //
 
-#ifndef LEAF_LEAF_SERVER_HPP
-#define LEAF_LEAF_SERVER_HPP
+#ifndef __LEAF_LEAF_SERVER_HPP__
+#define __LEAF_LEAF_SERVER_HPP__
 
 #include "leaf_server/leaf_server_configuration.hpp"
 #include "log/logger_interface.hpp"
@@ -56,4 +56,4 @@ class LeafServer : public log::LoggerInterface
 
 }// namespace leaf::server
 
-#endif// LEAF_LEAF_SERVER_HPP
+#endif// __LEAF_LEAF_SERVER_HPP__

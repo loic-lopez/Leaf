@@ -2,8 +2,8 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#ifndef LEAF_MAIN_SERVER_OPTIONS_HPP
-#define LEAF_MAIN_SERVER_OPTIONS_HPP
+#ifndef __LEAF_MAIN_SERVER_OPTIONS_HPP__
+#define __LEAF_MAIN_SERVER_OPTIONS_HPP__
 
 #include <boost/filesystem/path.hpp>
 
@@ -24,4 +24,4 @@ class LeafProcessManagerOptions
 
 }// namespace leaf::process_manager
 
-#endif// LEAF_MAIN_SERVER_OPTIONS_HPP
+#endif// __LEAF_MAIN_SERVER_OPTIONS_HPP__

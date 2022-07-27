@@ -2,8 +2,8 @@
 // Created by LoicL on 12/12/2020.
 //
 
-#ifndef LEAF_OPTIONS_PARSER_HPP
-#define LEAF_OPTIONS_PARSER_HPP
+#ifndef __LEAF_OPTIONS_PARSER_HPP__
+#define __LEAF_OPTIONS_PARSER_HPP__
 
 #include "leaf_process_manager/leaf_process_manager_options.hpp"
 
@@ -17,7 +17,7 @@ namespace leaf
 
 namespace cli_options
 {
-using namespace std::string_view_literals;
+using std::string_view_literals::operator""sv;
 
 inline static constinit const std::string_view SERVER_CONFIG_FILE = "server-config-file"sv;
 inline static constinit const std::string_view HELP               = "help"sv;
@@ -25,7 +25,7 @@ inline static constinit const std::string_view HELP               = "help"sv;
 
 namespace env_options
 {
-using namespace std::string_view_literals;
+using std::string_view_literals::operator""sv;
 
 inline static constinit const std::string_view SERVER_CONFIG_FILE = "LEAF_SERVER_CONFIG_FILE"sv;
 inline static constinit const std::string_view ENV_PREFIX         = "LEAF_"sv;
@@ -83,4 +83,4 @@ class LeafOptionsParser
 
 }// namespace leaf
 
-#endif// LEAF_OPTIONS_PARSER_HPP
+#endif// __LEAF_OPTIONS_PARSER_HPP__

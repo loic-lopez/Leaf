@@ -6,6 +6,7 @@
 #define __LEAF_LOG_LOGGER_HPP__
 
 #include "log/logger_defines.hpp"
+#include "log/logger_wrapper.hpp"
 
 #include <regex>
 #include <string>
@@ -25,8 +26,8 @@ class LoggerInterface
     explicit LoggerInterface(const std::string &loggerName) : _loggerName(ToSnakeCase(loggerName)) {}
 
   protected:
-    Logger _stdout;
-    Logger _stderr;
+    LoggerWrapperPtr _stdout;
+    LoggerWrapperPtr _stderr;
     std::string _loggerName;
     virtual ~LoggerInterface() = default;
 

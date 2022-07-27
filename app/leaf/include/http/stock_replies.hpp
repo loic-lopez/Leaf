@@ -2,8 +2,8 @@
 // Created by LoicL on 24/12/2020.
 //
 
-#ifndef LEAF_STOCK_REPLIES_HPP
-#define LEAF_STOCK_REPLIES_HPP
+#ifndef __LEAF_STOCK_REPLIES_HPP__
+#define __LEAF_STOCK_REPLIES_HPP__
 
 #include "library/constexpr_map.hpp"
 
@@ -12,7 +12,7 @@
 namespace leaf::http::response::stock_replies
 {
 
-using namespace std::string_view_literals;// NOSONAR
+using std::string_view_literals::operator""sv;
 
 static constexpr library::ConstexprMap<HttpResponse::Status, std::string_view, 16> MappedStatus {
   {HttpResponse::Status::ok, ""sv},
@@ -106,4 +106,4 @@ static inline std::string_view StatusToStockReply(const HttpResponse::Status sta
 
 }// namespace leaf::http::response::stock_replies
 
-#endif// LEAF_STOCK_REPLIES_HPP
+#endif// __LEAF_STOCK_REPLIES_HPP__

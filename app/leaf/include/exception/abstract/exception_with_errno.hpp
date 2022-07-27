@@ -13,7 +13,7 @@ namespace leaf::exception::abstract
 class ExceptionWithErrno : public Exception
 {
   public:
-    explicit ExceptionWithErrno(const std::source_location &sourceLocation, int _errno);
+    explicit ExceptionWithErrno(const std::source_location &sourceLocation, int errnoValue);
 
   protected:
     int _errno;

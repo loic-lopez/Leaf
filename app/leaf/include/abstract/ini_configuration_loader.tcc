@@ -2,8 +2,8 @@
 // Created by LoicL on 05/12/2020.
 //
 
-#ifndef LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP
-#define LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP
+#ifndef __LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP__
+#define __LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP__
 
 #include "exception/ini_property_in_section_exception.hpp"
 #include "exception/ini_section_not_found.hpp"
@@ -83,7 +83,7 @@ void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
 template<template<class> class StlMemoryContainer, class Model>
 void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
   const std::string_view &sectionName, const std::string &property, const std::string &configFilePath, std::size_t &actualValue,
-  const std::size_t defaultValue, const log::Logger &logger
+  const std::size_t defaultValue, const log::LoggerWrapperPtr &logger
 )
 {
   if (actualValue == std::numeric_limits<std::size_t>::max() || actualValue == 0)
@@ -99,4 +99,4 @@ void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
 
 }// namespace leaf::abstract
 
-#endif// LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP
+#endif// __LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP__

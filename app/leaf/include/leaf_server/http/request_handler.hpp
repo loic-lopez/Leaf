@@ -2,8 +2,8 @@
 // Created by LoicL on 24/12/2020.
 //
 
-#ifndef LEAF_REQUEST_HANDLER_HPP
-#define LEAF_REQUEST_HANDLER_HPP
+#ifndef __LEAF_REQUEST_HANDLER_HPP__
+#define __LEAF_REQUEST_HANDLER_HPP__
 
 #include "http/http_request.hpp"
 #include "http/http_response.hpp"
@@ -19,7 +19,7 @@ class RequestHandler
     RequestHandler &operator=(const RequestHandler &) = delete;
 
     /// Construct with a directory containing files to be served.
-    explicit RequestHandler(std::string doc_root, mime_type::MimeTypes mimeTypes);
+    explicit RequestHandler(std::string docRoot, mime_type::MimeTypes mimeTypes);
 
     /// Handle a request and produce a reply.
     void handleRequest(const http::request::HttpRequest &httpRequest, http::response::HttpResponse &httpResponse) const;
@@ -39,4 +39,4 @@ class RequestHandler
 };
 }// namespace leaf::server
 
-#endif// LEAF_REQUEST_HANDLER_HPP
+#endif// __LEAF_REQUEST_HANDLER_HPP__
