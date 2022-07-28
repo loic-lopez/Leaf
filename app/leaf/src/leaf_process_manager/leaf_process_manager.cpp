@@ -65,7 +65,10 @@ void LeafProcessManager::loadLeafConfiguration()
       }
       else { _stderr->warn("File config {0} is not a ini file skipping...", filePath.string()); }
     }
-    else { _stderr->warn("File {0} cannot be considered as a leaf_server configuration skipping...", p.path().string()); }
+    else if (!p.is_directory())
+    {
+      _stderr->warn("File {0} cannot be considered as a leaf_server configuration skipping...", p.path().string());
+    }
   }
 
   _stdout->info(
@@ -75,9 +78,10 @@ void LeafProcessManager::loadLeafConfiguration()
 
 void LeafProcessManager::initializeLoggers()
 {
-  const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
+  const boost::format stdoutFileName =
+    boost::format("%1%/%2%.log") % _processManagerConfiguration->getLeafLogDirectoryPath().string() % _loggerName;
   const boost::format stderrFileName =
-    boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
+    boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath().string() % _loggerName;
   const boost::format loggerName = boost::format("%1% (Main Thread)") % _loggerName;
 
   const auto standardLoggers = log::LoggerFactory::CreateStdLoggers(

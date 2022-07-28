@@ -96,8 +96,8 @@ void LeafServer::loadConfiguration()
 void LeafServer::initializeLoggers()
 {
   const boost::format httpServerName = boost::format("%1%_http_%2%") % _loggerName % _serverConfiguration->port;
-  const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath % httpServerName;
-  const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath % httpServerName;
+  const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath.string() % httpServerName;
+  const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath.string() % httpServerName;
 
   const auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
     httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles, _leafLogThreadsPerLeafServer
