@@ -13,7 +13,7 @@ namespace leaf::server
 {
 
 LeafServer::LeafServer(
-  defines::Path serverIniPath, defines::Path leafLogDirectoryPath, size_t leafLogMaxFileSize, size_t leafLogMaxFiles,
+  defines::Path serverIniPath, defines::Path leafLogDirectoryPath, const size_t leafLogMaxFileSize, const size_t leafLogMaxFiles,
   const std::size_t leafLogThreadsPerLeafServer
 )
     : log::LoggerInterface(BOOST_CURRENT_FUNCTION),

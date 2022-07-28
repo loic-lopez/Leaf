@@ -8,7 +8,7 @@ namespace leaf::exception
 {
 
 LeafServerConfigFileNotFound::LeafServerConfigFileNotFound(
-  const defines::Path &configFilePath, int errnoValue, const std::source_location &location
+  const defines::Path &configFilePath, const int errnoValue, const std::source_location &location
 )
     : ConfigFileNotFound(configFilePath, errnoValue, location)
 {

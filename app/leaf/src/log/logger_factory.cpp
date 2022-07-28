@@ -98,7 +98,7 @@ StandardLoggers LoggerFactory::CreateStdLoggers(
 )
 {
   StandardLoggers standardLoggers;
-  auto threadPool              = std::make_shared<spdlog::details::thread_pool>(threadPoolQueueSize, leafLogThreadsPerLeafServer);
+  const auto threadPool        = std::make_shared<spdlog::details::thread_pool>(threadPoolQueueSize, leafLogThreadsPerLeafServer);
   standardLoggers.stdoutLogger = CreateStdoutLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
   standardLoggers.stderrLogger = CreateStderrLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
 
@@ -110,7 +110,7 @@ StandardLoggers LoggerFactory::CreateStdLoggers(
 )
 {
   StandardLoggers standardLoggers;
-  auto threadPool              = ::spdlog::thread_pool();
+  const auto threadPool        = ::spdlog::thread_pool();
   standardLoggers.stdoutLogger = CreateStdoutLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
   standardLoggers.stderrLogger = CreateStderrLogger(loggerName, logFile, maxFileSize, maxFiles, threadPool);
 
