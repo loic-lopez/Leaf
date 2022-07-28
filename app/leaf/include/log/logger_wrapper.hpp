@@ -5,7 +5,7 @@
 #ifndef __LEAF_LOG_LOGGER_WRAPPER_HPP__
 #define __LEAF_LOG_LOGGER_WRAPPER_HPP__
 
-#include "log/logger_defines.hpp"
+#include "defines/logger_defines.hpp"
 
 #include <spdlog/details/thread_pool.h>
 
@@ -17,9 +17,7 @@ namespace leaf::log
 class LoggerWrapper : public std::enable_shared_from_this<LoggerWrapper>
 {
   public:
-    explicit LoggerWrapper(
-      std::shared_ptr<spdlog::details::thread_pool> loggerThreadPool, Logger logger, const std::string_view &loggerName
-    )
+    explicit LoggerWrapper(defines::log::ThreadPool loggerThreadPool, defines::log::Logger logger, const std::string_view &loggerName)
         : _loggerThreadPool(std::move(loggerThreadPool)), _logger(std::move(logger)), _loggerName(loggerName)
     {
     }
@@ -97,8 +95,8 @@ class LoggerWrapper : public std::enable_shared_from_this<LoggerWrapper>
     }
 
   private:
-    const std::shared_ptr<spdlog::details::thread_pool> _loggerThreadPool;
-    const Logger _logger;
+    const defines::log::ThreadPool _loggerThreadPool;
+    const defines::log::Logger _logger;
     const std::string_view _loggerName;
 };
 }// namespace leaf::log

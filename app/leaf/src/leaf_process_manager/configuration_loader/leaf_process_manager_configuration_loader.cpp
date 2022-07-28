@@ -19,18 +19,18 @@ inline static constinit const auto serverRootPathKey = "servers_root_path";
 
 inline static constinit const auto leafLogDirectoryKey = "leaf_log_directory";
 
-inline static constinit const auto leafLogMaxFileSizeKey      = "leaf_log_max_file_size";
-inline static constinit std::size_t defaultLeafLogMaxFileSize = 5;
+inline static constinit const auto leafLogMaxFileSizeKey            = "leaf_log_max_file_size";
+inline static constinit const std::size_t defaultLeafLogMaxFileSize = 5;
 
-inline static constinit const auto leafLogMaxFilesKey      = "leaf_log_max_files";
-inline static constinit std::size_t defaultLeafLogMaxFiles = 5;
+inline static constinit const auto leafLogMaxFilesKey            = "leaf_log_max_files";
+inline static constinit const std::size_t defaultLeafLogMaxFiles = 5;
 
-inline static constinit const auto leafLogThreadsPerLeafServerKey      = "leaf_log_threads_per_leaf_server";
-inline static constinit std::size_t defaultLeafLogThreadsPerLeafServer = 2;
+inline static constinit const auto leafLogThreadsPerLeafServerKey            = "leaf_log_threads_per_leaf_server";
+inline static constinit const std::size_t defaultLeafLogThreadsPerLeafServer = 2;
 
 inline static constinit const auto mimeTypesConfigFileKey = "mime_types_config_file";
 
-std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfigurationLoader::load(const std::string &configFilePath)
+std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfigurationLoader::load(const defines::Path &configFilePath)
 {
   const auto stdoutLogger                 = log::LoggerFactory::BasicStdoutLogger("process_manager_configuration_loader (Main Thread)");
   const boost::property_tree::ptree pTree = this->initializeBoostPtree<exception::LeafServerConfigFileNotFound>(configFilePath);
@@ -40,7 +40,8 @@ std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfiguration
   const auto httpConfigurationSection = pTree.get_child(HTTP_CONFIGURATION_SECTION.data());
 
   // server section
-  const auto serversRootPath = std::filesystem::weakly_canonical(leafServersSection.get_child(serverRootPathKey).get_value<std::string>());
+  const auto serversRootPath =
+    std::filesystem::weakly_canonical(leafServersSection.get_child(serverRootPathKey).get_value<defines::ini::PropertyValueString>());
   checkValue(
     LEAF_SERVERS_SECTION, serverRootPathKey, configFilePath,
     [&serversRootPath]() -> bool { return !std::filesystem::exists(serversRootPath); }
@@ -48,39 +49,41 @@ std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfiguration
 
   // log section
   const auto leafLogDirectory =
-    std::filesystem::weakly_canonical(leafConfigurationSection.get_child(leafLogDirectoryKey).get_value<std::string>());
+    std::filesystem::weakly_canonical(leafConfigurationSection.get_child(leafLogDirectoryKey).get_value<defines::ini::PropertyValueString>()
+    );
   checkValue(
     LEAF_CONFIGURATION_SECTION, leafLogDirectoryKey, configFilePath,
-    [&leafLogDirectory]() -> bool { return !std::filesystem::exists(leafLogDirectory); }
+    [leafLogDirectory = std::cref(leafLogDirectory)]() -> const bool { return !std::filesystem::exists(leafLogDirectory); }
   );
 
-  auto leafLogMaxFileSize = leafConfigurationSection.get_child(leafLogMaxFileSizeKey).get_value<std::size_t>();
+  auto leafLogMaxFileSize = leafConfigurationSection.get_child(leafLogMaxFileSizeKey).get_value<defines::ini::PropertyValueInt>();
   checkValue(
     LEAF_CONFIGURATION_SECTION, leafLogMaxFileSizeKey, configFilePath, leafLogMaxFileSize, defaultLeafLogMaxFileSize, stdoutLogger
   );
 
-  auto leafLogMaxFiles = leafConfigurationSection.get_child(leafLogMaxFilesKey).get_value<std::size_t>();
+  auto leafLogMaxFiles = leafConfigurationSection.get_child(leafLogMaxFilesKey).get_value<defines::ini::PropertyValueInt>();
   checkValue(LEAF_CONFIGURATION_SECTION, leafLogMaxFilesKey, configFilePath, leafLogMaxFiles, defaultLeafLogMaxFiles, stdoutLogger);
 
-  auto leafLogThreadsPerLeafServer = leafConfigurationSection.get_child(leafLogThreadsPerLeafServerKey).get_value<std::size_t>();
+  auto leafLogThreadsPerLeafServer =
+    leafConfigurationSection.get_child(leafLogThreadsPerLeafServerKey).get_value<defines::ini::PropertyValueInt>();
   checkValue(
     LEAF_CONFIGURATION_SECTION, leafLogThreadsPerLeafServerKey, configFilePath, leafLogThreadsPerLeafServer,
     defaultLeafLogThreadsPerLeafServer, stdoutLogger
   );
 
   // http section
-  const auto mimeTypesConfigFile =
-    std::filesystem::weakly_canonical(httpConfigurationSection.get_child(mimeTypesConfigFileKey).get_value<std::string>());
+  const auto mimeTypesConfigFile = std::filesystem::weakly_canonical(
+    httpConfigurationSection.get_child(mimeTypesConfigFileKey).get_value<defines::ini::PropertyValueString>()
+  );
   checkValue(
     HTTP_CONFIGURATION_SECTION, mimeTypesConfigFileKey, configFilePath,
-    [&mimeTypesConfigFile]() -> bool { return !std::filesystem::exists(mimeTypesConfigFile); }
+    [mimeTypesConfigFile = std::cref(mimeTypesConfigFile)]() -> const bool { return !std::filesystem::exists(mimeTypesConfigFile); }
   );
 
-  stdoutLogger->debug("{0} successfully loaded.", configFilePath);
+  stdoutLogger->debug("{0} successfully loaded.", configFilePath.string());
 
   return std::make_unique<process_manager::LeafProcessManagerConfiguration>(
-    serversRootPath.string(), leafLogDirectory.string(), leafLogMaxFileSize, leafLogMaxFiles, leafLogThreadsPerLeafServer,
-    mimeTypesConfigFile.string()
+    serversRootPath, leafLogDirectory, leafLogMaxFileSize, leafLogMaxFiles, leafLogThreadsPerLeafServer, mimeTypesConfigFile
   );
 }
 

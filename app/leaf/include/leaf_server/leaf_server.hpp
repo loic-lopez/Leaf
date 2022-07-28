@@ -22,7 +22,7 @@ class LeafServer : public log::LoggerInterface
   public:
     LeafServer(const LeafServer &leafServer) = delete;
     explicit LeafServer(
-      std::string serverIniPath, std::string leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles,
+      defines::Path serverIniPath, defines::Path leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles,
       const std::size_t leafLogThreadsPerLeafServer
     );
     virtual ~LeafServer() = default;
@@ -33,8 +33,8 @@ class LeafServer : public log::LoggerInterface
 
   private:
     // initializer list
-    const std::string _serverIniPath;
-    const std::string _leafLogDirectoryPath;
+    const defines::Path _serverIniPath;
+    const defines::Path _leafLogDirectoryPath;
     const std::size_t _leafLogMaxFileSize;
     const std::size_t _leafLogMaxFiles;
     const std::size_t _leafLogThreadsPerLeafServer;

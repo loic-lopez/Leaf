@@ -9,9 +9,7 @@
 namespace leaf::exception
 {
 
-LeafServerConfigDirNotFound::LeafServerConfigDirNotFound(
-  const std::string_view& configurationDirectory, const std::source_location& location
-)
+LeafServerConfigDirNotFound::LeafServerConfigDirNotFound(const defines::Path& configurationDirectory, const std::source_location& location)
     : Exception(location), _configurationDirectory(configurationDirectory)
 {
   LeafServerConfigDirNotFound::buildStdExceptionMessage(__FUNCTION__);

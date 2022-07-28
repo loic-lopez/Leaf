@@ -37,33 +37,35 @@ void LeafProcessManager::loadLeafConfiguration()
 {
   configuration_loader::LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
   std::filesystem::path const configFilePath = _processManagerOptions->getServerConfigFilePath();
-  const std::string configFilePathString     = configFilePath.string();
 
   if (!std::filesystem::exists(configFilePath))
   {
-    BOOST_THROW_EXCEPTION(exception::LeafServerConfigFileNotFound(configFilePathString, errno, std::source_location::current()));
+    BOOST_THROW_EXCEPTION(exception::LeafServerConfigFileNotFound(configFilePath, errno, std::source_location::current()));
   }
 
   std::filesystem::current_path(configFilePath.parent_path());
 
-  _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePathString);
+  _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePath);
   initializeLoggers();
 
   _stdout->debug("Successfully loaded main configuration at: {0}", configFilePath.string());
 
-  std::size_t leafServersCount = 0;
   for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath()))
   {
-    if (p.is_regular_file())
+    if (p.is_regular_file() && p.exists())
     {
-      std::string pathString = p.path().string();
-      _stdout->debug("Creating LeafServer with config: {0}", pathString);
-      _leafServers.emplace_back(std::make_shared<server::LeafServer>(
-        pathString, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
-        _processManagerConfiguration->getLeafLogMaxFiles(), _processManagerConfiguration->getLeafLogThreadsPerLeafServer()
-      ));
-      leafServersCount++;
+      auto filePath = p.path();
+      if (filePath.extension() == ".ini")
+      {
+        _stdout->debug("Creating LeafServer with config: {0}", filePath.string());
+        _leafServers.emplace_back(std::make_shared<server::LeafServer>(
+          filePath, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
+          _processManagerConfiguration->getLeafLogMaxFiles(), _processManagerConfiguration->getLeafLogThreadsPerLeafServer()
+        ));
+      }
+      else { _stderr->warn("File config {0} is not a ini file skipping...", filePath.string()); }
     }
+    else { _stderr->warn("File {0} cannot be considered as a leaf_server configuration skipping...", p.path().string()); }
   }
 
   _stdout->info(

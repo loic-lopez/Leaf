@@ -6,7 +6,8 @@
 #define LEAF_INI_CONFIGURATION_LOADER_HPP
 
 #include "concept/leaf_concepts.hpp"
-#include "log/logger_defines.hpp"
+#include "defines/leaf_defines.hpp"
+#include "defines/logger_defines.hpp"
 #include "log/logger_wrapper.hpp"
 
 #include <boost/property_tree/ini_parser.hpp>
@@ -21,17 +22,14 @@ template<template<class> class StlMemoryContainer, class Model>
 class INIConfigurationLoader
 {
   public:
-    virtual StlMemoryContainer<Model> load(const std::string &configFilePath) = 0;
-    virtual ~INIConfigurationLoader()                                         = default;
+    virtual StlMemoryContainer<Model> load(const defines::Path &configFilePath) = 0;
+    virtual ~INIConfigurationLoader()                                           = default;
 
   protected:
-    using PropertyString      = std::string_view;
-    using PropertiesContainer = std::vector<PropertyString>;
-
     struct IniSection
     {
-        PropertyString name;
-        PropertiesContainer properties;
+        defines::ini::Property name;
+        defines::ini::PropertiesContainer properties;
     };
 
     explicit INIConfigurationLoader(std::vector<IniSection> sections);
@@ -39,17 +37,18 @@ class INIConfigurationLoader
     const std::vector<IniSection> _sections;
 
     template<leaf::concepts::LeafExceptionClass LeafException>
-    boost::property_tree::ptree initializeBoostPtree(std::filesystem::path configFilePath);
+    boost::property_tree::ptree initializeBoostPtree(const defines::Path &configFilePath);
 
-    void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const std::string_view &configFilePath) const;
+    void checkForPtreeIntegrity(const boost::property_tree::ptree &pTree, const defines::Path &configFilePath) const;
 
     template<class Callable>
     static void checkValue(
-      const PropertyString &sectionName, const PropertyString &property, const std::string_view &configFilePath, const Callable &toCheck
+      const defines::ini::Section &sectionName, const defines::ini::Property &property, const defines::Path &configFilePath,
+      const Callable &toCheck
     );
     static void checkValue(
-      const PropertyString &sectionName, const PropertyString &property, const std::string_view &configFilePath, std::size_t &actualValue,
-      size_t defaultValue, const log::LoggerWrapperPtr &logger
+      const defines::ini::Section &sectionName, const defines::ini::Property &property, const defines::Path &configFilePath,
+      defines::ini::PropertyValueInt &actualValue, defines::ini::PropertyValueInt defaultValue, const defines::log::LoggerWrapperPtr &logger
     );
 };
 

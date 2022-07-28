@@ -5,10 +5,12 @@
 #ifndef __LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP__
 #define __LEAF_INI_CONFIGURATION_LOADER_TEMPLATED_IMPL_HPP__
 
+#include "abstract/ini_configuration_loader.hpp"
+#include "defines/logger_defines.hpp"
 #include "exception/ini_property_in_section_exception.hpp"
 #include "exception/ini_section_not_found.hpp"
 #include "exception/leaf_server_config_dir_not_found.hpp"
-#include "ini_configuration_loader.hpp"
+#include "log/logger_wrapper.hpp"
 
 #include <boost/format.hpp>
 
@@ -25,40 +27,36 @@ INIConfigurationLoader<StlMemoryContainer, Model>::INIConfigurationLoader(std::v
 
 template<template<class> class StlMemoryContainer, class Model>
 template<leaf::concepts::LeafExceptionClass LeafException>
-boost::property_tree::ptree INIConfigurationLoader<StlMemoryContainer, Model>::initializeBoostPtree(
-  const std::filesystem::path configFilePath
-)
+boost::property_tree::ptree INIConfigurationLoader<StlMemoryContainer, Model>::initializeBoostPtree(const defines::Path &configFilePath)
 {
   if (!std::filesystem::exists(configFilePath) || std::filesystem::is_directory(configFilePath))
   {
-    BOOST_THROW_EXCEPTION(LeafException(configFilePath.string(), errno, std::source_location::current()));
+    BOOST_THROW_EXCEPTION(LeafException(configFilePath, errno, std::source_location::current()));
   }
 
   boost::property_tree::ptree pTree;
-  const std::string configFilePathString = configFilePath.string();
+  boost::property_tree::ini_parser::read_ini(configFilePath.string(), pTree);
 
-  boost::property_tree::ini_parser::read_ini(configFilePathString, pTree);
-
-  checkForPtreeIntegrity(pTree, configFilePathString);
+  checkForPtreeIntegrity(pTree, configFilePath);
 
   return pTree;
 }
 
 template<template<class> class StlMemoryContainer, class Model>
 void INIConfigurationLoader<StlMemoryContainer, Model>::checkForPtreeIntegrity(
-  const boost::property_tree::ptree &pTree, const std::string_view &configFilePath
+  const boost::property_tree::ptree &pTree, const defines::Path &configFilePath
 ) const
 {
   for (const auto &section : _sections)
   {
-    const PropertyString sectionName = section.name;
+    const defines::ini::Property sectionName = section.name;
 
     if (pTree.find(sectionName.data()) == pTree.not_found())
     {
       BOOST_THROW_EXCEPTION(exception::IniSectionNotFound(sectionName, configFilePath, std::source_location::current()));
     }
 
-    for (const PropertyString &property : section.properties)
+    for (const defines::ini::Property &property : section.properties)
     {
       if (const auto propertyCount = pTree.find(sectionName.data())->second.count(property.data()); propertyCount == 0)
         BOOST_THROW_EXCEPTION(exception::IniPropertyInSectionException(
@@ -72,7 +70,8 @@ void INIConfigurationLoader<StlMemoryContainer, Model>::checkForPtreeIntegrity(
 template<template<class> class StlMemoryContainer, class Model>
 template<class Callable>
 void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
-  const PropertyString &sectionName, const PropertyString &property, const std::string_view &configFilePath, const Callable &toCheck
+  const defines::ini::Section &sectionName, const defines::ini::Property &property, const defines::Path &configFilePath,
+  const Callable &toCheck
 )
 {
   if (toCheck())
@@ -86,8 +85,9 @@ void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
 
 template<template<class> class StlMemoryContainer, class Model>
 void INIConfigurationLoader<StlMemoryContainer, Model>::checkValue(
-  const PropertyString &sectionName, const PropertyString &property, const std::string_view &configFilePath, std::size_t &actualValue,
-  const std::size_t defaultValue, const log::LoggerWrapperPtr &logger
+  const defines::ini::Section &sectionName, const defines::ini::Property &property, const defines::Path &configFilePath,
+  defines::ini::PropertyValueInt &actualValue, const defines::ini::PropertyValueInt defaultValue,
+  const defines::log::LoggerWrapperPtr &logger
 )
 {
   if (actualValue == std::numeric_limits<std::size_t>::max() || actualValue == 0)

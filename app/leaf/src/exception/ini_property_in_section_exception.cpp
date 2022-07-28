@@ -13,8 +13,8 @@ namespace leaf::exception
 {
 
 IniPropertyInSectionException::IniPropertyInSectionException(
-  const ExceptionType exceptionType, const std::string_view &property, const std::string_view &section,
-  const std::string_view &configFilePath, const std::source_location &location
+  ExceptionType exceptionType, const std::string_view &property, const defines::ini::Section &section, const defines::Path &configFilePath,
+  const std::source_location &location
 )
     : IniSectionNotFound(section, configFilePath, location), _property(property), _exceptionType(exceptionType)
 {

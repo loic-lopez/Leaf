@@ -54,17 +54,19 @@ SortIncludes: CaseSensitive
 IncludeBlocks: Regroup
 IncludeCategories:
   # Headers in <> without extension.
-  - Regex:           '<([A-Za-z0-9\Q/-_\E])+>'
-    Priority:        4
+  - Regex: '<([A-Za-z0-9\Q/-_\E])+>'
+    Priority: 4
   # Headers in <> from specific external libraries.
-  - Regex:           '<(boost|catch2|gtest)\/([A-Za-z0-9.\/-_])+>'
-    Priority:        1
+  - Regex: '<(boost|catch2|gtest)\/([A-Za-z0-9.\/-_])+>'
+    Priority: 1
   # Headers in "" with extension.
-  - Regex:           '"([A-Za-z0-9.\Q/-_\E])+"'
-    Priority:        0
+  - Regex: '"([A-Za-z0-9.\Q/-_\E])+"'
+    Priority: 0
 AllowShortLoopsOnASingleLine: false
 SeparateDefinitionBlocks: Always
 SortUsingDeclarations: true
 FixNamespaceComments: true
 IndentAccessModifiers: true
 Standard: c++20
+# QualifierOrder: [ 'inline', 'static', 'constexpr', 'constinit', 'consteval', 'const', 'volatile', 'type' ] not supported in CLion
+QualifierAlignment: Left

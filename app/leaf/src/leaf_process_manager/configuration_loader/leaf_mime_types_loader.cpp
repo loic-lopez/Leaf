@@ -12,15 +12,15 @@
 
 namespace leaf::process_manager::configuration_loader
 {
-std::unique_ptr<mime_type::MimeTypes> MimeTypesLoader::load(const std::string &configFilePath)
+std::unique_ptr<mime_type::MimeTypes> MimeTypesLoader::load(const defines::Path &configFilePath)
 {
   const boost::property_tree::ptree pTree = this->initializeBoostPtree<exception::MimeTypesConfigFileNotFound>(configFilePath);
   std::vector<mime_type::MimeType> mimeTypes;
 
   for (const auto &[first, second] : pTree.find(MIME_TYPE_SECTION.data())->second)
   {
-    auto mimeTypeValues = second.get_value<std::string>();
-    std::vector<std::string> parsedMimeTypes;
+    auto mimeTypeValues = second.get_value<defines::ini::PropertyValueString>();
+    std::vector<defines::ini::PropertyValueString> parsedMimeTypes;
 
     boost::trim(mimeTypeValues);
     boost::split(parsedMimeTypes, mimeTypeValues, boost::is_any_of(","));

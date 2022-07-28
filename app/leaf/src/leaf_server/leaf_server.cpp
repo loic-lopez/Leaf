@@ -13,7 +13,7 @@ namespace leaf::server
 {
 
 LeafServer::LeafServer(
-  std::string serverIniPath, std::string leafLogDirectoryPath, const std::size_t leafLogMaxFileSize, const std::size_t leafLogMaxFiles,
+  defines::Path serverIniPath, defines::Path leafLogDirectoryPath, size_t leafLogMaxFileSize, size_t leafLogMaxFiles,
   const std::size_t leafLogThreadsPerLeafServer
 )
     : log::LoggerInterface(BOOST_CURRENT_FUNCTION),
@@ -90,7 +90,7 @@ void LeafServer::loadConfiguration()
   _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
   initializeLoggers();
 
-  _stdout->debug("Leaf thread successfully loaded configuration file: {0}", _serverIniPath);
+  _stdout->debug("Leaf thread successfully loaded configuration file: {0}", _serverIniPath.string());
 }
 
 void LeafServer::initializeLoggers()
