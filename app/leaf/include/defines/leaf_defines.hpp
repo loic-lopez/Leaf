@@ -6,6 +6,7 @@
 #define __LEAF_LEAF_DEFINES_HPP__
 
 #include <filesystem>
+#include <vector>
 #include <source_location>
 
 namespace leaf::defines
