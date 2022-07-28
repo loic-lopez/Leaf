@@ -53,7 +53,7 @@ std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfiguration
     );
   checkValue(
     LEAF_CONFIGURATION_SECTION, leafLogDirectoryKey, configFilePath,
-    [leafLogDirectory = std::cref(leafLogDirectory)]() -> const bool { return !std::filesystem::exists(leafLogDirectory); }
+    [leafLogDirectory = std::cref(leafLogDirectory)]() -> bool { return !std::filesystem::exists(leafLogDirectory); }
   );
 
   auto leafLogMaxFileSize = leafConfigurationSection.get_child(leafLogMaxFileSizeKey).get_value<defines::ini::PropertyValueInt>();
@@ -77,7 +77,7 @@ std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfiguration
   );
   checkValue(
     HTTP_CONFIGURATION_SECTION, mimeTypesConfigFileKey, configFilePath,
-    [mimeTypesConfigFile = std::cref(mimeTypesConfigFile)]() -> const bool { return !std::filesystem::exists(mimeTypesConfigFile); }
+    [mimeTypesConfigFile = std::cref(mimeTypesConfigFile)]() -> bool { return !std::filesystem::exists(mimeTypesConfigFile); }
   );
 
   stdoutLogger->debug("{0} successfully loaded.", configFilePath.string());

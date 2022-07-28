@@ -12,7 +12,9 @@
 namespace leaf::exception
 {
 
-IniSectionNotFound::IniSectionNotFound(const defines::ini::Section &section, defines::Path configFilePath, const std::source_location &location)
+IniSectionNotFound::IniSectionNotFound(
+  const defines::ini::Section &section, defines::Path configFilePath, const std::source_location &location
+)
     : Exception(location), _section(section), _configFilePath(std::move(configFilePath))
 {
   IniSectionNotFound::buildStdExceptionMessage(__FUNCTION__);
