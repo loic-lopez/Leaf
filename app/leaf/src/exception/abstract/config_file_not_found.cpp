@@ -16,7 +16,7 @@ void ConfigFileNotFound::buildStdExceptionMessage(const char *exceptionClassName
   _msg = exceptionFormat.str();
 }
 
-ConfigFileNotFound::ConfigFileNotFound(std::string configFilePath, const int errnoValue, const std::source_location &location)
+ConfigFileNotFound::ConfigFileNotFound(defines::Path configFilePath, const int errnoValue, const std::source_location &location)
     : ExceptionWithErrno(location, errnoValue), _configFilePath(std::move(configFilePath))
 {
 }

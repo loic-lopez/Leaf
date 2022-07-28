@@ -2,8 +2,8 @@
 // Created by LoicL on 24/12/2020.
 //
 
-#ifndef LEAF_STATUS_STRINGS_HPP
-#define LEAF_STATUS_STRINGS_HPP
+#ifndef __LEAF_STATUS_STRINGS_HPP__
+#define __LEAF_STATUS_STRINGS_HPP__
 
 #include "library/constexpr_map.hpp"
 
@@ -14,7 +14,7 @@
 namespace leaf::http::response::status_strings
 {
 
-using namespace std::string_view_literals;// NOSONAR
+using std::string_view_literals::operator""sv;
 
 static constexpr library::ConstexprMap<HttpResponse::Status, std::string_view, 16> MappedStatus {
   {HttpResponse::Status::ok, "HTTP/1.0 200 OK\r\n"sv},
@@ -48,4 +48,4 @@ static inline boost::asio::const_buffer ToAsioBuffer(const HttpResponse::Status 
 
 }// namespace leaf::http::response::status_strings
 
-#endif// LEAF_STATUS_STRINGS_HPP
+#endif// __LEAF_STATUS_STRINGS_HPP__

@@ -2,8 +2,8 @@
 // Created by LoicL on 29/11/2020.
 //
 
-#ifndef LEAF_SINGLETON_HPP
-#define LEAF_SINGLETON_HPP
+#ifndef __LEAF_SINGLETON_HPP__
+#define __LEAF_SINGLETON_HPP__
 
 namespace leaf::library
 {
@@ -28,4 +28,4 @@ class Singleton
 };
 }// namespace leaf::library
 
-#endif// LEAF_SINGLETON_HPP
+#endif// __LEAF_SINGLETON_HPP__

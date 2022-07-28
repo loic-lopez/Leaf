@@ -37,16 +37,18 @@ endif ()
 
 if (MSVC)
     add_compile_options(/W4 /WX /arch:AVX2)
+    add_compile_options(/wd4455) # ignore warning C4455: 'operator ""sv': literal suffix identifiers that do not start with an underscore are reserved
 elseif (CMAKE_COMPILER_IS_GNUCXX)
     # lots of warnings and all warnings as errors
     add_definitions(-D_FORTIFY_SOURCE=2)
     add_compile_options(
-        -Wall -Wextra -pedantic -Werror
-        -fexceptions # Enable table-based thread cancellation
-        -fpie -Wl,-pie -fstack-protector-strong -Wl,-z,defs # ASLR
-        -march=native -mavx -ftree-vectorize # AVX and SSE
-        -fno-math-errno -ffast-math
-        )
+            -Wall -Wextra -pedantic -Werror
+            -fexceptions # Enable table-based thread cancellation
+            -fpie -Wl,-pie -fstack-protector-strong -Wl,-z,defs # ASLR
+            -march=native -mavx -ftree-vectorize # AVX and SSE
+            -fno-math-errno -ffast-math
+            # -ftrivial-auto-var-init=zero # fill variables with 0x00
+    )
 endif ()
 
 if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8)

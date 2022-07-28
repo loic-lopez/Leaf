@@ -2,8 +2,8 @@
 // Created by LoicL on 23/11/2020.
 //
 
-#ifndef LEAF_HTTPS_HPP
-#define LEAF_HTTPS_HPP
+#ifndef __LEAF_HTTPS_HPP__
+#define __LEAF_HTTPS_HPP__
 
 #include "interface/iprotocol.hpp"
 
@@ -14,4 +14,4 @@ class Https : public interface::IProtocol
 };
 }// namespace leaf::protocol
 
-#endif// LEAF_HTTPS_H
+#endif// __LEAF_HTTPS_HPP__

@@ -2,8 +2,8 @@
 // Created by LoicL on 13/12/2020.
 //
 
-#ifndef LEAF_PROCESS_MANAGER_HPP
-#define LEAF_PROCESS_MANAGER_HPP
+#ifndef __LEAF_PROCESS_MANAGER_HPP__
+#define __LEAF_PROCESS_MANAGER_HPP__
 
 #include "leaf_options_parser/leaf_options_parser.hpp"
 #include "leaf_process_manager/leaf_process_manager_configuration.hpp"
@@ -37,13 +37,13 @@ class LeafProcessManager final : public log::LoggerInterface, public library::Si
     void waitForServers() const;
     void loadLeafConfiguration();
     void initializeLoggers();
-    static void RegisterSignalHandlers();
 
     // static
     static void DisplayBanner();
     static void SignalHandler(int signal);
+    static void RegisterSignalHandlers();
 };
 
 }// namespace leaf::process_manager
 
-#endif// LEAF_PROCESS_MANAGER_HPP
+#endif// __LEAF_PROCESS_MANAGER_HPP__

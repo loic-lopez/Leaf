@@ -2,8 +2,8 @@
 // Created by LoicL on 24/12/2020.
 //
 
-#ifndef LEAF_HTTP_REQUEST_HPP
-#define LEAF_HTTP_REQUEST_HPP
+#ifndef __LEAF_HTTP_REQUEST_HPP__
+#define __LEAF_HTTP_REQUEST_HPP__
 
 #include "http_header.hpp"
 
@@ -25,4 +25,4 @@ class HttpRequest
 
 }// namespace leaf::http::request
 
-#endif// LEAF_HTTP_REQUEST_HPP
+#endif// __LEAF_HTTP_REQUEST_HPP__

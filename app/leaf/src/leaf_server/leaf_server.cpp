@@ -13,13 +13,15 @@ namespace leaf::server
 {
 
 LeafServer::LeafServer(
-  std::string serverIniPath, std::string leafLogDirectoryPath, const std::size_t leafLogMaxFileSize, const std::size_t leafLogMaxFiles
+  defines::Path serverIniPath, defines::Path leafLogDirectoryPath, const size_t leafLogMaxFileSize, const size_t leafLogMaxFiles,
+  const std::size_t leafLogThreadsPerLeafServer
 )
     : log::LoggerInterface(BOOST_CURRENT_FUNCTION),
       _serverIniPath(std::move(serverIniPath)),
       _leafLogDirectoryPath(std::move(leafLogDirectoryPath)),
       _leafLogMaxFileSize(leafLogMaxFileSize),
       _leafLogMaxFiles(leafLogMaxFiles),
+      _leafLogThreadsPerLeafServer(leafLogThreadsPerLeafServer),
       _acceptor(_ioContext)
 {
 }
@@ -88,18 +90,20 @@ void LeafServer::loadConfiguration()
   _serverConfiguration = serverConfigurationLoader.load(_serverIniPath);
   initializeLoggers();
 
-
-  _stdout->debug("Leaf thread successfully loaded configuration file: {0}", _serverIniPath);
+  _stdout->debug("Leaf thread successfully loaded configuration file: {0}", _serverIniPath.string());
 }
 
 void LeafServer::initializeLoggers()
 {
   const boost::format httpServerName = boost::format("%1%_http_%2%") % _loggerName % _serverConfiguration->port;
-  const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath % httpServerName;
-  const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath % httpServerName;
+  const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _leafLogDirectoryPath.string() % httpServerName;
+  const boost::format stderrFileName = boost::format("%1%/%2%_stderr.log") % _leafLogDirectoryPath.string() % httpServerName;
 
-  _stdout = log::LoggerFactory::CreateStdoutLogger(httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
-  _stderr = log::LoggerFactory::CreateStderrLogger(httpServerName.str(), stderrFileName, _leafLogMaxFileSize, _leafLogMaxFiles);
+  const auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
+    httpServerName.str(), stdoutFileName, _leafLogMaxFileSize, _leafLogMaxFiles, _leafLogThreadsPerLeafServer
+  );
+  _stdout = standardLoggers.stdoutLogger;
+  _stderr = standardLoggers.stderrLogger;
 }
 
 void LeafServer::run()

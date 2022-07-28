@@ -12,25 +12,28 @@ namespace leaf::process_manager
 {
 
 LeafProcessManagerConfiguration::LeafProcessManagerConfiguration(
-  const std::string &serversRootPath, const std::string &leafLogDirectoryPath, const std::size_t leafLogMaxFileSize,
-  const std::size_t leafLogMaxFiles, const std::string &mimeTypesConfigFilePath
+  defines::Path serversRootPath, defines::Path leafLogDirectoryPath, const std::size_t leafLogMaxFileSize,
+  const std::size_t leafLogMaxFiles, const std::size_t leafLogThreadsPerLeafServer, defines::Path mimeTypesConfigFilePath
 )
-    : _serversRootPath(boost::filesystem::weakly_canonical(serversRootPath).string()),
-      _leafLogDirectoryPath(boost::filesystem::weakly_canonical(leafLogDirectoryPath).string()),
+    : _serversRootPath(std::move(serversRootPath)),
+      _leafLogDirectoryPath(std::move(leafLogDirectoryPath)),
       _leafLogMaxFileSize(leafLogMaxFileSize),
       _leafLogMaxFiles(leafLogMaxFiles),
-      _mimeTypesConfigFilePath(boost::filesystem::weakly_canonical(mimeTypesConfigFilePath).string())
+      _leafLogThreadsPerLeafServer(leafLogThreadsPerLeafServer),
+      _mimeTypesConfigFilePath(std::move(mimeTypesConfigFilePath))
 {
 }
 
-const std::string &LeafProcessManagerConfiguration::getServersRootPath() const { return _serversRootPath; }
+const defines::Path &LeafProcessManagerConfiguration::getServersRootPath() const { return _serversRootPath; }
 
-const std::string &LeafProcessManagerConfiguration::getLeafLogDirectoryPath() const { return _leafLogDirectoryPath; }
+const defines::Path &LeafProcessManagerConfiguration::getLeafLogDirectoryPath() const { return _leafLogDirectoryPath; }
 
-const std::string &LeafProcessManagerConfiguration::getMimeTypesConfigFilePath() const { return _mimeTypesConfigFilePath; }
+const defines::Path &LeafProcessManagerConfiguration::getMimeTypesConfigFilePath() const { return _mimeTypesConfigFilePath; }
 
 std::size_t LeafProcessManagerConfiguration::getLeafLogMaxFileSize() const { return _leafLogMaxFileSize; }
 
 std::size_t LeafProcessManagerConfiguration::getLeafLogMaxFiles() const { return _leafLogMaxFiles; }
+
+std::size_t LeafProcessManagerConfiguration::getLeafLogThreadsPerLeafServer() const { return _leafLogThreadsPerLeafServer; }
 
 }// namespace leaf::process_manager

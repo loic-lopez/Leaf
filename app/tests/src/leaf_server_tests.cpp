@@ -21,14 +21,14 @@ using namespace server;
 TEST(LeafServerTests, construct_a_leaf_server_must_not_throw)
 {
   log::LoggerFactory::InitializeFactory();
-  ASSERT_NO_THROW({ LeafServer leafServer("", "log", 1, 1); });
+  ASSERT_NO_THROW({ LeafServer leafServer("", "log", 1, 1, 1); });
 }
 
 TEST(LeafServerTests, test_for_server_thread_bind)
 {
   log::LoggerFactory::InitializeFactory();
   ASSERT_NO_THROW({
-    LeafServer leafServer(config::LeafConfigRootDirectory + "/servers/port_8080/http_port_8080.ini", "log", 1, 1);
+    LeafServer leafServer(config::LeafConfigRootDirectory + "/servers/port_8080/http_port_8080.ini", "log", 1, 1, 1);
 
     {
       leafServer.start();

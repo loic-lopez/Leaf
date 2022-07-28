@@ -4,7 +4,7 @@
 
 // exceptions includes
 #include "exception/leaf_exit_to_main.hpp"
-#include "exception/leaf_server_config_dir_not_found.hpp"
+#include "exception/leaf_server_config_file_not_found.hpp"
 // process manager includes
 #include "leaf_process_manager/configuration_loader/leaf_process_manager_configuration_loader.hpp"
 #include "leaf_process_manager/leaf_process_manager.hpp"
@@ -28,58 +28,69 @@ namespace leaf::process_manager
 
 void LeafProcessManager::DisplayBanner()
 {
-  std::cout << utils::BuildInfo() << std::endl;
-  std::cout << utils::LeafBanner() << std::endl;
+  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_process_manager (Main Thread)");
+  stdoutLogger->info(utils::BuildInfo());
+  stdoutLogger->info(utils::LeafBanner());
 }
 
 void LeafProcessManager::loadLeafConfiguration()
 {
   configuration_loader::LeafProcessManagerConfigurationLoader processManagerConfigurationLoader;
   std::filesystem::path const configFilePath = _processManagerOptions->getServerConfigFilePath();
-  const std::string configFilePathString     = configFilePath.string();
 
   if (!std::filesystem::exists(configFilePath))
   {
-    BOOST_THROW_EXCEPTION(exception::LeafServerConfigDirNotFound(configFilePathString, std::source_location::current()));
+    BOOST_THROW_EXCEPTION(exception::LeafServerConfigFileNotFound(configFilePath, errno, std::source_location::current()));
   }
 
   std::filesystem::current_path(configFilePath.parent_path());
 
-  _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePathString);
+  _processManagerConfiguration = processManagerConfigurationLoader.load(configFilePath);
   initializeLoggers();
 
   _stdout->debug("Successfully loaded main configuration at: {0}", configFilePath.string());
 
   for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath()))
   {
-    if (p.is_regular_file())
+    if (p.is_regular_file() && p.exists())
     {
-      std::string pathString = p.path().string();
-      _stdout->debug("Creating LeafServer with config: {0}", pathString);
-      _leafServers.emplace_back(std::make_shared<server::LeafServer>(
-        pathString, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
-        _processManagerConfiguration->getLeafLogMaxFiles()
-      ));
+      auto filePath = p.path();
+      if (filePath.extension() == ".ini")
+      {
+        _stdout->debug("Creating LeafServer with config: {0}", filePath.string());
+        _leafServers.emplace_back(std::make_shared<server::LeafServer>(
+          filePath, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
+          _processManagerConfiguration->getLeafLogMaxFiles(), _processManagerConfiguration->getLeafLogThreadsPerLeafServer()
+        ));
+      }
+      else { _stderr->warn("File config {0} is not a ini file skipping...", filePath.string()); }
+    }
+    else if (!p.is_directory())
+    {
+      _stderr->warn("File {0} cannot be considered as a leaf_server configuration skipping...", p.path().string());
     }
   }
+
+  _stdout->info(
+    "logging thread pool scaled up to {0} threads per leaf server.", _processManagerConfiguration->getLeafLogThreadsPerLeafServer()
+  );
 }
 
 void LeafProcessManager::initializeLoggers()
 {
-  const boost::format stdoutFileName = boost::format("%1%/%2%.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
+  const boost::format stdoutFileName =
+    boost::format("%1%/%2%.log") % _processManagerConfiguration->getLeafLogDirectoryPath().string() % _loggerName;
   const boost::format stderrFileName =
-    boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath() % _loggerName;
+    boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath().string() % _loggerName;
   const boost::format loggerName = boost::format("%1% (Main Thread)") % _loggerName;
 
-  _stdout = log::LoggerFactory::CreateStdoutLogger(
+  const auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
     loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
     _processManagerConfiguration->getLeafLogMaxFiles()
   );
 
-  _stderr = log::LoggerFactory::CreateStderrLogger(
-    loggerName.str(), stderrFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
-    _processManagerConfiguration->getLeafLogMaxFiles()
-  );
+  _stdout = standardLoggers.stdoutLogger;
+  _stderr = standardLoggers.stderrLogger;
 }
 
 void LeafProcessManager::startServers() const
@@ -161,7 +172,7 @@ void LeafProcessManager::RegisterSignalHandlers()
 
 void LeafProcessManager::SignalHandler(const int signal)
 {
-  using namespace std::string_view_literals;
+  using std::string_view_literals::operator""sv;
   constexpr library::ConstexprMap<decltype(SIGINT), std::string_view, 3> signals
   {
     {SIGINT, "SIGINT"sv}, {SIGTERM, "SIGTERM"sv},
@@ -190,6 +201,6 @@ LeafProcessManager::LeafProcessManager() : log::LoggerInterface(BOOST_CURRENT_FU
   RegisterSignalHandlers();
 }
 
-LeafProcessManager::~LeafProcessManager() { log::LoggerFactory::Shutdown(); }
+LeafProcessManager::~LeafProcessManager() { log::LoggerFactory::ShutdownGlobalThreadPool(); }
 
 }// namespace leaf::process_manager

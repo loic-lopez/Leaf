@@ -2,8 +2,8 @@
 // Created by LoicL on 23/11/2020.
 //
 
-#ifndef LEAF_LEAF_SERVER_HPP
-#define LEAF_LEAF_SERVER_HPP
+#ifndef __LEAF_LEAF_SERVER_HPP__
+#define __LEAF_LEAF_SERVER_HPP__
 
 #include "leaf_server/leaf_server_configuration.hpp"
 #include "log/logger_interface.hpp"
@@ -22,7 +22,8 @@ class LeafServer : public log::LoggerInterface
   public:
     LeafServer(const LeafServer &leafServer) = delete;
     explicit LeafServer(
-      std::string serverIniPath, std::string leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles
+      defines::Path serverIniPath, defines::Path leafLogDirectoryPath, std::size_t leafLogMaxFileSize, std::size_t leafLogMaxFiles,
+      std::size_t leafLogThreadsPerLeafServer
     );
     virtual ~LeafServer() = default;
 
@@ -32,10 +33,11 @@ class LeafServer : public log::LoggerInterface
 
   private:
     // initializer list
-    const std::string _serverIniPath;
-    const std::string _leafLogDirectoryPath;
+    const defines::Path _serverIniPath;
+    const defines::Path _leafLogDirectoryPath;
     const std::size_t _leafLogMaxFileSize;
     const std::size_t _leafLogMaxFiles;
+    const std::size_t _leafLogThreadsPerLeafServer;
 
     /// The io_context used to perform asynchronous operations.
     boost::asio::io_context _ioContext = boost::asio::io_context(1);
@@ -56,4 +58,4 @@ class LeafServer : public log::LoggerInterface
 
 }// namespace leaf::server
 
-#endif// LEAF_LEAF_SERVER_HPP
+#endif// __LEAF_LEAF_SERVER_HPP__

@@ -2,8 +2,8 @@
 // Created by LoicL on 29/11/2020.
 //
 
-#ifndef LEAF_IEXCEPTION_HPP
-#define LEAF_IEXCEPTION_HPP
+#ifndef __LEAF_IEXCEPTION_HPP__
+#define __LEAF_IEXCEPTION_HPP__
 
 #include <boost/exception/diagnostic_information.hpp>
 #include <boost/exception/exception.hpp>
@@ -19,4 +19,4 @@ class IException : public boost::exception, public std::exception
 };
 }// namespace leaf::interface
 
-#endif// LEAF_IEXCEPTION_HPP
+#endif// __LEAF_IEXCEPTION_HPP__

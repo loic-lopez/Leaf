@@ -5,7 +5,9 @@
 #ifndef __LEAF_LOG_LOGGER_FACTORY_HPP__
 #define __LEAF_LOG_LOGGER_FACTORY_HPP__
 
-#include "log/logger_defines.hpp"
+#include "defines/logger_defines.hpp"
+#include "log/logger_wrapper.hpp"
+#include "log/standard_loggers.hpp"
 
 #include <boost/format.hpp>
 
@@ -20,7 +22,7 @@
 namespace leaf::log
 {
 
-using namespace std::string_view_literals;
+using std::string_view_literals::operator""sv;
 
 class LoggerFactory
 {
@@ -33,25 +35,41 @@ class LoggerFactory
     LoggerFactory()                               = delete;
 
     static void InitializeFactory();
-    static void Shutdown();
+    static void ShutdownGlobalThreadPool();
 
-    static Logger BasicStdoutLogger(const std::string &loggerName);
-    static Logger BasicStderrLogger(const std::string &loggerName);
-    static Logger CreateStdoutLogger(
-      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
+    static defines::log::LoggerWrapperPtr BasicStdoutLogger(const std::string &loggerName);
+    static defines::log::LoggerWrapperPtr BasicStderrLogger(const std::string &loggerName);
+
+    static StandardLoggers CreateStdLoggers(
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles,
+      std::size_t leafLogThreadsPerLeafServer
     );
-    static Logger CreateStderrLogger(
+    static StandardLoggers CreateStdLoggers(
       const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
     );
 
   private:
     inline static const std::string ColorsLoggingPattern = "[%H:%M:%S %T] [thread %t] [%n] [%^%l%$] %v";
     inline static const std::string BasicLoggingPattern  = "[%H:%M:%S %T] [thread %t] [%n] [%l] %v";
-    inline static StderrSink _stderrSink;
-    inline static StdoutSink _stdoutSink;
+    inline static defines::log::StderrSink _stderrSink;
+    inline static defines::log::StdoutSink _stdoutSink;
 
-    static RotatingFileSink CreateRotatingFileSink(const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles);
-    static Logger CreateLogger(const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, bool mustRegisterLogger);
+    static defines::log::RotatingFileSink CreateRotatingFileSink(
+      const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles
+    );
+    static defines::log::LoggerWrapperPtr CreateLogger(
+      const std::string &loggerName, const std::vector<spdlog::sink_ptr> &sinks, const defines::log::ThreadPool &threadPool,
+      bool mustRegisterLogger
+    );
+
+    static defines::log::LoggerWrapperPtr CreateStdoutLogger(
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles,
+      const defines::log::ThreadPool &threadPool
+    );
+    static defines::log::LoggerWrapperPtr CreateStderrLogger(
+      const std::string &loggerName, const boost::format &logFile, std::size_t maxFileSize, std::size_t maxFiles,
+      const defines::log::ThreadPool &threadPool
+    );
 };
 
 }// namespace leaf::log

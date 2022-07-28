@@ -2,8 +2,8 @@
 // Created by LoicL on 24/12/2020.
 //
 
-#ifndef LEAF_HTTP_HEADER_HPP
-#define LEAF_HTTP_HEADER_HPP
+#ifndef __LEAF_HTTP_HEADER_HPP__
+#define __LEAF_HTTP_HEADER_HPP__
 
 #include <string>
 
@@ -19,4 +19,4 @@ class HttpHeader
 
 }// namespace leaf::http
 
-#endif// LEAF_HTTP_HEADER_HPP
+#endif// __LEAF_HTTP_HEADER_HPP__

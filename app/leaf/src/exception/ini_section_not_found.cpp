@@ -13,9 +13,9 @@ namespace leaf::exception
 {
 
 IniSectionNotFound::IniSectionNotFound(
-  const std::string_view &section, const std::string_view &configFilePath, const std::source_location &location
+  const defines::ini::Section &section, defines::Path configFilePath, const std::source_location &location
 )
-    : Exception(location), _section(section), _configFilePath(configFilePath)
+    : Exception(location), _section(section), _configFilePath(std::move(configFilePath))
 {
   IniSectionNotFound::buildStdExceptionMessage(__FUNCTION__);
   *this << error_info::errinfo_ini_section(_section);

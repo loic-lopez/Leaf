@@ -2,8 +2,8 @@
 // Created by loicl on 5/30/2022.
 //
 
-#ifndef CONSTEXPR_MAP_HPP
-#define CONSTEXPR_MAP_HPP
+#ifndef __CONSTEXPR_MAP_HPP__
+#define __CONSTEXPR_MAP_HPP__
 
 #include <algorithm>
 #include <array>
@@ -57,4 +57,4 @@ class ConstexprMap
 
 }// namespace leaf::library
 
-#endif// CONSTEXPR_MAP_HPP
+#endif// __CONSTEXPR_MAP_HPP__

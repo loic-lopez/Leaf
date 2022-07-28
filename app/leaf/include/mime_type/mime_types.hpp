@@ -2,8 +2,8 @@
 // Created by LoicL on 24/12/2020.
 //
 
-#ifndef LEAF_MIME_TYPES_HPP
-#define LEAF_MIME_TYPES_HPP
+#ifndef __LEAF_MIME_TYPES_HPP__
+#define __LEAF_MIME_TYPES_HPP__
 
 #include "mime_type/mime_type.hpp"
 
@@ -11,11 +11,16 @@
 
 namespace leaf::mime_type
 {
+
+namespace defaults
+{
+using std::string_view_literals::operator""sv;
+inline static constinit const std::string_view DEFAULT = "text/plain"sv;
+}// namespace defaults
+
 struct MimeTypes
 {
     const std::vector<MimeType> mimeTypes;
-
-    constexpr static const char DEFAULT[] = "text/plain";
 
     [[nodiscard]] std::string extensionToType(const std::string &extension) const
     {
@@ -27,9 +32,9 @@ struct MimeTypes
         }
       }
 
-      return DEFAULT;
+      return defaults::DEFAULT.data();
     }
 };
 }// namespace leaf::mime_type
 
-#endif// LEAF_MIME_TYPES_HPP
+#endif// __LEAF_MIME_TYPES_HPP__
