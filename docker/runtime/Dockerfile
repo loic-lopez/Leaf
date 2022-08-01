@@ -5,7 +5,7 @@ ARG TARGET_INSTALL_DIR=/leaf
 
 RUN mkdir -p $BUILD_WORKDIR/leaf
 
-ADD debian $BUILD_WORKDIR/leaf
+ADD . $BUILD_WORKDIR/leaf
 
 RUN mkdir -p $BUILD_WORKDIR/build
 
