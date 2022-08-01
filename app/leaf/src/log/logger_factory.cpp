@@ -52,7 +52,11 @@ defines::log::LoggerWrapperPtr LoggerFactory::CreateLogger(
   logger->set_level(spdlog::level::trace);
 #endif
 
-  if (mustRegisterLogger) spdlog::register_logger(logger);
+  if (mustRegisterLogger) {
+    spdlog::register_logger(logger);
+    spdlog::cfg::load_env_levels();
+  }
+
   return std::make_shared<LoggerWrapper>(threadPool, logger, loggerName);
 }
 

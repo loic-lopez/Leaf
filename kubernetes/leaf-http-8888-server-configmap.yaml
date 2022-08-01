@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: leaf-http-8888-server-configmap
+data:
+  leaf-http-8888-server.ini: |
+    [LeafServer]
+    port = 8888
+    document_root_path = /tmp
+    listen_addr = 0.0.0.0

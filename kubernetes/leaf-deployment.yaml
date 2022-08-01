@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: leaf-deployment
+  labels:
+    app: leaf
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: leaf
+  template:
+    metadata:
+      labels:
+        app: leaf
+    spec:
+      containers:
+        - name: leaf
+          image: ghcr.io/loic-lopez/leaf:latest
+          imagePullPolicy: Always
+#          env:
+#            - name: SPDLOG_LEVEL
+#              value: trace,leaf_server_http_80=trace
+          ports:
+            - containerPort: 8888
+          volumeMounts:
+            - name: leaf-http-8888-server-configmap-volume
+              mountPath: /leaf/conf/servers/leaf-http-8888-server
+              readOnly: true
+      volumes:
+        - name: leaf-http-8888-server-configmap-volume
+          configMap:
+            name: leaf-http-8888-server-configmap
