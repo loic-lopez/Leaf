@@ -56,6 +56,11 @@ if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
     return()
 endif ()
 
+if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.1)
+    message(FATAL_ERROR "Require at least gcc-12.1")
+    return()
+endif()
+
 # Download automatically, you can also just copy the conan.cmake file
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
     message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
@@ -86,9 +91,17 @@ include_directories(app/leaf/include)
 enable_testing()
 
 ## Output dirs
-set(LEAF_CONFIG_ROOT_PATH ${CMAKE_BINARY_DIR}/conf)
-set(LEAF_SERVERS_ROOT_PATH ${LEAF_CONFIG_ROOT_PATH})
-set(LEAF_LOG_DIR_ROOT_PATH ${CMAKE_BINARY_DIR}/log)
+if (NOT DEFINED LEAF_ROOT_PATH)
+    set(LEAF_CONFIG_ROOT_PATH ${CMAKE_BINARY_DIR}/conf)
+    set(LEAF_SERVERS_ROOT_PATH ${LEAF_CONFIG_ROOT_PATH})
+    set(LEAF_LOG_DIR_ROOT_PATH ${CMAKE_BINARY_DIR}/log)
+endif ()
+
+if (DEFINED LEAF_ROOT_PATH)
+    set(LEAF_CONFIG_ROOT_PATH ${LEAF_ROOT_PATH}/conf)
+    set(LEAF_SERVERS_ROOT_PATH ${LEAF_CONFIG_ROOT_PATH})
+    set(LEAF_LOG_DIR_ROOT_PATH ${LEAF_ROOT_PATH}/log)
+endif ()
 
 ## Create base dirs
 file(MAKE_DIRECTORY ${LEAF_LOG_DIR_ROOT_PATH})

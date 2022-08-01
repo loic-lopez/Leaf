@@ -22,6 +22,7 @@ TEST(LeafServerTests, construct_a_leaf_server_must_not_throw)
 {
   log::LoggerFactory::InitializeFactory();
   ASSERT_NO_THROW({ LeafServer leafServer("", "log", 1, 1, 1); });
+  log::LoggerFactory::ShutdownGlobalThreadPool();
 }
 
 TEST(LeafServerTests, test_for_server_thread_bind)
@@ -30,13 +31,12 @@ TEST(LeafServerTests, test_for_server_thread_bind)
   ASSERT_NO_THROW({
     LeafServer leafServer(config::LeafConfigRootDirectory + "/servers/port_8080/http_port_8080.ini", "log", 1, 1, 1);
 
-    {
-      leafServer.start();
-      std::this_thread::sleep_for(5000ms);
-    }
+    leafServer.start();
+    std::this_thread::sleep_for(5000ms);
     leafServer.stop();
     leafServer.join();
   });
+  log::LoggerFactory::ShutdownGlobalThreadPool();
 }
 
 }// namespace leaf::test

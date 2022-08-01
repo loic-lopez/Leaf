@@ -1,0 +1,86 @@
+name: Build & Push leaf container
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "docker/runtime/**"
+      - "app"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "docker/runtime/**"
+      - "app"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      semVer: ${{ steps.prefixed_semver.outputs.semVer }}
+      branchName: ${{ steps.gitversion.outputs.branchName }}
+      artifactName: ${{ steps.image_artifact.outputs.name }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.13
+        with:
+          versionSpec: '5.x'
+
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.13
+        with:
+          useConfigFile: true
+
+      - name: Add prefix to semVer calculated by GitVersion
+        id: prefixed_semver
+        run: echo '::set-output name=semVer::v${{ steps.gitversion.outputs.semVer }}'
+
+      - name: Build ghcr.io/loic-lopez/leaf:${{ steps.prefixed_semver.outputs.semVer }} container
+        run: docker build -t ghcr.io/loic-lopez/leaf:${{ steps.prefixed_semver.outputs.semVer }} -f docker/runtime/Dockerfile .
+
+      - name: Set name of exported tar to github actions artifacts
+        id: image_artifact
+        run: echo '::set-output name=name::leaf${{ steps.prefixed_semver.outputs.semVer }}_image.tar'
+
+      - name: Prepare export ghcr.io/loic-lopez/leaf:${{ steps.prefixed_semver.outputs.semVer }} to github actions artifacts
+        run: |
+          mkdir -p leaf/
+          docker save \
+            ghcr.io/loic-lopez/leaf:${{ steps.prefixed_semver.outputs.semVer }} > \
+            leaf/${{ steps.image_artifact.outputs.name }}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: leaf${{ steps.prefixed_semver.outputs.semVer }}
+          path: leaf/${{ steps.image_artifact.outputs.name }}
+
+  push:
+    runs-on: ubuntu-latest
+    needs: build
+    if: contains(needs.build.outputs.branchName, 'main')
+    steps:
+      - name: Download leaf:${{ needs.build.outputs.semVer }} Docker image (Artifact)
+        uses: actions/download-artifact@v3
+        with:
+          name: leaf${{ needs.build.outputs.semVer }}
+          path: leaf/
+
+      - name: Load leaf:${{ needs.build.outputs.semVer }} Docker image
+        run: docker load < leaf/${{ needs.build.outputs.artifactName }}
+
+      - name: Tag latest container
+        run: docker tag ghcr.io/loic-lopez/leaf:${{ needs.build.outputs.semVer }} ghcr.io/loic-lopez/leaf:latest
+
+      - name: Login to ghcr.io registry
+        run: echo ${{ secrets.PUSH_CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+      - name: Push ghcr.io/loic-lopez/leaf:${{ needs.build.outputs.semVer }} container
+        run: docker push ghcr.io/loic-lopez/leaf:${{ needs.build.outputs.semVer }}
+
+      - name: Push ghcr.io/loic-lopez/leaf:latest container
+        run: docker push ghcr.io/loic-lopez/leaf:latest

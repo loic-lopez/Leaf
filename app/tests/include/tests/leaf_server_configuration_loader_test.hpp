@@ -1,30 +1,36 @@
 //
-// Created by LoicL on 23/01/2021.
+// Created by loicl on 8/1/2022.
 //
 
-#ifndef LEAF_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP
-#define LEAF_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP
+#ifndef __LEAF_TESTS_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP__
+#define __LEAF_TESTS_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP__
 
-#include "leaf_process_manager/leaf_process_manager_configuration.hpp"
 #include "log/logger_factory.hpp"
+#include "leaf_server/configuration_loader/leaf_server_configuration_loader.hpp"
 
 #include <gtest/gtest.h>
 
+#include <memory>
+
 namespace leaf::test
 {
-class LeafProcessManagerConfigurationLoaderTest : public ::testing::Test
-{
-  protected:
-    void SetUp() override
-    {
-      Test::SetUp();
-      log::LoggerFactory::InitializeFactory();
-      _processManagerConfiguration = nullptr;
-    }
+  class LeafServerConfigurationLoaderTest : public ::testing::Test
+  {
+      void SetUp() override
+      {
+        Test::SetUp();
+        log::LoggerFactory::InitializeFactory();
+        _leafServerConfigurationLoader = std::make_unique<server::configuration_loader::LeafServerConfigurationLoader>();
+      }
 
-  public:
-    std::unique_ptr<leaf::process_manager::LeafProcessManagerConfiguration> _processManagerConfiguration;
-};
-}// namespace leaf::test
+      void TearDown() override {
+        log::LoggerFactory::ShutdownGlobalThreadPool();
+        Test::TearDown();
+      }
 
-#endif// LEAF_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP
+    public:
+      std::unique_ptr<server::configuration_loader::LeafServerConfigurationLoader> _leafServerConfigurationLoader;
+  };
+}
+
+#endif// __LEAF_TESTS_LEAF_SERVER_CONFIGURATION_LOADER_TEST_HPP__
