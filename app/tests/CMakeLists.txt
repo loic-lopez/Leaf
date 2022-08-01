@@ -13,7 +13,7 @@ add_executable(${LEAF_PROJECT_TESTS}
         src/leaf_server_configuration_loader_tests.cpp
 
         include/tests/leaf_server_options_parser_test.hpp
-        include/tests/leaf_server_configuration_loader_test.hpp
+        include/tests/leaf_process_manager_configuration_loader_test.hpp
         include/tests/leaf_server_mime_types_loader_test.hpp
         )
 

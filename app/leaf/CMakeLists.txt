@@ -28,3 +28,5 @@ add_executable(
         src/main.cpp
 )
 target_link_libraries(${LEAF_PROJECT_BINARY} ${LEAF_PROJECT_LIBRARY})
+
+install(TARGETS ${LEAF_PROJECT_BINARY} RUNTIME DESTINATION bin)

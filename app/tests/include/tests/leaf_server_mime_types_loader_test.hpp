@@ -2,8 +2,8 @@
 // Created by LoicL on 23/01/2021.
 //
 
-#ifndef LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP
-#define LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP
+#ifndef __LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP__
+#define __LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP__
 
 #include "mime_type/mime_types.hpp"
 
@@ -25,4 +25,4 @@ class LeafMimeTypesLoaderTest : public ::testing::Test
 };
 }// namespace leaf::test
 
-#endif// LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP
+#endif// __LEAF_LEAF_MIME_TYPES_LOADER_TEST_HPP__
