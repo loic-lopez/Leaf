@@ -33,10 +33,6 @@ RUN mkdir -p ${TARGET_INSTALL_DIR}/log && chown -R leaf:leaf ${TARGET_INSTALL_DI
 RUN echo 'deb http://deb.debian.org/debian testing main contrib non-free' >> /etc/apt/sources.list
 RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /opt/leaf
-ADD docker/runtime/docker_start_leaf.sh /opt/leaf
-RUN chmod 755 /opt/leaf/docker_start_leaf.sh && chown leaf:leaf /opt/leaf/docker_start_leaf.sh
-
 USER leaf
 
 WORKDIR $TARGET_INSTALL_DIR
