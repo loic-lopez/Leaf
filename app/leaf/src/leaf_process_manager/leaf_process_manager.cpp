@@ -28,7 +28,7 @@ namespace leaf::process_manager
 
 void LeafProcessManager::DisplayBanner()
 {
-  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_process_manager (Main Thread)");
+  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_process_manager_main_thread_");
   stdoutLogger->info(utils::BuildInfo());
   stdoutLogger->info(utils::LeafBanner());
 }
@@ -50,13 +50,18 @@ void LeafProcessManager::loadLeafConfiguration()
 
   _stdout->debug("Successfully loaded main configuration at: {0}", configFilePath.string());
 
-  for (auto &p : std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath()))
+  std::vector<std::string> paths;
+
+  for (auto entry = std::filesystem::recursive_directory_iterator(_processManagerConfiguration->getServersRootPath());
+       entry != std::filesystem::recursive_directory_iterator(); ++entry)
   {
-    if (p.is_regular_file() && p.exists())
+    auto filePath = entry->path();
+    auto filenameString = filePath.filename().string();
+    if (entry->is_regular_file() && entry->exists() && std::ranges::find(paths, filenameString) == paths.end())
     {
-      auto filePath = p.path();
       if (filePath.extension() == ".ini")
       {
+        paths.emplace_back(filenameString);
         _stdout->debug("Creating LeafServer with config: {0}", filePath.string());
         _leafServers.emplace_back(std::make_shared<server::LeafServer>(
           filePath, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
@@ -65,9 +70,9 @@ void LeafProcessManager::loadLeafConfiguration()
       }
       else { _stderr->warn("File config {0} is not a ini file skipping...", filePath.string()); }
     }
-    else if (!p.is_directory())
+    else if (!entry->is_directory())
     {
-      _stderr->warn("File {0} cannot be considered as a leaf_server configuration skipping...", p.path().string());
+      _stderr->warn("File {0} cannot be considered as a leaf_server configuration skipping...", entry->path().string());
     }
   }
 
@@ -82,7 +87,7 @@ void LeafProcessManager::initializeLoggers()
     boost::format("%1%/%2%.log") % _processManagerConfiguration->getLeafLogDirectoryPath().string() % _loggerName;
   const boost::format stderrFileName =
     boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath().string() % _loggerName;
-  const boost::format loggerName = boost::format("%1% (Main Thread)") % _loggerName;
+  const boost::format loggerName = boost::format("%1%_main_thread_") % _loggerName;
 
   const auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
     loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
