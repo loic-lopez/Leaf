@@ -57,12 +57,11 @@ void LeafProcessManager::loadLeafConfiguration()
   {
     auto filePath = entry->path();
     auto filenameString = filePath.filename().string();
-    if (entry->is_regular_file() && entry->exists() && std::find(paths.begin(), paths.end(), filenameString) == paths.end())
+    if (entry->is_regular_file() && entry->exists() && std::ranges::find(paths, filenameString) == paths.end())
     {
       if (filePath.extension() == ".ini")
       {
         paths.emplace_back(filenameString);
-        std::cout << "filePath in vector " << filenameString << std::endl;
         _stdout->debug("Creating LeafServer with config: {0}", filePath.string());
         _leafServers.emplace_back(std::make_shared<server::LeafServer>(
           filePath, _processManagerConfiguration->getLeafLogDirectoryPath(), _processManagerConfiguration->getLeafLogMaxFileSize(),
