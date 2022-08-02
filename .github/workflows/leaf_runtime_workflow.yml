@@ -5,12 +5,12 @@ on:
     branches: [ main ]
     paths:
       - "docker/runtime/**"
-      - "app"
+      - "app/**"
   pull_request:
     branches: [ main ]
     paths:
       - "docker/runtime/**"
-      - "app"
+      - "app/**"
   workflow_dispatch:
 
 jobs:
