@@ -45,7 +45,7 @@ elseif (CMAKE_COMPILER_IS_GNUCXX)
             -Wall -Wextra -pedantic -Werror
             -fexceptions # Enable table-based thread cancellation
             -fpie -Wl,-pie -fstack-protector-strong -Wl,-z,defs # ASLR
-            -march=native -mavx -ftree-vectorize # AVX and SSE
+            -march=x86-64-v3 -m64 -mavx -ftree-vectorize # AVX and SSE
             -fno-math-errno -ffast-math
             -ftrivial-auto-var-init=zero # fill variables with 0x00 gcc-12 feature
     )
