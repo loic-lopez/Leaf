@@ -6,11 +6,13 @@ on:
     paths:
       - "docker/runtime/**"
       - "app/**"
+      - "*.txt"
   pull_request:
     branches: [ main ]
     paths:
       - "docker/runtime/**"
       - "app/**"
+      - "*.txt"
   workflow_dispatch:
 
 jobs:
