@@ -32,7 +32,7 @@ inline static constinit const auto mimeTypesConfigFileKey = "mime_types_config_f
 
 std::unique_ptr<LeafProcessManagerConfiguration> LeafProcessManagerConfigurationLoader::load(const defines::Path &configFilePath)
 {
-  const auto stdoutLogger                 = log::LoggerFactory::BasicStdoutLogger("process_manager_configuration_loader_main_thread_");
+  const auto stdoutLogger                 = log::LoggerFactory::BasicStdoutLogger("process_manager_configuration_loader_main_thread");
   const boost::property_tree::ptree pTree = this->initializeBoostPtree<exception::LeafServerConfigFileNotFound>(configFilePath);
 
   const auto leafServersSection       = pTree.get_child(LEAF_SERVERS_SECTION.data());

@@ -28,7 +28,7 @@ namespace leaf::process_manager
 
 void LeafProcessManager::DisplayBanner()
 {
-  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_process_manager_main_thread_");
+  const auto stdoutLogger = log::LoggerFactory::BasicStdoutLogger("leaf_process_manager_main_thread");
   stdoutLogger->info(utils::BuildInfo());
   stdoutLogger->info(utils::LeafBanner());
 }
@@ -87,7 +87,7 @@ void LeafProcessManager::initializeLoggers()
     boost::format("%1%/%2%.log") % _processManagerConfiguration->getLeafLogDirectoryPath().string() % _loggerName;
   const boost::format stderrFileName =
     boost::format("%1%/%2%_stderr.log") % _processManagerConfiguration->getLeafLogDirectoryPath().string() % _loggerName;
-  const boost::format loggerName = boost::format("%1%_main_thread_") % _loggerName;
+  const boost::format loggerName = boost::format("%1%_main_thread") % _loggerName;
 
   const auto standardLoggers = log::LoggerFactory::CreateStdLoggers(
     loggerName.str(), stdoutFileName, _processManagerConfiguration->getLeafLogMaxFileSize(),
