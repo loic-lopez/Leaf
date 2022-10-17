@@ -1,4 +1,4 @@
-FROM gcc:12.1
+FROM gcc:12
 
 ARG CONAN_VERSION=1.51.0
 
