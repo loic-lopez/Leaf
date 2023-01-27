@@ -1,10 +1,22 @@
 cmake_minimum_required(VERSION 3.17)
-project(Leaf LANGUAGES CXX VERSION "0.0.1")
+
+if (DEFINED ENV{semVer})
+    set(GIT_VERSION ENV{semVer})
+else()
+    string(TIMESTAMP GIT_VERSION "%Y.%m.%d")
+endif()
+
+message(STATUS "Found version ${GIT_VERSION}")
+
+project(Leaf LANGUAGES CXX VERSION ${GIT_VERSION})
 
 set(CMAKE_CXX_STANDARD 20)
 
 add_definitions(-DUSE32bit=false)
 add_definitions(-DCMAKE_GENERATOR_PLATFORM=x64)
+## Set variables for libraries
+# as for now std::format is not available
+# add_definitions(-DSPDLOG_USE_STD_FORMAT=ON)
 
 if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
     if (NOT CMAKE_BUILD_TYPE)
@@ -70,9 +82,7 @@ if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
 endif ()
 
 
-## Set variables for libraries
-# as for now std::format is not available
-# add_definitions(-DSPDLOG_USE_STD_FORMAT)
+
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 conan_cmake_run(

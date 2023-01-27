@@ -5,12 +5,14 @@ on:
     branches: [ main ]
     paths:
       - "docker/runtime/**"
+      - "docker/cmake_with_conan/**"
       - "app/**"
       - "*.txt"
   pull_request:
     branches: [ main ]
     paths:
       - "docker/runtime/**"
+      - "docker/cmake_with_conan/**"
       - "app/**"
       - "*.txt"
   workflow_dispatch:

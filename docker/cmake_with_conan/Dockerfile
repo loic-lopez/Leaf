@@ -1,6 +1,6 @@
 FROM gcc:12
 
-ARG CONAN_VERSION=1.53.0
+ARG CONAN_VERSION=1.57.0
 
 LABEL org.opencontainers.image.source="https://github.com/loic-lopez/leaf"
 LABEL org.opencontainers.image.authors="Loïc LOPEZ"
