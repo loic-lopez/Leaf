@@ -1,6 +1,6 @@
 FROM debian:stable-slim as sonar_cloud_scanner_builder
 
-ARG SONAR_SCANNER_VERSION=4.7.0.2747
+ARG SONAR_SCANNER_VERSION=4.8.0.2856
 
 RUN mkdir /tools/
 
