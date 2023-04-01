@@ -1,10 +1,15 @@
 cmake_minimum_required(VERSION 3.17)
-project(Leaf LANGUAGES CXX VERSION "0.0.1")
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_PROJECT_TOP_LEVEL_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/conan_provider.cmake")
+
+project(Leaf LANGUAGES CXX VERSION "0.0.1")
 
 add_definitions(-DUSE32bit=false)
 add_definitions(-DCMAKE_GENERATOR_PLATFORM=x64)
+## Set variables for libraries
+# as for now std::format is not available
+# add_definitions(-DSPDLOG_USE_STD_FORMAT=ON)
 
 if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
     if (NOT CMAKE_BUILD_TYPE)
@@ -60,30 +65,6 @@ if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.1)
     message(FATAL_ERROR "Require at least gcc-12.1")
     return()
 endif()
-
-# Download automatically, you can also just copy the conan.cmake file
-if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-    message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-    file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/0.18.1/conan.cmake"
-            "${CMAKE_BINARY_DIR}/conan.cmake"
-            TLS_VERIFY ON)
-endif ()
-
-
-## Set variables for libraries
-# as for now std::format is not available
-# add_definitions(-DSPDLOG_USE_STD_FORMAT)
-
-include(${CMAKE_BINARY_DIR}/conan.cmake)
-conan_cmake_run(
-        CONANFILE
-        conanfile.txt
-        BASIC_SETUP
-        BUILD missing
-        SETTINGS compiler.cppstd=20
-)
-
-include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
 include_directories(app/leaf/include)
 

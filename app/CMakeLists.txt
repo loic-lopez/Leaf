@@ -5,10 +5,10 @@ set(LEAF_PROJECT_BINARY ${LEAF_PROJECT})
 set(LEAF_PROJECT_LIBRARY ${LEAF_PROJECT}_lib)
 set(LEAF_PROJECT_TESTS ${LEAF_PROJECT}_tests)
 
-# Find boost library
-find_package(Boost COMPONENTS program_options filesystem thread REQUIRED)
+set(LEAF_ENABLED_BOOST_LIBRARIES Boost::program_options Boost::filesystem)
 
-set(LEAF_ENABLED_BOOST_LIBRARIES Boost::program_options Boost::thread Boost::filesystem)
+# Find boost library
+find_package(boost COMPONENTS program_options filesystem REQUIRED)
 
 option(LEAF_CODE_COVERAGE "LEAF_CODE_COVERAGE" OFF)
 
