@@ -71,7 +71,7 @@ jobs:
     if: contains(needs.build.outputs.branchName, 'main')
     steps:
       - name: Download leaf:${{ needs.build.outputs.semVer }} Docker image (Artifact)
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: leaf${{ needs.build.outputs.semVer }}
           path: leaf/
